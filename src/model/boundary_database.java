@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 
 
 public class boundary_database {
-    private static String tableName = "car";
+    private static String tableName = "boundary";
 
 
     public static void main(String[] args) throws Exception {
