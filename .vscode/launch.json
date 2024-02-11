@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "car_database",
+      "request": "launch",
+      "mainClass": "model.car_database",
+      "projectName": "Grab Fleet Management System_59852446"
+    },
+    {
+      "type": "java",
       "name": "admin_model",
       "request": "launch",
       "mainClass": "model.admin_model",
