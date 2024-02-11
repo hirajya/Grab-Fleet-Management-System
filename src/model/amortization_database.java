@@ -10,16 +10,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 
-public class car_database {
+public class amortization_database {
     private static String tableName = "car";
 
 
     public static void main(String[] args) throws Exception {
         // connect();
-        // insert("BAC5522", "375365253", "2675593", "2024-02-08", "2024-02-01", "Innova 2.8 E", "MPV", 2022, "Silver", "2022-02-01", "2022-02-01", 1);
-        // updateStr("BAC5522", "car_Series", "BMW 3 Series");
-        // updateInt("BAC5522", "admin_Id", 2);
-        delete("BAC5522");
+        // insert("BAC0522", "2022-12-20", "2023-12-20", "2024-12-20", 10000, true);
+        // updateDatetime("BAC5522", "car_AmortizationDDate", "2000-01-01");
+        // updateInt("BAC5522", "car_AmortizationPayment", 2000);
+        // delete("BAC5522");
+        delete("BAC0522");
+
         connect();
     }
 
@@ -45,17 +47,12 @@ public class car_database {
 
             while(resultSet.next()){
                 System.out.println(resultSet.getString("car_Plate"));
-                System.out.println(resultSet.getString("car_CRNum"));
-                System.out.println(resultSet.getString("car_ORNum"));
-                System.out.println(resultSet.getString("car_RegExpiry"));
-                System.out.println(resultSet.getString("car_Registration"));
-                System.out.println(resultSet.getString("car_Series"));
-                System.out.println(resultSet.getString("car_Kind"));
-                System.out.println(resultSet.getInt("car_YearModel"));
-                System.out.println(resultSet.getString("car_Color"));
-                System.out.println(resultSet.getString("car_ChangeOil"));
-                System.out.println(resultSet.getString("car_ChangeBelt"));
-                System.out.println(resultSet.getString("admin_Id"));
+                System.out.println(resultSet.getString("car_AmortizationSDate"));
+                System.out.println(resultSet.getString("car_AmortizationDDate"));
+                System.out.println(resultSet.getString("car_AmortizationEDate"));
+                System.out.println(resultSet.getString("car_AmortizationPayment"));
+                System.out.println(resultSet.getString("car_WeeklyPaymentDoneStatus"));
+
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -71,7 +68,7 @@ public class car_database {
         }
     }
 
-    public static void insert(String c_Plate, String c_CRNum, String c_ORNum, String c_RegExpiry, String c_Registration, String c_Series, String c_Kind, int c_YearModel, String c_Color, String c_ChangeOil, String c_ChangeBelt, int a_Id) throws ParseException {
+    public static void insert(String c_Plate, String c_AmortizationSDate, String c_AmortizationDDate, String c_AmortizationEDate, int c_AmortizationPayment, Boolean c_WeeklyPaymentDoneStatus) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -84,30 +81,22 @@ public class car_database {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO car (car_Plate, car_CRNum, car_ORNum, car_RegExpiry, car_Registration, car_Series, car_Kind, car_YearModel, car_Color, car_ChangeOil, car_ChangeBelt, admin_Id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO amortization (car_Plate, car_AmortizationSDate, car_AmortizationDDate, car_AmortizationEDate, car_AmortizationPayment, car_WeeklyPaymentDoneStatus) VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setString(1, c_Plate);
-            preparedStatement.setString(2, c_CRNum);
-            preparedStatement.setString(3, c_ORNum);
-            preparedStatement.setString(4, c_RegExpiry);
-            preparedStatement.setString(5, c_Registration);
-            preparedStatement.setString(6, c_Series);
-            preparedStatement.setString(7, c_Kind);
-            preparedStatement.setInt(8, c_YearModel);
-            preparedStatement.setString(9, c_Color);
-
-            preparedStatement.setTimestamp(10, new java.sql.Timestamp(dateFormat.parse(c_ChangeOil).getTime()));
-            preparedStatement.setTimestamp(11, new java.sql.Timestamp(dateFormat.parse(c_ChangeBelt).getTime()));
-
-            preparedStatement.setInt(12, a_Id);
+            preparedStatement.setTimestamp(2, new java.sql.Timestamp(dateFormat.parse(c_AmortizationSDate).getTime()));
+            preparedStatement.setTimestamp(3, new java.sql.Timestamp(dateFormat.parse(c_AmortizationDDate).getTime()));
+            preparedStatement.setTimestamp(4, new java.sql.Timestamp(dateFormat.parse(c_AmortizationEDate).getTime()));
+            preparedStatement.setInt(5, c_AmortizationPayment);
+            preparedStatement.setBoolean(6, c_WeeklyPaymentDoneStatus);
 
             int rows = preparedStatement.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("A new car has been inserted");
+                System.out.println("A new amortization has been inserted");
             } else {
-                System.out.println("A new car has not been inserted");
+                System.out.println("A new amortization has not been inserted");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,7 +122,7 @@ public class car_database {
     
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE car SET " + columnName + " = ? WHERE " + "car_Plate = ?";
+            String sqlQuery = "UPDATE amortization SET " + columnName + " = ? WHERE " + "car_Plate = ?";
 
             preparedStatement = connection.prepareStatement(sqlQuery);
     
@@ -143,7 +132,7 @@ public class car_database {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[car] "+ columnName + " updated successfully" + " to " + newValue + " for car_plate: " + c_plate);
+                System.out.println("[car amortization] "+ columnName + " updated successfully" + " to " + newValue + " for car_plate: " + c_plate);
             } else {
                 System.out.println("No record found for the given " + columnName + " for car_plate: " + c_plate);
             }
@@ -169,7 +158,7 @@ public class car_database {
     
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE car SET " + columnName + " = ? WHERE car_Plate = ?";
+            String sqlQuery = "UPDATE amortization SET " + columnName + " = ? WHERE car_Plate = ?";
     
             preparedStatement = connection.prepareStatement(sqlQuery);
     
@@ -179,7 +168,7 @@ public class car_database {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[car] " + columnName + " updated successfully to " + newValue + " for car_Plate: " + c_plate);
+                System.out.println("[car amortization] " + columnName + " updated successfully to " + newValue + " for car_Plate: " + c_plate);
             } else {
                 System.out.println("No record found for the given " + columnName + " for car_Plate: " + c_plate);
             }
@@ -209,7 +198,7 @@ public class car_database {
             connection = DriverManager.getConnection(url, user, password);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String sqlQuery = "UPDATE car SET " + columnName + " = ? WHERE " + "car_Plate = ?";
+            String sqlQuery = "UPDATE amortization SET " + columnName + " = ? WHERE " + "car_Plate = ?";
 
             preparedStatement = connection.prepareStatement(sqlQuery);
     
@@ -219,7 +208,7 @@ public class car_database {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[car] "+ columnName + " updated successfully" + " to " + newValue + " for car_plate: " + c_plate);
+                System.out.println("[car amortization] "+ columnName + " updated successfully" + " to " + newValue + " for car_plate: " + c_plate);
             } else {
                 System.out.println("No record found for the given " + columnName + " for car_plate: " + c_plate);
             }
@@ -245,7 +234,7 @@ public class car_database {
     
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "DELETE FROM car WHERE car_Plate = ?";
+            String sqlQuery = "DELETE FROM amortization WHERE car_Plate = ?";
             preparedStatement = connection.prepareStatement(sqlQuery);
     
             preparedStatement.setString(1, c_plate);
@@ -253,9 +242,9 @@ public class car_database {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("Car record deleted successfully");
+                System.out.println("Car amortization record deleted successfully");
             } else {
-                System.out.println("No car record found for the given ID:" + c_plate);
+                System.out.println("No car amortization record found for the given ID:" + c_plate);
             }
         } catch (SQLException e) {
             e.printStackTrace();

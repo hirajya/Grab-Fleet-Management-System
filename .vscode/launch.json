@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "amortization_database",
+      "request": "launch",
+      "mainClass": "model.amortization_database",
+      "projectName": "Grab Fleet Management System_59852446"
+    },
+    {
+      "type": "java",
       "name": "car_database",
       "request": "launch",
       "mainClass": "model.car_database",
