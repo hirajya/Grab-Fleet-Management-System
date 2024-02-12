@@ -6,6 +6,34 @@
   "configurations": [
     {
       "type": "java",
+      "name": "boundary_database",
+      "request": "launch",
+      "mainClass": "model.boundary_database",
+      "projectName": "Grab Fleet Management System_59852446"
+    },
+    {
+      "type": "java",
+      "name": "amortization_database",
+      "request": "launch",
+      "mainClass": "model.amortization_database",
+      "projectName": "Grab Fleet Management System_59852446"
+    },
+    {
+      "type": "java",
+      "name": "car_database",
+      "request": "launch",
+      "mainClass": "model.car_database",
+      "projectName": "Grab Fleet Management System_59852446"
+    },
+    {
+      "type": "java",
+      "name": "admin_model",
+      "request": "launch",
+      "mainClass": "model.admin_model",
+      "projectName": "Grab Fleet Management System_59852446"
+    },
+    {
+      "type": "java",
       "name": "App",
       "request": "launch",
       "mainClass": "App",
