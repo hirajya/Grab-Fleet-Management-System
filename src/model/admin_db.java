@@ -66,7 +66,7 @@ public class admin_db {
         }
     }
 
-    public static void insert(int a_Id, String a_FName, String a_MName, String a_LName, String a_ContactInfo, String a_username, String a_password) {
+    public static void insert(String a_FName, String a_MName, String a_LName, String a_ContactInfo, String a_username, String a_password) {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -76,16 +76,15 @@ public class admin_db {
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "INSERT INTO admin (admin_Id, admin_FName, admin_MName, admin_LName, admin_ContactInfo, admin_Username, admin_Password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO admin (admin_FName, admin_MName, admin_LName, admin_ContactInfo, admin_Username, admin_Password) VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
-            preparedStatement.setInt(1, a_Id);
-            preparedStatement.setString(2, a_FName);
-            preparedStatement.setString(3, a_MName);
-            preparedStatement.setString(4, a_LName);
-            preparedStatement.setString(5, a_ContactInfo);
-            preparedStatement.setString(6, a_username);
-            preparedStatement.setString(7, a_password);
+            preparedStatement.setString(1, a_FName);
+            preparedStatement.setString(2, a_MName);
+            preparedStatement.setString(3, a_LName);
+            preparedStatement.setString(4, a_ContactInfo);
+            preparedStatement.setString(5, a_username);
+            preparedStatement.setString(6, a_password);
 
             int rows = preparedStatement.executeUpdate();
 

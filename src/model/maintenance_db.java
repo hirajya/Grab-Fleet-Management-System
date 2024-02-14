@@ -67,7 +67,7 @@ public class maintenance_db {
         }
     }
 
-    public static void insert(int m_RecordID, String m_ChangeOil, String m_ChangeBelt, String m_MStatus, String c_Plate, String d_LicenseNum) throws ParseException {
+    public static void insert(String m_ChangeOil, String m_ChangeBelt, String m_MStatus, String c_Plate, String d_LicenseNum) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -80,15 +80,14 @@ public class maintenance_db {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO maintenance (maintenance_RecordID, maintenance_ChangeOil, maintenance_ChangeBelt, maintenance_MStatus, car_Plate, driver_LicenseNum) VALUES (?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO maintenance (maintenance_ChangeOil, maintenance_ChangeBelt, maintenance_MStatus, car_Plate, driver_LicenseNum) VALUES (?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
-            preparedStatement.setString(1, d_LicenseNum);
-            preparedStatement.setTimestamp(2, new java.sql.Timestamp(dateFormat.parse(m_ChangeOil).getTime()));
-            preparedStatement.setTimestamp(3, new java.sql.Timestamp(dateFormat.parse(m_ChangeBelt).getTime()));
-            preparedStatement.setString(4, m_MStatus);
-            preparedStatement.setString(5, c_Plate);
-            preparedStatement.setString(6, d_LicenseNum);
+            preparedStatement.setTimestamp(1, new java.sql.Timestamp(dateFormat.parse(m_ChangeOil).getTime()));
+            preparedStatement.setTimestamp(2, new java.sql.Timestamp(dateFormat.parse(m_ChangeBelt).getTime()));
+            preparedStatement.setString(3, m_MStatus);
+            preparedStatement.setString(4, c_Plate);
+            preparedStatement.setString(5, d_LicenseNum);
             
             int rows = preparedStatement.executeUpdate();
 

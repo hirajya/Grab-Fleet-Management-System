@@ -67,7 +67,7 @@ public class quota_db {
         }
     }
 
-    public static void insert(int q_RecordID, int q_Amount, int q_InputAmount, String q_SDate, String q_DDate, String q_Status, String d_LicenseNum) throws ParseException {
+    public static void insert(int q_Amount, int q_InputAmount, String q_SDate, String q_DDate, String q_Status, String d_LicenseNum) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -80,16 +80,15 @@ public class quota_db {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO quota (driver_LicenseNum, quota_Amount, quota_InputAmount, quota_SDate, quota_DDate, quota_Status, driver_Name) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO quota (quota_Amount, quota_InputAmount, quota_SDate, quota_DDate, quota_Status, driver_LicenseNum) VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
-            preparedStatement.setInt(1, q_RecordID);
-            preparedStatement.setInt(2, q_Amount);
-            preparedStatement.setInt(3, q_InputAmount);
-            preparedStatement.setString(4, q_SDate);
-            preparedStatement.setString(5, q_DDate);
-            preparedStatement.setString(6, q_Status);
-            preparedStatement.setString(7, d_LicenseNum);
+            preparedStatement.setInt(1, q_Amount);
+            preparedStatement.setInt(2, q_InputAmount);
+            preparedStatement.setString(3, q_SDate);
+            preparedStatement.setString(4, q_DDate);
+            preparedStatement.setString(5, q_Status);
+            preparedStatement.setString(6, d_LicenseNum);
 
             int rows = preparedStatement.executeUpdate();
 

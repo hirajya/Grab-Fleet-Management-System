@@ -68,7 +68,7 @@ public class amortization_db {
         }
     }
 
-    public static void insert(String a_RecordID, String a_SDate, String a_DDate, String a_EDate, int a_Payment, String c_Plate) throws ParseException {
+    public static void insert(String a_SDate, String a_DDate, String a_EDate, int a_Payment, String c_Plate) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -81,15 +81,14 @@ public class amortization_db {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO amortization (amortization_RecordID, amortization_SDate, amortization_DDate, amortization_EDate, amortization_Payment, car_Plate) VALUES (?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO amortization (amortization_SDate, amortization_DDate, amortization_EDate, amortization_Payment, car_Plate) VALUES (?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
-            preparedStatement.setString(1, a_RecordID);
-            preparedStatement.setTimestamp(2, new java.sql.Timestamp(dateFormat.parse(a_SDate).getTime()));
-            preparedStatement.setTimestamp(3, new java.sql.Timestamp(dateFormat.parse(a_DDate).getTime()));
-            preparedStatement.setTimestamp(4, new java.sql.Timestamp(dateFormat.parse(a_EDate).getTime()));
-            preparedStatement.setInt(5, a_Payment);
-            preparedStatement.setString(6, c_Plate);
+            preparedStatement.setTimestamp(1, new java.sql.Timestamp(dateFormat.parse(a_SDate).getTime()));
+            preparedStatement.setTimestamp(2, new java.sql.Timestamp(dateFormat.parse(a_DDate).getTime()));
+            preparedStatement.setTimestamp(3, new java.sql.Timestamp(dateFormat.parse(a_EDate).getTime()));
+            preparedStatement.setInt(4, a_Payment);
+            preparedStatement.setString(5, c_Plate);
 
 
             int rows = preparedStatement.executeUpdate();
