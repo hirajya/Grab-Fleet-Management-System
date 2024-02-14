@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "admin_database",
+      "request": "launch",
+      "mainClass": "model.admin_database",
+      "projectName": "Grab-Fleet-Management-System_796429a8"
+    },
+    {
+      "type": "java",
       "name": "boundary_database",
       "request": "launch",
       "mainClass": "model.boundary_database",
