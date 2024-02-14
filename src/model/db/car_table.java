@@ -1,4 +1,4 @@
-package model;
+package model.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 
-public class car_db {
+public class car_table {
     private static String tableName = "car";
 
 
