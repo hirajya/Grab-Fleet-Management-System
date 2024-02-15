@@ -15,13 +15,9 @@ public class amortization_table {
 
 
     public static void main(String[] args) throws Exception {
-        // connect();
-        // insert("BAC0522", "2022-12-20", "2023-12-20", "2024-12-20", 10000, true);
-        // updateDatetime("BAC5522", "car_AmortizationDDate", "2000-01-01");
-        // updateInt("BAC5522", "car_AmortizationPayment", 2000);
-        // delete("BAC5522");
-        delete("BAC0522");
-
+        // insert("2022-02-10", "2023-03-10", "2024-04-11", 1110, "NAC6983");
+        // updateStr("NAC6983", "amortization_SDate", "2022-02-11");
+        delete("NAC6983");
         connect();
     }
 

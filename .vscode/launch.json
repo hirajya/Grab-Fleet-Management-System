@@ -6,6 +6,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "amortization_table",
+      "request": "launch",
+      "mainClass": "model.db.amortization_table",
+      "projectName": "Grab-Fleet-Management-System_796429a8"
+    },
+    {
+      "type": "java",
+      "name": "admin_table",
+      "request": "launch",
+      "mainClass": "model.db.admin_table",
+      "projectName": "Grab-Fleet-Management-System_796429a8"
+    },
+    {
+      "type": "java",
+      "name": "model_collection",
+      "request": "launch",
+      "mainClass": "model.model_collection",
+      "projectName": "Grab-Fleet-Management-System_796429a8"
+    },
+    {
+      "type": "java",
       "name": "admin_database",
       "request": "launch",
       "mainClass": "model.admin_database",

@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class admin_table {
@@ -14,10 +16,11 @@ public class admin_table {
 
     public static void main(String[] args) throws Exception {
         // connect();
-        // insert(1, "Michael", "Balubar", "Angelo", "09278819922", "admin123", "admin123@");
+        // insert("Michael", "Balubar", "Angelo", "09278819922", "admin123", "admin123@");
         // updateStr(1, "admin_FName", "Rodney");
         // updateInt(1, "admin_Id", 0);
         // delete(1);
+        connect();
     }
 
     public static void connect(){
@@ -42,18 +45,19 @@ public class admin_table {
             resultSet = statement.executeQuery(sqlQuery);
 
             while(resultSet.next()){
-                System.out.println(resultSet.getString("admin_Id"));
-                System.out.println(resultSet.getString("admin_FNAME"));
-                System.out.println(resultSet.getString("admin_MNAME"));
-                System.out.println(resultSet.getString("admin_LNAME"));
-                System.out.println(resultSet.getString("admin_ContactInfo"));
-                System.out.println(resultSet.getString("admin_Username"));
-                System.out.println(resultSet.getString("admin_Password"));
-
+                // System.out.println(resultSet.getString("admin_Id"));
+                // System.out.println(resultSet.getString("admin_FNAME"));
+                // System.out.println(resultSet.getString("admin_MNAME"));
+                // System.out.println(resultSet.getString("admin_LNAME"));
+                // System.out.println(resultSet.getString("admin_ContactInfo"));
+                // System.out.println(resultSet.getString("admin_Username"));
+                // System.out.println(resultSet.getString("admin_Password"));
+                List<String> admin_values = Arrays.asList(resultSet.getString("admin_FName"), resultSet.getString("admin_MName"), resultSet.getString("admin_LName"), resultSet.getString("admin_ContactInfo"), resultSet.getString("admin_Username"), resultSet.getString("admin_Password"));
+                model.model_collection.addDataInModels(resultSet.getString("admin_Id"), admin_values);
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            } finally {
 
             try {
                 if (resultSet != null) resultSet.close();

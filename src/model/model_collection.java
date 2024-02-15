@@ -1,47 +1,31 @@
-// package model;
+package model;
 
-// import java.util.HashMap;
-// import java.util.List;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
-// public class model_collection {
-//     private static HashMap<String, List<String>> adminDB;
-//     // private static HashMap<String, List<String>> amortizationDB;
-//     // private static HashMap<String, List<String>> carDB;
-//     // private static HashMap<String, List<String>> driverDB;
-//     // private static HashMap<String, List<String>> maintenanceDB;
-//     // private static HashMap<String, List<String>> quotaDB;
+public class model_collection {
+    private static HashMap<String, List<String>> adminDB;
 
-//     static {
-//         adminDB = new HashMap<>();
-//         // amortizationDB = new HashMap<>();
-//         // carDB = new HashMap<>();
-//         // driverDB = new HashMap<>();
-//         // maintenanceDB = new HashMap<>();
-//         // quotaDB = new HashMap<>();
-//     }
+    static {
+        adminDB = new HashMap<>();
+    }
+
+    public static void addDataInModels(String key, List<String> value) {
+        adminDB.put(key, value);
+    }
+
+    public static HashMap<String, List<String>> getAdminDB() {
+        return adminDB;
+    }
+
+    public static void main(String[] args) {
+        String key = "admin1";
+        // List<String> value = Arrays.asList("value1", "value2", "value3");
 
 
-//     public static void refresh_db() {
-//         adminDB = new HashMap<>();
-//         // amortizationDB = new HashMap<>();
-//         // carDB = new HashMap<>();
-//         // driverDB = new HashMap<>();
-//         // maintenanceDB = new HashMap<>();
-//         // quotaDB = new HashMap<>();
-//     }
+        // Testing
+        System.out.println(getAdminDB());
+    }
+}
 
-//     public static <K> void insertDataModel(String key, List<K> values) {
-//         adminDB.put(key, (List<V>) values);
-//     }
-
-    
-
-//     // Getter methods for hashmaps
-//     public static HashMap<String, List<String>> getAdminDB() {
-//         return adminDB;
-//     }
-
-//     public static void main(String[] args) {
-        
-//     }
-// }
