@@ -1,4 +1,4 @@
-package model.db;
+package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -45,15 +45,14 @@ public class admin_table {
             resultSet = statement.executeQuery(sqlQuery);
 
             while(resultSet.next()){
-                // System.out.println(resultSet.getString("admin_Id"));
-                // System.out.println(resultSet.getString("admin_FNAME"));
-                // System.out.println(resultSet.getString("admin_MNAME"));
-                // System.out.println(resultSet.getString("admin_LNAME"));
-                // System.out.println(resultSet.getString("admin_ContactInfo"));
-                // System.out.println(resultSet.getString("admin_Username"));
-                // System.out.println(resultSet.getString("admin_Password"));
-                List<String> admin_values = Arrays.asList(resultSet.getString("admin_FName"), resultSet.getString("admin_MName"), resultSet.getString("admin_LName"), resultSet.getString("admin_ContactInfo"), resultSet.getString("admin_Username"), resultSet.getString("admin_Password"));
-                model.model_collection.addDataInModels(resultSet.getString("admin_Id"), admin_values);
+                System.out.println(resultSet.getString("admin_Id"));
+                System.out.println(resultSet.getString("admin_FNAME"));
+                System.out.println(resultSet.getString("admin_MNAME"));
+                System.out.println(resultSet.getString("admin_LNAME"));
+                System.out.println(resultSet.getString("admin_ContactInfo"));
+                System.out.println(resultSet.getString("admin_Username"));
+                System.out.println(resultSet.getString("admin_Password"));
+                
             }
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();

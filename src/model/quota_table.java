@@ -1,4 +1,4 @@
-package model.db;
+package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +10,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 
-public class driver_table {
-    private static String tableName = "driver";
+public class quota_table {
+    private static String tableName = "quota";
 
 
     public static void main(String[] args) throws Exception {
@@ -44,23 +44,14 @@ public class driver_table {
             resultSet = statement.executeQuery(sqlQuery);
 
             while(resultSet.next()){
+                System.out.println(resultSet.getString("quota_RecordID"));
+                System.out.println(resultSet.getInt("quota_Amount"));
+                System.out.println(resultSet.getInt("quota_InputAmount"));
+                System.out.println(resultSet.getString("quota_SDate"));
+                System.out.println(resultSet.getString("quota_DDate"));
+                System.out.println(resultSet.getString("quota_Status"));
                 System.out.println(resultSet.getString("driver_LicenseNum"));
-                System.out.println(resultSet.getString("driver_CNumber"));
-                System.out.println(resultSet.getString("driver_CPerson"));
-                System.out.println(resultSet.getString("driver_Sex"));
-                System.out.println(resultSet.getString("driver_FName"));
-                System.out.println(resultSet.getString("driver_MName"));
-                System.out.println(resultSet.getString("driver_LName"));
-                System.out.println(resultSet.getString("driver_Birthdate"));
-                System.out.println(resultSet.getString("driver_HouseNum"));
-                System.out.println(resultSet.getString("driver_City"));
-                System.out.println(resultSet.getString("driver_Street"));
-                System.out.println(resultSet.getString("driver_Block"));
-                System.out.println(resultSet.getString("driver_Brgy"));
-                System.out.println(resultSet.getString("car_Plate"));
-                System.out.println(resultSet.getString("driver_LicenseExpiry"));
-                System.out.println(resultSet.getString("admin_Id"));
-
+            
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -76,7 +67,7 @@ public class driver_table {
         }
     }
 
-    public static void insert(String d_LicenseNum, int d_CNumber, String d_CPerson, String d_Sex, String d_FName, String d_MName, String L_Name, String d_Birthdate, int d_HouseNum, String d_City, String d_Street, String d_Block, String d_Brgy, String c_Plate, String d_LicenseExpiry, int a_Id) throws ParseException {
+    public static void insert(int q_Amount, int q_InputAmount, String q_SDate, String q_DDate, String q_Status, String d_LicenseNum) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -89,32 +80,23 @@ public class driver_table {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO quota (driver_LicenseNum, driver_CNumber, driver_CPerson, driver_Sex, driver_FName, driver_MName, driver_LName, driver_Birthdate, driver_HouseNum, driver_City, driver_Street, driver_Block, driver_Brgy, car_Plate, driver_LicenseExpiry, admin_Id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO quota (quota_Amount, quota_InputAmount, quota_SDate, quota_DDate, quota_Status, driver_LicenseNum) VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
-            preparedStatement.setString(1, d_LicenseNum);
-            preparedStatement.setInt(2, d_CNumber);
-            preparedStatement.setString(3, d_CPerson);
-            preparedStatement.setString(4, d_Sex);
-            preparedStatement.setString(5, d_FName);
-            preparedStatement.setString(6, d_MName);
-            preparedStatement.setString(7, L_Name);
-            preparedStatement.setTimestamp(8, new java.sql.Timestamp(dateFormat.parse(d_Birthdate).getTime()));
-            preparedStatement.setInt(9, d_HouseNum);
-            preparedStatement.setString(10, d_City);
-            preparedStatement.setString(11, d_Street);
-            preparedStatement.setString(12, d_Block);
-            preparedStatement.setString(13, d_Brgy);
-            preparedStatement.setString(14, c_Plate);
-            preparedStatement.setTimestamp(15, new java.sql.Timestamp(dateFormat.parse(d_LicenseExpiry).getTime()));
-            preparedStatement.setInt(16, a_Id);
+            preparedStatement.setInt(1, q_Amount);
+            preparedStatement.setInt(2, q_InputAmount);
+            preparedStatement.setString(3, q_SDate);
+            preparedStatement.setString(4, q_DDate);
+            preparedStatement.setString(5, q_Status);
+            preparedStatement.setString(6, d_LicenseNum);
+            ;
 
             int rows = preparedStatement.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("A new driver has been inserted");
+                System.out.println("A new boundary has been inserted");
             } else {
-                System.out.println("A new driver has not been inserted");
+                System.out.println("A new boundary has not been inserted");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -140,7 +122,7 @@ public class driver_table {
     
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE driver SET " + columnName + " = ? WHERE " + "driver_LicenseNum = ?";
+            String sqlQuery = "UPDATE quota SET " + columnName + " = ? WHERE " + "driver_LicenseNum = ?";
 
             preparedStatement = connection.prepareStatement(sqlQuery);
     
@@ -150,7 +132,7 @@ public class driver_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[driver] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
             } else {
                 System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
             }
@@ -176,7 +158,7 @@ public class driver_table {
     
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE driver SET " + columnName + " = ? WHERE driver_LicenseNum = ?";
+            String sqlQuery = "UPDATE quota SET " + columnName + " = ? WHERE driver_LicenseNum = ?";
     
             preparedStatement = connection.prepareStatement(sqlQuery);
     
@@ -186,7 +168,7 @@ public class driver_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[driver] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
             } else {
                 System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
             }
@@ -216,7 +198,7 @@ public class driver_table {
             connection = DriverManager.getConnection(url, user, password);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String sqlQuery = "UPDATE driver SET " + columnName + " = ? WHERE " + "driver_LicenseNumber = ?";
+            String sqlQuery = "UPDATE quota SET " + columnName + " = ? WHERE " + "driver_LicenseNumber = ?";
 
             preparedStatement = connection.prepareStatement(sqlQuery);
     
@@ -226,7 +208,7 @@ public class driver_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[driver] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
             } else {
                 System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
             }
@@ -252,7 +234,7 @@ public class driver_table {
     
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "DELETE FROM driver WHERE driver_LicenseNum = ?";
+            String sqlQuery = "DELETE FROM quota WHERE driver_LicenseNum = ?";
             preparedStatement = connection.prepareStatement(sqlQuery);
     
             preparedStatement.setString(1, d_LicenseNum);
@@ -260,9 +242,9 @@ public class driver_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("Car driver record deleted successfully");
+                System.out.println("Car boundary record deleted successfully");
             } else {
-                System.out.println("No car driver record found for the given ID:" + d_LicenseNum);
+                System.out.println("No car boundary record found for the given ID:" + d_LicenseNum);
             }
         } catch (SQLException e) {
             e.printStackTrace();

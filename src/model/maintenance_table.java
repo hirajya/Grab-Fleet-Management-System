@@ -1,4 +1,4 @@
-package model.db;
+package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +10,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 
-public class quota_table {
-    private static String tableName = "quota";
+public class maintenance_table {
+    private static String tableName = "maintenance";
 
 
     public static void main(String[] args) throws Exception {
@@ -44,13 +44,13 @@ public class quota_table {
             resultSet = statement.executeQuery(sqlQuery);
 
             while(resultSet.next()){
-                System.out.println(resultSet.getString("quota_RecordID"));
-                System.out.println(resultSet.getInt("quota_Amount"));
-                System.out.println(resultSet.getInt("quota_InputAmount"));
-                System.out.println(resultSet.getString("quota_SDate"));
-                System.out.println(resultSet.getString("quota_DDate"));
-                System.out.println(resultSet.getString("quota_Status"));
+                System.out.println(resultSet.getString("maintenance_RecordID"));
+                System.out.println(resultSet.getString("maintenance_ChangeOil"));
+                System.out.println(resultSet.getString("maintenance_ChangeBelt"));
+                System.out.println(resultSet.getString("maintenance_MStatus"));
+                System.out.println(resultSet.getString("car_Plate"));
                 System.out.println(resultSet.getString("driver_LicenseNum"));
+                
             
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -67,7 +67,7 @@ public class quota_table {
         }
     }
 
-    public static void insert(int q_Amount, int q_InputAmount, String q_SDate, String q_DDate, String q_Status, String d_LicenseNum) throws ParseException {
+    public static void insert(String m_ChangeOil, String m_ChangeBelt, String m_MStatus, String c_Plate, String d_LicenseNum) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -80,23 +80,21 @@ public class quota_table {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO quota (quota_Amount, quota_InputAmount, quota_SDate, quota_DDate, quota_Status, driver_LicenseNum) VALUES (?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO maintenance (maintenance_ChangeOil, maintenance_ChangeBelt, maintenance_MStatus, car_Plate, driver_LicenseNum) VALUES (?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
-            preparedStatement.setInt(1, q_Amount);
-            preparedStatement.setInt(2, q_InputAmount);
-            preparedStatement.setString(3, q_SDate);
-            preparedStatement.setString(4, q_DDate);
-            preparedStatement.setString(5, q_Status);
-            preparedStatement.setString(6, d_LicenseNum);
-            ;
-
+            preparedStatement.setTimestamp(1, new java.sql.Timestamp(dateFormat.parse(m_ChangeOil).getTime()));
+            preparedStatement.setTimestamp(2, new java.sql.Timestamp(dateFormat.parse(m_ChangeBelt).getTime()));
+            preparedStatement.setString(3, m_MStatus);
+            preparedStatement.setString(4, c_Plate);
+            preparedStatement.setString(5, d_LicenseNum);
+            
             int rows = preparedStatement.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("A new boundary has been inserted");
+                System.out.println("A new maintenance has been inserted");
             } else {
-                System.out.println("A new boundary has not been inserted");
+                System.out.println("A new maintenance has not been inserted");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -122,7 +120,7 @@ public class quota_table {
     
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE quota SET " + columnName + " = ? WHERE " + "driver_LicenseNum = ?";
+            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE " + "driver_LicenseNum = ?";
 
             preparedStatement = connection.prepareStatement(sqlQuery);
     
@@ -132,7 +130,7 @@ public class quota_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+                System.out.println("[car maintenance] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
             } else {
                 System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
             }
@@ -158,7 +156,7 @@ public class quota_table {
     
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE quota SET " + columnName + " = ? WHERE driver_LicenseNum = ?";
+            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE driver_LicenseNum = ?";
     
             preparedStatement = connection.prepareStatement(sqlQuery);
     
@@ -168,7 +166,7 @@ public class quota_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+                System.out.println("[car maintenance] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
             } else {
                 System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
             }
@@ -198,7 +196,7 @@ public class quota_table {
             connection = DriverManager.getConnection(url, user, password);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String sqlQuery = "UPDATE quota SET " + columnName + " = ? WHERE " + "driver_LicenseNumber = ?";
+            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE " + "driver_LicenseNumber = ?";
 
             preparedStatement = connection.prepareStatement(sqlQuery);
     
@@ -208,7 +206,7 @@ public class quota_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+                System.out.println("[car maintenance "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
             } else {
                 System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
             }
@@ -234,7 +232,7 @@ public class quota_table {
     
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "DELETE FROM quota WHERE driver_LicenseNum = ?";
+            String sqlQuery = "DELETE FROM maintenance WHERE driver_LicenseNum = ?";
             preparedStatement = connection.prepareStatement(sqlQuery);
     
             preparedStatement.setString(1, d_LicenseNum);
@@ -242,9 +240,9 @@ public class quota_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("Car boundary record deleted successfully");
+                System.out.println("Car maintenance record deleted successfully");
             } else {
-                System.out.println("No car boundary record found for the given ID:" + d_LicenseNum);
+                System.out.println("No car maintenance record found for the given ID:" + d_LicenseNum);
             }
         } catch (SQLException e) {
             e.printStackTrace();
