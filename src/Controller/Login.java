@@ -47,8 +47,7 @@ public class Login {
     public void Login(ActionEvent event) throws IOException {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Login.fxml"));
-        Parent root = loader.load();
+        Parent root = FXMLLoader.load(getClass().getResource("/View/Login.fxml"));
 
         Scene scene = new Scene(root);
             stage.setScene(scene);
