@@ -1,55 +1,49 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Scanner;
+import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+public class App extends Application {
+
+    @FXML
+    private MediaView mediaView;
 
 
-public class App {
-    public static void main(String[] args) throws Exception {
-        connect();
+    public static void main(String[] args) {
+
+        launch(args);
     }
 
-    public static void connect(){
-
-        String url = "jdbc:mysql://localhost:3306/midnightrain";
-        String user = "root";
-        String password = "";
-
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
+    public void start(Stage stage) throws Exception {
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, user, password);
-            statement = connection.createStatement();
+            Parent root = FXMLLoader.load(getClass().getResource("/View/Login.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+    
 
-            String sqlQuery = "SELECT * FROM admin";
-            System.out.println("Connected to the database");
-
-            resultSet = statement.executeQuery(sqlQuery);
-
-            while(resultSet.next()){
-                System.out.println(resultSet.getString("admin_FNAME"));
-            }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-
-            try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
-
-
-
-
     }
-}
+
+     public void initialize() {
+        String videoPath = getClass().getResource("/Images/login.mp4").toExternalForm();
+        Media media = new Media(videoPath);
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaView.setMediaPlayer(mediaPlayer);
+
+        mediaPlayer.setOnEndOfMedia(() -> {
+            mediaPlayer.seek(Duration.ZERO);
+        });
+
+        mediaPlayer.play();
+    }
+} 
