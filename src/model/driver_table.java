@@ -46,7 +46,7 @@ public class driver_table {
             while(resultSet.next()){
                 System.out.println(resultSet.getString("driver_LicenseNum"));
                 System.out.println(resultSet.getString("driver_CNumber"));
-                System.out.println(resultSet.getString("driver_CPerson"));
+                System.out.println(resultSet.getString("driver_CPersonNum"));
                 System.out.println(resultSet.getString("driver_Sex"));
                 System.out.println(resultSet.getString("driver_FName"));
                 System.out.println(resultSet.getString("driver_MName"));
@@ -60,6 +60,8 @@ public class driver_table {
                 System.out.println(resultSet.getString("car_Plate"));
                 System.out.println(resultSet.getString("driver_LicenseExpiry"));
                 System.out.println(resultSet.getString("admin_Id"));
+                System.out.println(resultSet.getString("quota_RecordID"));
+
 
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -76,7 +78,7 @@ public class driver_table {
         }
     }
 
-    public static void insert(String d_LicenseNum, int d_CNumber, String d_CPerson, String d_Sex, String d_FName, String d_MName, String L_Name, String d_Birthdate, int d_HouseNum, String d_City, String d_Street, String d_Block, String d_Brgy, String c_Plate, String d_LicenseExpiry, int a_Id) throws ParseException {
+    public static void insert(String d_LicenseNum, int d_CNumber, String d_CPersonNum, String d_Sex, String d_FName, String d_MName, String L_Name, String d_Birthdate, int d_HouseNum, String d_City, String d_Street, String d_Block, String d_Brgy, String c_Plate, String d_LicenseExpiry, int a_Id, int q_RecordID) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -89,12 +91,12 @@ public class driver_table {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO quota (driver_LicenseNum, driver_CNumber, driver_CPerson, driver_Sex, driver_FName, driver_MName, driver_LName, driver_Birthdate, driver_HouseNum, driver_City, driver_Street, driver_Block, driver_Brgy, car_Plate, driver_LicenseExpiry, admin_Id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO quota (driver_LicenseNum, driver_CNumber, driver_CPersonNum, driver_Sex, driver_FName, driver_MName, driver_LName, driver_Birthdate, driver_HouseNum, driver_City, driver_Street, driver_Block, driver_Brgy, car_Plate, driver_LicenseExpiry, admin_Id, quota_RecordID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setString(1, d_LicenseNum);
             preparedStatement.setInt(2, d_CNumber);
-            preparedStatement.setString(3, d_CPerson);
+            preparedStatement.setString(3, d_CPersonNum);
             preparedStatement.setString(4, d_Sex);
             preparedStatement.setString(5, d_FName);
             preparedStatement.setString(6, d_MName);
@@ -108,6 +110,7 @@ public class driver_table {
             preparedStatement.setString(14, c_Plate);
             preparedStatement.setTimestamp(15, new java.sql.Timestamp(dateFormat.parse(d_LicenseExpiry).getTime()));
             preparedStatement.setInt(16, a_Id);
+            preparedStatement.setInt(17, q_RecordID);
 
             int rows = preparedStatement.executeUpdate();
 
