@@ -48,6 +48,8 @@ public class amortization_table {
                 System.out.println(resultSet.getString("amortization_EDate"));
                 System.out.println(resultSet.getInt("amortization_Payment"));
                 System.out.println(resultSet.getString("car_Plate"));
+                System.out.println(resultSet.getString("amortization_Status"));
+
 
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -64,7 +66,7 @@ public class amortization_table {
         }
     }
 
-    public static void insert(String a_SDate, String a_DDate, String a_EDate, int a_Payment, String c_Plate) throws ParseException {
+    public static void insert(String a_SDate, String a_DDate, String a_EDate, int a_Payment, String c_Plate, String a_Status) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -77,7 +79,7 @@ public class amortization_table {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO amortization (amortization_SDate, amortization_DDate, amortization_EDate, amortization_Payment, car_Plate) VALUES (?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO amortization (amortization_SDate, amortization_DDate, amortization_EDate, amortization_Payment, car_Plate, amortization_Status) VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setTimestamp(1, new java.sql.Timestamp(dateFormat.parse(a_SDate).getTime()));
@@ -85,6 +87,7 @@ public class amortization_table {
             preparedStatement.setTimestamp(3, new java.sql.Timestamp(dateFormat.parse(a_EDate).getTime()));
             preparedStatement.setInt(4, a_Payment);
             preparedStatement.setString(5, c_Plate);
+            preparedStatement.setString(6, a_Status);
 
 
             int rows = preparedStatement.executeUpdate();
@@ -103,7 +106,7 @@ public class amortization_table {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        }   
     }
 
     
