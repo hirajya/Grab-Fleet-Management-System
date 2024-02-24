@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Car_Accounts">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Car_Accounts">
    <children>
       <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grabwheels">
          <font>
@@ -29,7 +29,7 @@
          </font>
       </Text>
       <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#f1f8fe" height="25.0" layoutX="50.0" layoutY="191.0" stroke="#f1f8fe" strokeType="INSIDE" width="120.0" />
-      <Pane layoutX="211.0" layoutY="80.0" prefHeight="720.0" prefWidth="913.0" style="-fx-background-color: F6F6F6;">
+      <Pane layoutX="211.0" layoutY="80.0" opacity="0.59" prefHeight="720.0" prefWidth="913.0" style="-fx-background-color: F6F6F6;">
          <children>
             <Rectangle arcHeight="18.0" arcWidth="18.0" fill="WHITE" height="30.0" layoutX="-990.0" stroke="BLACK" strokeType="INSIDE" width="56.0" x="1008.0" y="20.0" />
             <TextField layoutX="43.0" layoutY="20.0" prefHeight="30.0" prefWidth="189.0" promptText="Search by car plate" style="-fx-background-color: #FfFfFf; -fx-background-radius: 8; -fx-border-color: #000000; -fx-border-radius: 8;" styleClass="text-field-black" stylesheets="@../CSS/home.css">
@@ -148,9 +148,9 @@
             <Image url="@../Images/dash1.png" />
          </image>
       </ImageView>
-      <Button layoutX="172.0" layoutY="259.0" mnemonicParsing="false" onAction="#GoToC_Amortization" prefHeight="25.0" prefWidth="30.0" text="Button" />
-      <Button layoutX="172.0" layoutY="225.0" mnemonicParsing="false" onAction="#GoToC_Maintenance" prefHeight="25.0" prefWidth="30.0" text="Button" />
-      <Button layoutX="172.0" layoutY="98.0" mnemonicParsing="false" onAction="#GoToHome" prefHeight="25.0" prefWidth="30.0" text="Button" />
+      <Button layoutX="48.0" layoutY="259.0" mnemonicParsing="false" onAction="#GoToC_Amortization" opacity="0.0" prefHeight="25.0" prefWidth="93.0" text="Button" />
+      <Button layoutX="44.0" layoutY="225.0" mnemonicParsing="false" onAction="#GoToC_Maintenance" opacity="0.0" prefHeight="25.0" prefWidth="93.0" text="Button" />
+      <Button layoutX="19.0" layoutY="102.0" mnemonicParsing="false" onAction="#GoToHome" opacity="0.0" prefHeight="25.0" prefWidth="120.0" text="Button" />
       <Button layoutX="172.0" layoutY="311.0" mnemonicParsing="false" onAction="#GoToD_Accounts" prefHeight="25.0" prefWidth="30.0" text="Button" />
    </children>
 </Pane>
