@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Car_Accounts">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Car_Accounts">
    <children>
       <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grabwheels">
          <font>
@@ -74,66 +74,6 @@
             <ImageView fitHeight="11.0" fitWidth="11.0" layoutX="830.0" layoutY="29.0">
                <image>
                   <Image url="@../Images/delete.png" />
-               </image>
-            </ImageView>
-            <Text layoutX="-35.0" layoutY="-22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter by:" x="56.0" y="109.0">
-               <font>
-                  <Font name="Arial Bold" size="14.0" />
-               </font>
-            </Text>
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fafafa" height="30.0" layoutX="21.0" layoutY="98.0" stroke="#101010" strokeType="INSIDE" width="78.0" />
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="WHITE" height="30.0" layoutX="106.0" layoutY="98.0" stroke="#101010" strokeType="INSIDE" width="96.0" />
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#f4f4f4" height="30.0" layoutX="231.0" layoutY="98.0" stroke="#101010" strokeType="INSIDE" width="96.0" />
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="WHITE" height="30.0" layoutX="337.0" layoutY="98.0" stroke="#101010" strokeType="INSIDE" width="147.0" />
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="WHITE" height="30.0" layoutX="492.0" layoutY="98.0" stroke="#101010" strokeType="INSIDE" width="96.0" />
-            <Text layoutX="116.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Text>
-            <Text layoutX="249.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End Date">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Text>
-            <Text layoutX="353.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monthly Due Date">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Text>
-            <Text layoutX="508.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Text>
-            <Text layoutX="34.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Series">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Text>
-            <ImageView fitHeight="15.0" fitWidth="14.0" layoutX="78.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/down.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="15.0" fitWidth="14.0" layoutX="557.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/down.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="15.0" fitWidth="14.0" layoutX="202.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/datepicker.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="15.0" fitWidth="14.0" layoutX="306.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/datepicker.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="15.0" fitWidth="14.0" layoutX="461.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/datepicker.png" />
                </image>
             </ImageView>
          </children></Pane>
@@ -208,9 +148,9 @@
             <Image url="@../Images/dash1.png" />
          </image>
       </ImageView>
-      <Button layoutX="48.0" layoutY="259.0" mnemonicParsing="false" onAction="#GoToC_Amortization" opacity="0.0" prefHeight="25.0" prefWidth="93.0" text="Button" />
-      <Button layoutX="44.0" layoutY="225.0" mnemonicParsing="false" onAction="#GoToC_Maintenance" opacity="0.0" prefHeight="25.0" prefWidth="93.0" text="Button" />
-      <Button layoutX="19.0" layoutY="102.0" mnemonicParsing="false" onAction="#GoToHome" opacity="0.0" prefHeight="25.0" prefWidth="120.0" text="Button" />
-      <Button layoutX="25.0" layoutY="309.0" mnemonicParsing="false" onAction="#GoToD_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="102.0" text="Button" />
+      <Button layoutX="172.0" layoutY="259.0" mnemonicParsing="false" onAction="#GoToC_Amortization" prefHeight="25.0" prefWidth="30.0" text="Button" />
+      <Button layoutX="172.0" layoutY="225.0" mnemonicParsing="false" onAction="#GoToC_Maintenance" prefHeight="25.0" prefWidth="30.0" text="Button" />
+      <Button layoutX="172.0" layoutY="98.0" mnemonicParsing="false" onAction="#GoToHome" prefHeight="25.0" prefWidth="30.0" text="Button" />
+      <Button layoutX="172.0" layoutY="311.0" mnemonicParsing="false" onAction="#GoToD_Accounts" prefHeight="25.0" prefWidth="30.0" text="Button" />
    </children>
 </Pane>
