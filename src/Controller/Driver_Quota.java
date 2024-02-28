@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
@@ -18,6 +19,30 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 public class Driver_Quota {
+
+    // @FXML
+    // private TableColumn<?, ?> col_Amount;
+
+    // @FXML
+    // private TableColumn<?, ?> col_Balance;
+
+    // @FXML
+    // private TableColumn<?, ?> col_DueDate;
+
+    // @FXML
+    // private TableColumn<?, ?> col_LicenseNumber;
+
+    // @FXML
+    // private TableColumn<?, ?> col_PaidAmount;
+
+    // @FXML
+    // private TableColumn<?, ?> col_RecordId;
+
+    // @FXML
+    // private TableColumn<?, ?> col_StartDate;
+
+    // @FXML
+    // private TableColumn<?, ?> col_Status;
 
 
     public void GoToHome(ActionEvent event) throws IOException {
