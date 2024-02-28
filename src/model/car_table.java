@@ -10,7 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 
-public class car_database {
+public class car_table {
     private static String tableName = "car";
 
 
@@ -53,7 +53,6 @@ public class car_database {
                 System.out.println(resultSet.getString("car_Kind"));
                 System.out.println(resultSet.getInt("car_YearModel"));
                 System.out.println(resultSet.getString("car_Color"));
-                System.out.println(resultSet.getString("admin_Id"));
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -69,7 +68,7 @@ public class car_database {
         }
     }
 
-    public static void insert(String c_Plate, String c_CRNum, String c_ORNum, String c_RegExpiry, String c_Registration, String c_Series, String c_Kind, int c_YearModel, String c_Color, int a_Id) throws ParseException {
+    public static void insert(String c_Plate, String c_CRNum, String c_ORNum, String c_RegExpiry, String c_Registration, String c_Series, String c_Kind, int c_YearModel, String c_Color) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -82,7 +81,7 @@ public class car_database {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO car (car_Plate, car_CRNum, car_ORNum, car_RegExpiry, car_Registration, car_Series, car_Kind, car_YearModel, car_Color,  admin_Id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO car (car_Plate, car_CRNum, car_ORNum, car_RegExpiry, car_Registration, car_Series, car_Kind, car_YearModel, car_Color) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setString(1, c_Plate);
@@ -94,8 +93,6 @@ public class car_database {
             preparedStatement.setString(7, c_Kind);
             preparedStatement.setInt(8, c_YearModel);
             preparedStatement.setString(9, c_Color);
-
-            preparedStatement.setInt(12, a_Id);
 
             int rows = preparedStatement.executeUpdate();
 

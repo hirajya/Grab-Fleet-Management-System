@@ -6,18 +6,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.List;
 
 
-public class admin_database {
+public class admin_table {
     private static String tableName = "admin";
 
 
     public static void main(String[] args) throws Exception {
         // connect();
-        // insert(1, "Michael", "Balubar", "Angelo", "09278819922", "admin123", "admin123@");
-        // updateStr(1, "admin_FName", "Rodney");
-        // updateInt(1, "admin_Id", 0);
-        delete(0);
+        //insert("Christian", "Quilang", "Alberto", "09278819922", "admin123", "admin123@");
+        //updateStr(2, "admin_FName", "Rodney");
+        //updateInt(2, "admin_Id", 1);
+        //delete(1);
         connect();
     }
 
@@ -30,6 +32,7 @@ public class admin_database {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
+        
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -49,11 +52,11 @@ public class admin_database {
                 System.out.println(resultSet.getString("admin_ContactInfo"));
                 System.out.println(resultSet.getString("admin_Username"));
                 System.out.println(resultSet.getString("admin_Password"));
-
+                
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            } finally {
 
             try {
                 if (resultSet != null) resultSet.close();
@@ -65,7 +68,7 @@ public class admin_database {
         }
     }
 
-    public static void insert(int a_Id, String a_FName, String a_MName, String a_LName, String a_ContactInfo, String a_username, String a_password) {
+    public static void insert(String a_FName, String a_MName, String a_LName, String a_ContactInfo, String a_username, String a_password) {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -75,16 +78,15 @@ public class admin_database {
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "INSERT INTO admin (admin_Id, admin_FName, admin_MName, admin_LName, admin_ContactInfo, admin_Username, admin_Password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO admin (admin_FName, admin_MName, admin_LName, admin_ContactInfo, admin_Username, admin_Password) VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
-            preparedStatement.setInt(1, a_Id);
-            preparedStatement.setString(2, a_FName);
-            preparedStatement.setString(3, a_MName);
-            preparedStatement.setString(4, a_LName);
-            preparedStatement.setString(5, a_ContactInfo);
-            preparedStatement.setString(6, a_username);
-            preparedStatement.setString(7, a_password);
+            preparedStatement.setString(1, a_FName);
+            preparedStatement.setString(2, a_MName);
+            preparedStatement.setString(3, a_LName);
+            preparedStatement.setString(4, a_ContactInfo);
+            preparedStatement.setString(5, a_username);
+            preparedStatement.setString(6, a_password);
 
             int rows = preparedStatement.executeUpdate();
 

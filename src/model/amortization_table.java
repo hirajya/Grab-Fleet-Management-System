@@ -10,18 +10,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 
-public class amortization_database {
+public class amortization_table {
     private static String tableName = "amortization";
 
 
     public static void main(String[] args) throws Exception {
-        // connect();
-        // insert("BAC0522", "2022-12-20", "2023-12-20", "2024-12-20", 10000, true);
-        // updateDatetime("BAC5522", "car_AmortizationDDate", "2000-01-01");
-        // updateInt("BAC5522", "car_AmortizationPayment", 2000);
-        // delete("BAC5522");
-        delete("BAC0522");
-
+        // insert("2022-02-10", "2023-03-10", "2024-04-11", 1110, "NAC6983");
+        // updateStr("NAC6983", "amortization_SDate", "2022-02-11");
+        delete("NAC6983");
         connect();
     }
 
@@ -46,12 +42,14 @@ public class amortization_database {
             resultSet = statement.executeQuery(sqlQuery);
 
             while(resultSet.next()){
+                System.out.println(resultSet.getString("amortization_RecordID"));
+                System.out.println(resultSet.getString("amortization_SDate"));
+                System.out.println(resultSet.getString("amortization_DDate"));
+                System.out.println(resultSet.getString("amortization_EDate"));
+                System.out.println(resultSet.getInt("amortization_Payment"));
                 System.out.println(resultSet.getString("car_Plate"));
-                System.out.println(resultSet.getString("car_AmortizationSDate"));
-                System.out.println(resultSet.getString("car_AmortizationDDate"));
-                System.out.println(resultSet.getString("car_AmortizationEDate"));
-                System.out.println(resultSet.getInt("car_AmortizationPayment"));
-                System.out.println(resultSet.getString("car_WeeklyPaymentDoneStatus"));
+                System.out.println(resultSet.getString("amortization_Status"));
+
 
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -68,7 +66,7 @@ public class amortization_database {
         }
     }
 
-    public static void insert(String c_Plate, String c_AmortizationSDate, String c_AmortizationDDate, String c_AmortizationEDate, int c_AmortizationPayment, Boolean c_WeeklyPaymentDoneStatus) throws ParseException {
+    public static void insert(String a_SDate, String a_DDate, String a_EDate, int a_Payment, String c_Plate, String a_Status) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -81,15 +79,16 @@ public class amortization_database {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO amortization (car_Plate, car_AmortizationSDate, car_AmortizationDDate, car_AmortizationEDate, car_AmortizationPayment, car_WeeklyPaymentDoneStatus) VALUES (?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO amortization (amortization_SDate, amortization_DDate, amortization_EDate, amortization_Payment, car_Plate, amortization_Status) VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
-            preparedStatement.setString(1, c_Plate);
-            preparedStatement.setTimestamp(2, new java.sql.Timestamp(dateFormat.parse(c_AmortizationSDate).getTime()));
-            preparedStatement.setTimestamp(3, new java.sql.Timestamp(dateFormat.parse(c_AmortizationDDate).getTime()));
-            preparedStatement.setTimestamp(4, new java.sql.Timestamp(dateFormat.parse(c_AmortizationEDate).getTime()));
-            preparedStatement.setInt(5, c_AmortizationPayment);
-            preparedStatement.setBoolean(6, c_WeeklyPaymentDoneStatus);
+            preparedStatement.setTimestamp(1, new java.sql.Timestamp(dateFormat.parse(a_SDate).getTime()));
+            preparedStatement.setTimestamp(2, new java.sql.Timestamp(dateFormat.parse(a_DDate).getTime()));
+            preparedStatement.setTimestamp(3, new java.sql.Timestamp(dateFormat.parse(a_EDate).getTime()));
+            preparedStatement.setInt(4, a_Payment);
+            preparedStatement.setString(5, c_Plate);
+            preparedStatement.setString(6, a_Status);
+
 
             int rows = preparedStatement.executeUpdate();
 
@@ -107,7 +106,7 @@ public class amortization_database {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        }   
     }
 
     
