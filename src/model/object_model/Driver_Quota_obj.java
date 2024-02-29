@@ -2,16 +2,18 @@ package model.object_model;
 
 public class Driver_Quota_obj {
     int recordId;
+    String driverName;
     String licenseNumber;
-    double amount;
-    double paidAmount;
-    double balance;
+    int amount;
+    int paidAmount;
+    int balance;
     String startDate;
     String dueDate;
     String status;
 
-    public Driver_Quota_obj(int recordId, String licenseNumber, double amount, double paidAmount, double balance, String startDate, String dueDate, String status) {
+    public Driver_Quota_obj(int recordId, String driverName, String licenseNumber, int amount, int paidAmount, int balance, String startDate, String dueDate, String status) {
         this.recordId = recordId;
+        this.driverName = driverName;
         this.licenseNumber = licenseNumber;
         this.amount = amount;
         this.paidAmount = paidAmount;
@@ -37,27 +39,27 @@ public class Driver_Quota_obj {
         this.licenseNumber = licenseNumber;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
-    public double getPaidAmount() {
+    public int getPaidAmount() {
         return paidAmount;
     }
 
-    public void setPaidAmount(double paidAmount) {
+    public void setPaidAmount(int paidAmount) {
         this.paidAmount = paidAmount;
     }
 
-    public double getBalance() {
+    public int getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
     }
 
@@ -83,6 +85,14 @@ public class Driver_Quota_obj {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
     }
 
 }

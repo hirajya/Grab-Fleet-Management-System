@@ -86,14 +86,15 @@
             </Text>
             <TableView fx:id="quota_table" layoutX="18.0" layoutY="150.0" prefHeight="530.0" prefWidth="867.0">
               <columns>
-                <TableColumn fx:id="col_RecordId" prefWidth="80.66667175292969" text="Record ID" />
+                <TableColumn fx:id="col_RecordId" prefWidth="61.99995422363281" text="Record ID" />
+                  <TableColumn fx:id="col_DriverName" prefWidth="150.00006103515625" text="Driver Name" />
                 <TableColumn fx:id="col_LicenseNumber" prefWidth="128.66671752929688" text="License Number" />
-                  <TableColumn fx:id="col_Amount" prefWidth="98.6666259765625" text="Amount" />
-                  <TableColumn fx:id="col_PaidAmount" prefWidth="111.99993896484375" text="Paid Amount" />
-                  <TableColumn fx:id="col_Balance" prefWidth="102.66668701171875" text="Balance" />
-                  <TableColumn fx:id="col_StartDate" prefWidth="127.33331298828125" text="Start Date" />
-                  <TableColumn fx:id="col_DueDate" minWidth="0.0" prefWidth="126.0" text="Due Date" />
-                  <TableColumn fx:id="col_Status" prefWidth="91.3333740234375" text="Status" />
+                  <TableColumn fx:id="col_Amount" prefWidth="69.33331298828125" text="Amount" />
+                  <TableColumn fx:id="col_PaidAmount" prefWidth="87.3333740234375" text="Paid Amount" />
+                  <TableColumn fx:id="col_Balance" prefWidth="74.66668701171875" text="Balance" />
+                  <TableColumn fx:id="col_StartDate" prefWidth="105.33331298828125" text="Start Date" />
+                  <TableColumn fx:id="col_DueDate" minWidth="0.0" prefWidth="94.0" text="Due Date" />
+                  <TableColumn fx:id="col_Status" prefWidth="92.666748046875" text="Status" />
               </columns>
             </TableView>
             <ComboBox fx:id="statusOptions" layoutX="18.0" layoutY="101.0" prefWidth="150.0" promptText="Status" />

@@ -16,8 +16,11 @@ public class driver_table {
 
     public static void main(String[] args) throws Exception {
         // connect();
-        insert("B0222300753", "09123456789", "09123456789", "Male", "Rodney", "Lei", "Lopez", "1999-12-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "NAC2393", "2022-12-12", 1, 3);
-        insert("B0222303753", "09123456789", "09123456789", "Female", "Jaena", "Lei", "Ara", "1989-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "PAC2393", "2022-11-12", 1, 4);
+        // insert("B0222300753", "09123456789", "09123456789", "Male", "Rodney", "Lei", "Lopez", "1999-12-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "NAC2393", "2022-12-12", 1, 3);
+        insert("B0233303753", "09123456789", "09123456789", "Female", "Jaena", "Lei", "Ara", "1989-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "PAC2393", "2022-11-12", 1, 4);
+        // insert("B0211103753", "09123456789", "09123456789", "Male", "Jaenaru", "Kairu", "Ara", "2001-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "DAC2393", "2022-11-12", 1, 4);
+        // insert("B0111103753", "09123456789", "09123456789", "Male", "Boki", "Kairu", "Shin", "2001-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "TAC2393", "2022-11-12", 1, 4);
+
         // updateInt("B0222300753", "boundary_InputAmount", 200);
         // delete("B0222300753");
         connect();

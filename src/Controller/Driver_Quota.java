@@ -46,6 +46,9 @@ public class Driver_Quota {
     private TableColumn<model.object_model.Driver_Quota_obj, Double> col_Amount;
 
     @FXML
+    private TableColumn<model.object_model.Driver_Quota_obj, String> col_DriverName;
+
+    @FXML
     private TableColumn<model.object_model.Driver_Quota_obj, Double> col_Balance;
 
     @FXML
@@ -87,6 +90,7 @@ public class Driver_Quota {
     private void setUpColumns() {
         System.err.println("Driver Quota Controller Initialized"); // Debug statement
         col_RecordId.setCellValueFactory(new PropertyValueFactory<>("recordId"));
+        col_DriverName.setCellValueFactory(new PropertyValueFactory<>("driverName"));
         col_LicenseNumber.setCellValueFactory(new PropertyValueFactory<>("licenseNumber"));
         col_Amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         col_PaidAmount.setCellValueFactory(new PropertyValueFactory<>("paidAmount"));
