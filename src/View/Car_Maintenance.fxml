@@ -194,12 +194,11 @@
             <TableView layoutX="18.0" layoutY="150.0" prefHeight="516.0" prefWidth="878.0">
                <columns>
                   <TableColumn prefWidth="115.19998168945312" text="Record ID" />
-                  <TableColumn prefWidth="110.39999389648438" text="Car Plate" />
-                  <TableColumn minWidth="5.599945068359375" prefWidth="123.19998168945312" text="Start Date" />
-                  <TableColumn minWidth="0.0" prefWidth="156.0" text="Monthly Due Date" />
-                  <TableColumn minWidth="0.0" prefWidth="131.20001220703125" text="End Date" />
-                  <TableColumn minWidth="0.0" prefWidth="120.0" text="Payment" />
-                  <TableColumn prefWidth="125.5999755859375" text="Status" />
+                  <TableColumn prefWidth="138.0" text="Car Plate" />
+                  <TableColumn minWidth="5.599945068359375" prefWidth="189.0" text="License Number" />
+                  <TableColumn minWidth="0.0" prefWidth="152.0" text="Change Oil" />
+                  <TableColumn minWidth="0.0" prefWidth="146.0" text="Change Belt" />
+                  <TableColumn minWidth="0.0" prefWidth="136.0" text="Status" />
                </columns>
             </TableView>
          </children>
