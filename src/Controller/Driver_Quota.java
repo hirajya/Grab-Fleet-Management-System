@@ -120,13 +120,14 @@ public class Driver_Quota {
                             setText(item);
 
                             if ("Unpaid".equals(item)) {
-                                circle.setFill(Color.RED);
+                                circle.setFill(Color.web("#FB1616")); // Set to #FB1616 for Red
                             } else {
-                                circle.setFill(Color.GREEN);
+                                circle.setFill(Color.web("#FBC916")); // Set to #FBC916 for Green
                             }
                             setGraphic(circle);
                         }
                     }
+
                 };
             }
         };
