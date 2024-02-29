@@ -1,6 +1,8 @@
 package Controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import javafx.event.ActionEvent;
@@ -9,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -21,14 +24,16 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
 
 public class Driver_Accounts {
 
     @FXML
-    public Pane addDriver, addDriver2, updateDriver;
+    public Pane addDriver, addDriver2, updateDriver, deleteDriver;
 
     public void showAddDriverPane(ActionEvent event) {
         addDriver.setVisible(true);
@@ -41,6 +46,14 @@ public class Driver_Accounts {
     public void showUpdateDriverPane(ActionEvent event) {
         updateDriver.setVisible(true);
     }    
+
+    public void showDeleteDriverPane(ActionEvent event) {
+        deleteDriver.setVisible(true);
+    }   
+
+    public void hideDeleteDriverPane(ActionEvent event) {
+        deleteDriver.setVisible(false);
+    }
 
      public void hideAddDriverPane(ActionEvent event) {
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -105,6 +118,35 @@ public class Driver_Accounts {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             updateDriver.setVisible(false);
         }
+    }
+
+
+    @FXML
+    private DatePicker datePicker1, datePicker2, datePicker3, datePicker4, datePicker5, datePicker6;
+
+    public void initialize() {
+        setDatePickerFormat(datePicker1);
+        setDatePickerFormat(datePicker2);
+        setDatePickerFormat(datePicker3);
+        setDatePickerFormat(datePicker4);
+        setDatePickerFormat(datePicker5);
+        setDatePickerFormat(datePicker6);
+    }
+
+    private void setDatePickerFormat(DatePicker datePicker) {
+        datePicker.setConverter(new StringConverter<LocalDate>() {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+            @Override
+            public String toString(LocalDate date) {
+                return (date != null) ? dateFormatter.format(date) : "";
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                return (string != null && !string.isEmpty()) ? LocalDate.parse(string, dateFormatter) : null;
+            }
+        });
     }
 
     public void GoToHome(ActionEvent event) throws IOException {
