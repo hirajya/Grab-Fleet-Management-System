@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -67,11 +68,6 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <TextField layoutX="18.0" layoutY="103.0" prefHeight="30.0" prefWidth="87.0" style="-fx-background-color: #FfFfFf; -fx-background-radius: 8; -fx-border-color: #000000; -fx-border-radius: 8;" styleClass="text-field-black" stylesheets="@../CSS/home.css" text="     Status">
-               <font>
-                  <Font name="Arial" size="12.0" />
-               </font>
-            </TextField>
             <Text layoutX="18.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter by:">
                <font>
                   <Font name="Arial Bold" size="15.0" />
@@ -88,18 +84,20 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <TableView fx:id="quota_table" layoutX="18.0" layoutY="150.0" prefHeight="530.0" prefWidth="854.0">
+            <TableView fx:id="quota_table" layoutX="18.0" layoutY="150.0" prefHeight="530.0" prefWidth="867.0">
               <columns>
-                <TableColumn fx:id="col_RecordId" prefWidth="80.66667175292969" text="Record ID" />
-                <TableColumn fx:id="col_LicenseNumber" prefWidth="117.99996948242188" text="License Number" />
-                  <TableColumn fx:id="col_Amount" prefWidth="90.00003051757812" text="Amount" />
-                  <TableColumn fx:id="col_PaidAmount" prefWidth="98.6666259765625" text="Paid Amount" />
-                  <TableColumn fx:id="col_Balance" prefWidth="92.66668701171875" text="Balance" />
-                  <TableColumn fx:id="col_StartDate" prefWidth="130.0" text="Start Date" />
-                  <TableColumn fx:id="col_DueDate" minWidth="0.0" prefWidth="116.0" text="Due Date" />
-                  <TableColumn fx:id="col_Status" prefWidth="127.3333740234375" text="Status" />
+                <TableColumn fx:id="col_RecordId" prefWidth="61.99995422363281" text="Record ID" />
+                  <TableColumn fx:id="col_DriverName" prefWidth="150.00006103515625" text="Driver Name" />
+                <TableColumn fx:id="col_LicenseNumber" prefWidth="128.66671752929688" text="License Number" />
+                  <TableColumn fx:id="col_Amount" prefWidth="69.33331298828125" text="Amount" />
+                  <TableColumn fx:id="col_PaidAmount" prefWidth="87.3333740234375" text="Paid Amount" />
+                  <TableColumn fx:id="col_Balance" prefWidth="74.66668701171875" text="Balance" />
+                  <TableColumn fx:id="col_StartDate" prefWidth="105.33331298828125" text="Start Date" />
+                  <TableColumn fx:id="col_DueDate" minWidth="0.0" prefWidth="94.0" text="Due Date" />
+                  <TableColumn fx:id="col_Status" prefWidth="92.666748046875" text="Status" />
               </columns>
             </TableView>
+            <ComboBox fx:id="statusOptions" layoutX="18.0" layoutY="101.0" prefWidth="150.0" promptText="Status" />
          </children></Pane>
       <ImageView fitHeight="19.0" fitWidth="19.0" layoutY="-8.0" x="24.0" y="160.0">
          <image>
@@ -167,8 +165,8 @@
             <Image url="@../Images/dash1.png" />
          </image>
       </ImageView>
-      <Button layoutX="172.0" layoutY="226.0" mnemonicParsing="false" onAction="#GoToD_Accounts" prefHeight="25.0" prefWidth="30.0" text="Button" />
-      <Button layoutX="172.0" layoutY="149.0" mnemonicParsing="false" onAction="#GoToC_Accounts" prefHeight="25.0" prefWidth="30.0" text="Button" />
-      <Button layoutX="172.0" layoutY="98.0" mnemonicParsing="false" onAction="#GoToHome" prefHeight="25.0" prefWidth="30.0" text="Button" />
+      <Button layoutX="52.0" layoutY="226.0" mnemonicParsing="false" onAction="#GoToD_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="74.0" text="Button" />
+      <Button layoutX="55.0" layoutY="149.0" mnemonicParsing="false" onAction="#GoToC_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="102.0" text="Button" />
+      <Button layoutX="55.0" layoutY="101.0" mnemonicParsing="false" onAction="#GoToHome" opacity="0.0" prefHeight="25.0" prefWidth="102.0" text="Button" />
    </children>
 </Pane>
