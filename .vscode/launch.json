@@ -6,6 +6,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "amortization_table",
+      "request": "launch",
+      "mainClass": "model.amortization_table",
+      "projectName": "Grab-Fleet-Management-System_e1908bcb"
+    },
+    {
+      "type": "java",
+      "name": "driver_table",
+      "request": "launch",
+      "mainClass": "model.driver_table",
+      "projectName": "Grab-Fleet-Management-System_e1908bcb"
+    },
+    {
+      "type": "java",
       "name": "admin_table",
       "request": "launch",
       "mainClass": "model.admin_table",
