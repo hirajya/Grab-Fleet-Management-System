@@ -1,5 +1,6 @@
 package model;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -89,7 +90,7 @@ public class driver_database {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO boundary (driver_LicenseNum, boundary_Amount, ";
+            String sqlQuery = "INSERT INTO  boundary (driver_LicenseNum, boundary_Amount, ";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setString(1, d_LicenseNum);

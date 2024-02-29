@@ -27,11 +27,9 @@ public class Home {
 
     public void setNotificationController(Notification notificationController) {
         this.notificationController = notificationController;
-        // Update the notification circle visibility based on the notification indicator status
         updateNotificationCircleVisibility();
     }
 
-    // Method to update the visibility of the notification circle
     private void updateNotificationCircleVisibility() {
         if (notificationController != null) {
             boolean hasNotifications = notificationController.notificationCircle.isVisible();
