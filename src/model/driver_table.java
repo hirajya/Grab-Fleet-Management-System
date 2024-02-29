@@ -16,7 +16,7 @@ public class driver_table {
 
     public static void main(String[] args) throws Exception {
         // connect();
-        // insert("B0222300753", 9000, 2500, "2021-10-01", "2021-10-31", false, "Michael Angelo Balubar");
+        insert("B0222300753", "2023-12-31", "Rodney Lei", "09278819922", "123", "A", "Brgy", "Street", "City", "M", "2000-12-31", "Rodney", "Lei", "Estrada", "ABC123", 1, 1);
         // updateStr("B0222300753", "driver_Name", "Rodney Lei");
         // updateInt("B0222300753", "boundary_InputAmount", 200);
         // delete("B0222300753");
@@ -45,20 +45,20 @@ public class driver_table {
 
             while(resultSet.next()){
                 System.out.println(resultSet.getString("driver_LicenseNum"));
+                System.out.println(resultSet.getString("driver_LicenseExpiry"));
+                System.out.println(resultSet.getString("driver_CPerson"));
                 System.out.println(resultSet.getString("driver_CNumber"));
-                System.out.println(resultSet.getString("driver_CPersonNum"));
+                System.out.println(resultSet.getString("driver_HouseNum"));
+                System.out.println(resultSet.getString("driver_Block"));
+                System.out.println(resultSet.getString("driver_Brgy"));
+                System.out.println(resultSet.getString("driver_Street"));
+                System.out.println(resultSet.getString("driver_City"));
                 System.out.println(resultSet.getString("driver_Sex"));
+                System.out.println(resultSet.getString("driver_Birthdate"));
                 System.out.println(resultSet.getString("driver_FName"));
                 System.out.println(resultSet.getString("driver_MName"));
                 System.out.println(resultSet.getString("driver_LName"));
-                System.out.println(resultSet.getString("driver_Birthdate"));
-                System.out.println(resultSet.getString("driver_HouseNum"));
-                System.out.println(resultSet.getString("driver_City"));
-                System.out.println(resultSet.getString("driver_Street"));
-                System.out.println(resultSet.getString("driver_Block"));
-                System.out.println(resultSet.getString("driver_Brgy"));
                 System.out.println(resultSet.getString("car_Plate"));
-                System.out.println(resultSet.getString("driver_LicenseExpiry"));
                 System.out.println(resultSet.getString("admin_Id"));
                 System.out.println(resultSet.getString("quota_RecordID"));
 
@@ -78,7 +78,7 @@ public class driver_table {
         }
     }
 
-    public static void insert(String d_LicenseNum, int d_CNumber, String d_CPersonNum, String d_Sex, String d_FName, String d_MName, String L_Name, String d_Birthdate, int d_HouseNum, String d_City, String d_Street, String d_Block, String d_Brgy, String c_Plate, String d_LicenseExpiry, int a_Id, int q_RecordID) throws ParseException {
+    public static void insert(String d_LicenseNum, String d_LicenseExpiry, String d_CPerson, String d_CNumber, String d_HouseNum, String d_Block, String d_Brgy, String d_Street, String d_City, String d_Sex, String d_Birthdate, String d_FName, String d_MName, String d_LName, String c_Plate, int a_Id, int q_RecordID) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -91,24 +91,24 @@ public class driver_table {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO quota (driver_LicenseNum, driver_CNumber, driver_CPersonNum, driver_Sex, driver_FName, driver_MName, driver_LName, driver_Birthdate, driver_HouseNum, driver_City, driver_Street, driver_Block, driver_Brgy, car_Plate, driver_LicenseExpiry, admin_Id, quota_RecordID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO driver (driver_LicenseNum, driver_LicenseExpiry, driver_CPerson, driver_CNumber, driver_HouseNum, driver_Block, driver_Brgy, driver_Street, driver_City, driver_Sex, driver_Birthdate, driver_FName, driver_MName, driver_LName, car_Plate, admin_Id, quota_RecordID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setString(1, d_LicenseNum);
-            preparedStatement.setInt(2, d_CNumber);
-            preparedStatement.setString(3, d_CPersonNum);
-            preparedStatement.setString(4, d_Sex);
-            preparedStatement.setString(5, d_FName);
-            preparedStatement.setString(6, d_MName);
-            preparedStatement.setString(7, L_Name);
-            preparedStatement.setTimestamp(8, new java.sql.Timestamp(dateFormat.parse(d_Birthdate).getTime()));
-            preparedStatement.setInt(9, d_HouseNum);
-            preparedStatement.setString(10, d_City);
-            preparedStatement.setString(11, d_Street);
-            preparedStatement.setString(12, d_Block);
-            preparedStatement.setString(13, d_Brgy);
-            preparedStatement.setString(14, c_Plate);
-            preparedStatement.setTimestamp(15, new java.sql.Timestamp(dateFormat.parse(d_LicenseExpiry).getTime()));
+            preparedStatement.setTimestamp(2, new java.sql.Timestamp(dateFormat.parse(d_LicenseExpiry).getTime()));
+            preparedStatement.setString(3, d_CPerson);
+            preparedStatement.setString(4, d_CNumber);
+            preparedStatement.setString(5, d_HouseNum);
+            preparedStatement.setString(6, d_Block);
+            preparedStatement.setString(7, d_Brgy);
+            preparedStatement.setString(8, d_Street);
+            preparedStatement.setString(9, d_City);
+            preparedStatement.setString(10, d_Sex);
+            preparedStatement.setTimestamp(11, new java.sql.Timestamp(dateFormat.parse(d_Birthdate).getTime()));
+            preparedStatement.setString(12, d_FName);
+            preparedStatement.setString(13, d_MName);
+            preparedStatement.setString(14, d_LName);
+            preparedStatement.setString(15, c_Plate);
             preparedStatement.setInt(16, a_Id);
             preparedStatement.setInt(17, q_RecordID);
 
