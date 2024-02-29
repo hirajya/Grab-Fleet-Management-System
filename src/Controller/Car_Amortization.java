@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.ResourceBundle;
 import java.sql.*;
+import javafx.scene.control.TextField;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +20,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -52,6 +55,9 @@ public class Car_Amortization implements Initializable {
     @FXML
     private ComboBox<String> filterComboBox;
 
+    @FXML
+    private TextField searchTextField;
+
     String query = null;
     Connection connection = null;
     PreparedStatement preparedStatement = null;
@@ -82,44 +88,53 @@ public class Car_Amortization implements Initializable {
     }
 
     @FXML
-private void refreshTable() {
-    try {
-        amortizationList.clear();
-
-        String selectedFilter = filterComboBox.getValue();
-
-        // Set default value to "All" if selectedFilter is null
-        if (selectedFilter == null) {
-            selectedFilter = "All";
-            filterComboBox.setValue("All");
+    private void refreshTable() {
+        try {
+            amortizationList.clear();
+    
+            String selectedFilter = filterComboBox.getValue();
+            String searchKeyword = searchTextField.getText();
+    
+            // Set default value to "All" if selectedFilter is null
+            if (selectedFilter == null) {
+                selectedFilter = "All";
+                filterComboBox.setValue("All");
+            }
+    
+            if (selectedFilter.equals("All")) {
+                query = "SELECT * FROM amortization WHERE car_Plate LIKE ?";
+            } else if (selectedFilter.equals("Paid")) {
+                query = "SELECT * FROM amortization WHERE amortization_Status = 'Paid' AND car_Plate LIKE ?";
+            } else if (selectedFilter.equals("Unpaid")) {
+                query = "SELECT * FROM amortization WHERE amortization_Status = 'Unpaid' AND car_Plate LIKE ?";
+            }
+    
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, "%" + searchKeyword + "%");
+            resultSet = preparedStatement.executeQuery();
+    
+            while (resultSet.next()) {
+                amortizationList.add(new amortization(
+                        resultSet.getInt("amortization_RecordID"),
+                        resultSet.getString("car_Plate"),
+                        resultSet.getDate("amortization_SDate"),
+                        resultSet.getDate("amortization_DDate"),
+                        resultSet.getDate("amortization_EDate"),
+                        resultSet.getInt("amortization_Payment"),
+                        resultSet.getString("amortization_Status")
+                ));
+            }
+            amortizationTable.setItems(amortizationList);
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        if (selectedFilter.equals("All")) {
-            query = "SELECT * FROM amortization";
-        } else if (selectedFilter.equals("Paid")) {
-            query = "SELECT * FROM amortization WHERE amortization_Status = 'Paid'";
-        } else if (selectedFilter.equals("Unpaid")) {
-            query = "SELECT * FROM amortization WHERE amortization_Status = 'Unpaid'";
-        }
-
-        preparedStatement = connection.prepareStatement(query);
-        resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-            amortizationList.add(new amortization(
-                    resultSet.getInt("amortization_RecordID"),
-                    resultSet.getString("car_Plate"),
-                    resultSet.getDate("amortization_SDate"),
-                    resultSet.getDate("amortization_DDate"),
-                    resultSet.getDate("amortization_EDate"),
-                    resultSet.getInt("amortization_Payment"),
-                    resultSet.getString("amortization_Status")
-            ));
-        }
-        amortizationTable.setItems(amortizationList);
-
-    } catch (SQLException e) {
-        e.printStackTrace();
+    }
+    
+    @FXML
+private void handleSearch(KeyEvent event) {
+    if (event.getCode() == KeyCode.ENTER) {
+        refreshTable();
     }
 }
 
