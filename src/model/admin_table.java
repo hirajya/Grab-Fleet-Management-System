@@ -16,7 +16,7 @@ public class admin_table {
 
     public static void main(String[] args) throws Exception {
         // connect();
-        //insert("Christian", "Quilang", "Alberto", "09278819922", "admin123", "admin123@");
+        insert("Christian Joshua", "Quilang", "Alberto","09278819922", "admin123", "admin123@");
         //updateStr(2, "admin_FName", "Rodney");
         //updateInt(2, "admin_Id", 1);
         //delete(1);
@@ -68,7 +68,7 @@ public class admin_table {
         }
     }
 
-    public static void insert(String a_FName, String a_MName, String a_LName, String a_ContactInfo, String a_username, String a_password) {
+    public static void insert( String a_FName, String a_MName, String a_LName, String a_ContactInfo, String a_username, String a_password) {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -81,6 +81,7 @@ public class admin_table {
             String sqlQuery = "INSERT INTO admin (admin_FName, admin_MName, admin_LName, admin_ContactInfo, admin_Username, admin_Password) VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
+       
             preparedStatement.setString(1, a_FName);
             preparedStatement.setString(2, a_MName);
             preparedStatement.setString(3, a_LName);
