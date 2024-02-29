@@ -88,16 +88,16 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <TableView layoutX="18.0" layoutY="150.0" prefHeight="530.0" prefWidth="854.0">
+            <TableView fx:id="quota_table" layoutX="18.0" layoutY="150.0" prefHeight="530.0" prefWidth="854.0">
               <columns>
-                <TableColumn fx:id="col_RecordId" prefWidth="61.33331298828125" text="Record ID" />
-                <TableColumn fx:id="col_LicenseNumber" prefWidth="106.0" text="License Number" />
-                  <TableColumn fx:id="col_Amount" prefWidth="81.33328247070312" text="Amount" />
-                  <TableColumn fx:id="col_PaidAmount" prefWidth="98.0" text="Paid Amount" />
-                  <TableColumn fx:id="col_Balance" prefWidth="95.33331298828125" text="Balance" />
-                  <TableColumn fx:id="col_StartDate" prefWidth="141.33331298828125" text="Start Date" />
-                  <TableColumn fx:id="col_DueDate" minWidth="0.0" prefWidth="136.666748046875" text="Due Date" />
-                  <TableColumn fx:id="col_Status" prefWidth="141.333251953125" text="Status" />
+                <TableColumn fx:id="col_RecordId" prefWidth="80.66667175292969" text="Record ID" />
+                <TableColumn fx:id="col_LicenseNumber" prefWidth="117.99996948242188" text="License Number" />
+                  <TableColumn fx:id="col_Amount" prefWidth="90.00003051757812" text="Amount" />
+                  <TableColumn fx:id="col_PaidAmount" prefWidth="98.6666259765625" text="Paid Amount" />
+                  <TableColumn fx:id="col_Balance" prefWidth="92.66668701171875" text="Balance" />
+                  <TableColumn fx:id="col_StartDate" prefWidth="130.0" text="Start Date" />
+                  <TableColumn fx:id="col_DueDate" minWidth="0.0" prefWidth="116.0" text="Due Date" />
+                  <TableColumn fx:id="col_Status" prefWidth="127.3333740234375" text="Status" />
               </columns>
             </TableView>
          </children></Pane>
