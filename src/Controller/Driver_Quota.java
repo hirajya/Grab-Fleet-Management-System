@@ -1,6 +1,9 @@
 package Controller;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
@@ -15,6 +19,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.object_model.Driver_Quota_obj;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -47,6 +52,31 @@ public class Driver_Quota {
 
     @FXML
     private TableColumn<model.object_model.Driver_Quota_obj, String> col_Status;
+
+    // public Driver_Quota() {
+    //     System.out.println("Driver_Quota Controller instance created.");
+    //     initialize(null, null);
+    // }
+
+    public void initialize() {
+        // Initialize columns
+        System.err.println("Driver Quota Controller Initialized"); // Debug statement
+        col_RecordId.setCellValueFactory(new PropertyValueFactory<>("recordId"));
+        col_LicenseNumber.setCellValueFactory(new PropertyValueFactory<>("licenseNumber"));
+        col_Amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        col_PaidAmount.setCellValueFactory(new PropertyValueFactory<>("paidAmount"));
+        col_Balance.setCellValueFactory(new PropertyValueFactory<>("balance"));
+        col_StartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        col_DueDate.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+        col_Status.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+
+        // Populate TableView with data from the database
+        List<Driver_Quota_obj> quotaData = model.quota_table.getQuotaData();
+        System.out.println("Quota Data Size: " + quotaData.size()); // Debug statement
+        quota_table.getItems().addAll(quotaData);
+    }
+
 
 
     public void GoToHome(ActionEvent event) throws IOException {

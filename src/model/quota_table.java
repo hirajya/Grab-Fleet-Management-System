@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import model.object_model.Driver_Quota_obj;
 
 
 public class quota_table {
@@ -23,6 +27,63 @@ public class quota_table {
         // delete("B0222300753");
         connect();
     }
+
+    public static List<Driver_Quota_obj> getQuotaData() {
+        List<Driver_Quota_obj> quotaList = new ArrayList<>();
+    
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+    
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+    
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, user, password);
+            statement = connection.createStatement();
+    
+            String sqlQuery = "SELECT * FROM " + tableName + "";
+            System.out.println("Connected to the database");
+    
+            resultSet = statement.executeQuery(sqlQuery);
+    
+            while (resultSet.next()) {
+                // Extract data from the result set
+                int recordId = resultSet.getInt("quota_RecordID");
+                String licenseNumber = resultSet.getString("driver_LicenseNum");
+                double amount = resultSet.getDouble("quota_Amount");
+                double paidAmount = resultSet.getDouble("quota_InputAmount");
+    
+                // Calculate balance
+                double balance = amount - paidAmount;
+    
+                String startDate = resultSet.getString("quota_SDate");
+                String dueDate = resultSet.getString("quota_DDate");
+    
+                // Determine status
+                String status = (paidAmount >= amount) ? "Paid" : "Unpaid";
+    
+                // Create Driver_Quota_obj and add it to the list
+                Driver_Quota_obj quotaObj = new Driver_Quota_obj(recordId, licenseNumber, amount, paidAmount, balance, startDate, dueDate, status);
+                quotaList.add(quotaObj);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    
+        return quotaList;
+    }
+    
 
     public static void connect(){
 
