@@ -30,36 +30,41 @@ public class quota_table {
 
     public static List<Driver_Quota_obj> getQuotaData() {
         List<Driver_Quota_obj> quotaList = new ArrayList<>();
-
+    
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
-
+    
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-
+    
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, password);
             statement = connection.createStatement();
-
+    
             String sqlQuery = "SELECT * FROM " + tableName + "";
             System.out.println("Connected to the database");
-
+    
             resultSet = statement.executeQuery(sqlQuery);
-
+    
             while (resultSet.next()) {
                 // Extract data from the result set
                 int recordId = resultSet.getInt("quota_RecordID");
                 String licenseNumber = resultSet.getString("driver_LicenseNum");
                 double amount = resultSet.getDouble("quota_Amount");
                 double paidAmount = resultSet.getDouble("quota_InputAmount");
-                double balance = resultSet.getDouble("quota_Balance");
+    
+                // Calculate balance
+                double balance = amount - paidAmount;
+    
                 String startDate = resultSet.getString("quota_SDate");
                 String dueDate = resultSet.getString("quota_DDate");
-                String status = resultSet.getString("quota_Status");
-
+    
+                // Determine status
+                String status = (paidAmount >= amount) ? "Paid" : "Unpaid";
+    
                 // Create Driver_Quota_obj and add it to the list
                 Driver_Quota_obj quotaObj = new Driver_Quota_obj(recordId, licenseNumber, amount, paidAmount, balance, startDate, dueDate, status);
                 quotaList.add(quotaObj);
@@ -75,9 +80,10 @@ public class quota_table {
                 e.printStackTrace();
             }
         }
-
+    
         return quotaList;
     }
+    
 
     public static void connect(){
 

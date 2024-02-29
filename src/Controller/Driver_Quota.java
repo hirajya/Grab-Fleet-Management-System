@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -52,8 +53,14 @@ public class Driver_Quota {
     @FXML
     private TableColumn<model.object_model.Driver_Quota_obj, String> col_Status;
 
-    public void initialize(URL url, ResourceBundle rb) {
+    // public Driver_Quota() {
+    //     System.out.println("Driver_Quota Controller instance created.");
+    //     initialize(null, null);
+    // }
+
+    public void initialize() {
         // Initialize columns
+        System.err.println("Driver Quota Controller Initialized"); // Debug statement
         col_RecordId.setCellValueFactory(new PropertyValueFactory<>("recordId"));
         col_LicenseNumber.setCellValueFactory(new PropertyValueFactory<>("licenseNumber"));
         col_Amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
@@ -63,8 +70,10 @@ public class Driver_Quota {
         col_DueDate.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         col_Status.setCellValueFactory(new PropertyValueFactory<>("status"));
 
+
         // Populate TableView with data from the database
-        List<Driver_Quota_obj> quotaData = quota_table.getQuotaData();
+        List<Driver_Quota_obj> quotaData = model.quota_table.getQuotaData();
+        System.out.println("Quota Data Size: " + quotaData.size()); // Debug statement
         quota_table.getItems().addAll(quotaData);
     }
 
