@@ -17,12 +17,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.object_model.Driver_Quota_obj;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.util.Callback;
 
 public class Driver_Quota {
 
@@ -69,6 +76,37 @@ public class Driver_Quota {
         col_StartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         col_DueDate.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         col_Status.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        // Add custom graphic to the rightmost part of the table based on the status
+        col_Status.setCellFactory(new Callback<TableColumn<Driver_Quota_obj, String>, TableCell<Driver_Quota_obj, String>>() {
+            @Override
+            public TableCell<Driver_Quota_obj, String> call(TableColumn<Driver_Quota_obj, String> param) {
+                return new TableCell<Driver_Quota_obj, String>() {
+                    final Circle circle = new Circle(8);
+
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            // Set text based on status
+                            setText(item);
+
+                            // Determine color based on status for the circle
+                            if ("Unpaid".equals(item)) {
+                                circle.setFill(Color.RED);
+                            } else {
+                                circle.setFill(Color.GREEN);
+                            }
+                            setGraphic(circle);
+                        }
+                    }
+                };
+            }
+        });
 
 
         // Populate TableView with data from the database
