@@ -130,7 +130,7 @@ public class Car_Amortization implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
 private void handleSearch(KeyEvent event) {
     if (event.getCode() == KeyCode.ENTER) {
