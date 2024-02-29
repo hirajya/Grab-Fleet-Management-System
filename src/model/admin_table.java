@@ -16,10 +16,10 @@ public class admin_table {
 
     public static void main(String[] args) throws Exception {
         // connect();
-        // insert("Michael", "Balubar", "Angelo", "09278819922", "admin123", "admin123@");
-        // updateStr(1, "admin_FName", "Rodney");
-        // updateInt(1, "admin_Id", 0);
-        // delete(1);
+        //insert("Christian", "Quilang", "Alberto", "09278819922", "admin123", "admin123@");
+        //updateStr(2, "admin_FName", "Rodney");
+        //updateInt(2, "admin_Id", 1);
+        //delete(1);
         connect();
     }
 

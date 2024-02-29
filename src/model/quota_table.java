@@ -16,7 +16,8 @@ public class quota_table {
 
     public static void main(String[] args) throws Exception {
         // connect();
-        // insert("B0222300753", 9000, 2500, "2021-10-01", "2021-10-31", false, "Michael Angelo Balubar");
+        // insert(9000, 2500, "2021-10-01", "2021-10-31", "Unpaid", "B0222300753");
+        // insert(5000, 5000, "2022-11-02", "2022-11-04", "Paid", "B0233303753");
         // updateStr("B0222300753", "driver_Name", "Rodney Lei");
         // updateInt("B0222300753", "boundary_InputAmount", 200);
         // delete("B0222300753");
