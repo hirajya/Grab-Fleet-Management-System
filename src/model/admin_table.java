@@ -108,7 +108,7 @@ public class admin_table {
     }
 
     public static void updateStr(int Id, String columnName, String newValue) {
-        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-db";
         String user = "root";
         String password = "";
     
