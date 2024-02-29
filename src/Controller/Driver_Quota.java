@@ -2,18 +2,24 @@ package Controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -60,13 +66,25 @@ public class Driver_Quota {
     @FXML
     private TableColumn<model.object_model.Driver_Quota_obj, String> col_Status;
 
-    // public Driver_Quota() {
-    //     System.out.println("Driver_Quota Controller instance created.");
-    //     initialize(null, null);
-    // }
+    @FXML
+    private ComboBox<String> statusOptions;
 
     public void initialize() {
-        // Initialize columns
+        setUpColumns();
+        setUpComboBox();
+        ObservableList<String> statusOptionsList = FXCollections.observableArrayList("All", "Paid", "Unpaid");
+        statusOptions.setItems(statusOptionsList);
+        statusOptions.setValue("All");  // Set default value
+
+        // Handle ComboBox selection changes
+        statusOptions.setOnAction(event -> filterTableByStatus());
+
+        // Populate TableView with data from the database
+        List<Driver_Quota_obj> quotaData = model.quota_table.getQuotaData();
+        quota_table.getItems().addAll(quotaData);
+    }
+
+    private void setUpColumns() {
         System.err.println("Driver Quota Controller Initialized"); // Debug statement
         col_RecordId.setCellValueFactory(new PropertyValueFactory<>("recordId"));
         col_LicenseNumber.setCellValueFactory(new PropertyValueFactory<>("licenseNumber"));
@@ -77,8 +95,11 @@ public class Driver_Quota {
         col_DueDate.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         col_Status.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        // Add custom graphic to the rightmost part of the table based on the status
-        col_Status.setCellFactory(new Callback<TableColumn<Driver_Quota_obj, String>, TableCell<Driver_Quota_obj, String>>() {
+        col_Status.setCellFactory(createStatusCellFactory());
+    }
+
+    private Callback<TableColumn<Driver_Quota_obj, String>, TableCell<Driver_Quota_obj, String>> createStatusCellFactory() {
+        return new Callback<TableColumn<Driver_Quota_obj, String>, TableCell<Driver_Quota_obj, String>>() {
             @Override
             public TableCell<Driver_Quota_obj, String> call(TableColumn<Driver_Quota_obj, String> param) {
                 return new TableCell<Driver_Quota_obj, String>() {
@@ -92,10 +113,8 @@ public class Driver_Quota {
                             setGraphic(null);
                             setText(null);
                         } else {
-                            // Set text based on status
                             setText(item);
 
-                            // Determine color based on status for the circle
                             if ("Unpaid".equals(item)) {
                                 circle.setFill(Color.RED);
                             } else {
@@ -106,14 +125,43 @@ public class Driver_Quota {
                     }
                 };
             }
-        });
+        };
+    }
 
+    private void setUpComboBox() {
+        ObservableList<String> statusOptionsList = FXCollections.observableArrayList("All", "Paid", "Unpaid");
+        statusOptions.setItems(statusOptionsList);
+        statusOptions.setValue("All");  // Default value
+        statusOptions.setOnAction(event -> filterTableByStatus());
+    }
 
-        // Populate TableView with data from the database
+    private void filterTableByStatus() {
+        String selectedStatus = statusOptions.getValue();
+    
+        // Clear existing items in the table
+        quota_table.getItems().clear();
+    
+        // Get updated data based on the selected status
+        List<Driver_Quota_obj> filteredData;
+        if ("All".equals(selectedStatus)) {
+            // Show all data
+            filteredData = model.quota_table.getQuotaData();
+        } else {
+            // Show data based on selected status
+            filteredData = model.quota_table.getQuotaDataByStatus(selectedStatus);
+        }
+    
+        // Add the filtered data to the table
+        quota_table.getItems().addAll(filteredData);
+    }
+
+    private void populateTable() {
         List<Driver_Quota_obj> quotaData = model.quota_table.getQuotaData();
-        System.out.println("Quota Data Size: " + quotaData.size()); // Debug statement
+        System.out.println("Quota Data Size: " + quotaData.size());
         quota_table.getItems().addAll(quotaData);
     }
+
+    
 
 
 
