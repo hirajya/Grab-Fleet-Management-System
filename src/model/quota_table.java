@@ -8,8 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.object_model.Driver_Quota_obj;
 
@@ -430,5 +433,97 @@ public class quota_table {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static List<String[]> getDriversWithBalance() {
+        List<String[]> driversWithBalance = new ArrayList<>();
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, user, password);
+
+            String sqlQuery = "SELECT CONCAT(driver.driver_FName, ' ', driver.driver_LName) AS full_name, driver.driver_CNumber, quota.quota_Balance FROM driver INNER JOIN quota ON driver.driver_LicenseNum = quota.driver_LicenseNum WHERE quota.quota_Balance > 0";
+            preparedStatement = connection.prepareStatement(sqlQuery);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String[] driverInfo = new String[3];
+                driverInfo[0] = resultSet.getString("full_name");
+                driverInfo[1] = resultSet.getString("driver_CNumber");
+                driverInfo[2] = resultSet.getString("quota_Balance");
+                driversWithBalance.add(driverInfo);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return driversWithBalance;
+    }
+
+    public static int getTotalPaidQuotaForCurrentMonth() {
+        int totalPaidQuota = 0;
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Establish connection
+            connection = DriverManager.getConnection(url, user, password);
+
+            // Get current month and year
+            LocalDate currentDate = LocalDate.now();
+            int currentMonth = currentDate.getMonthValue();
+            int currentYear = currentDate.getYear();
+
+            // Query to retrieve total paid quota amount for the current month
+            String sqlQuery = "SELECT SUM(quota_InputAmount) AS total_paid FROM quota " +
+                              "WHERE MONTH(quota_DDate) = ? AND YEAR(quota_DDate) = ? " +
+                              "AND quota_Status = 'Paid'";
+            
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(1, currentMonth);
+            preparedStatement.setInt(2, currentYear);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalPaidQuota = resultSet.getInt("total_paid");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close connections and resources
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return totalPaidQuota;
     }
 }

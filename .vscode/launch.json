@@ -6,6 +6,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "quota_table",
+      "request": "launch",
+      "mainClass": "model.quota_table",
+      "projectName": "Grab-Fleet-Management-System_87cfe0bc"
+    },
+    {
+      "type": "java",
+      "name": "car_table",
+      "request": "launch",
+      "mainClass": "model.car_table",
+      "projectName": "Grab-Fleet-Management-System_87cfe0bc"
+    },
+    {
+      "type": "java",
+      "name": "driver_database",
+      "request": "launch",
+      "mainClass": "model.driver_database",
+      "projectName": "Grab-Fleet-Management-System_87cfe0bc"
+    },
+    {
+      "type": "java",
       "name": "amortization_table",
       "request": "launch",
       "mainClass": "model.amortization_table",

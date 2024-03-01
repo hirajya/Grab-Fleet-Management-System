@@ -49,7 +49,7 @@
             <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#f1f8fe" height="35.0" layoutX="2.0" layoutY="-76.0" stroke="#f1f8fe" strokeType="INSIDE" width="35.0" x="17.0" y="101.0" />
             <ImageView fitHeight="19.0" fitWidth="19.0" layoutX="27.0" layoutY="33.0">
                <image>
-                  <Image url="@../../../Images/driver.png" />
+                  <Image url="@../Images/driver.png" />
                </image>
             </ImageView>
             <Text layoutX="60.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL DRIVERS">
@@ -62,7 +62,7 @@
                   <Font name="Bell MT" size="28.0" />
                </font>
             </Text>
-            <Text fill="#167efb" layoutX="59.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="39">
+            <Text fx:id="totalDrivers" fill="#167efb" layoutX="59.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="39">
                <font>
                   <Font name="Arial Bold" size="53.0" />
                </font>
@@ -106,7 +106,7 @@
                   <Font name="Bell MT" size="28.0" />
                </font>
             </Text>
-            <Text fill="#167efb" layoutX="492.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="65">
+            <Text fx:id="totalCars" fill="#167efb" layoutX="492.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="65">
                <font>
                   <Font name="Arial Bold" size="53.0" />
                </font>
@@ -143,7 +143,7 @@
                   <Font name="Bell MT" size="28.0" />
                </font>
             </Text>
-            <Text fill="RED" layoutX="707.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+            <Text fx:id="maintenanceOverdue" fill="RED" layoutX="707.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                <font>
                   <Font name="Arial Bold" size="53.0" />
                </font>
@@ -168,12 +168,12 @@
                   <Font name="Arial Bold" size="12.0" />
                </font>
             </Text>
-            <Text fill="#ffa800" layoutX="774.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+            <Text fx:id="maintenanceDueSoon" fill="#ffa800" layoutX="774.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                <font>
                   <Font name="Arial Bold" size="53.0" />
                </font>
             </Text>
-            <Text fill="#64e338" layoutX="840.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+            <Text fx:id="maintenanceUpToDate" fill="#64e338" layoutX="840.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                <font>
                   <Font name="Arial Bold" size="53.0" />
                </font>
@@ -196,7 +196,7 @@
             <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#f1f8fe" height="35.0" layoutX="571.0" layoutY="70.0" stroke="#f1f8fe" strokeType="INSIDE" width="35.0" x="17.0" y="101.0" />
             <ImageView fitHeight="19.0" fitWidth="19.0" layoutX="596.0" layoutY="179.0">
                <image>
-                  <Image url="@../../../Images/driver.png" />
+                  <Image url="@../Images/driver.png" />
                </image>
             </ImageView>
             <Text layoutX="632.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUOTA AS OF">
@@ -204,7 +204,7 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <Text layoutX="734.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FEBRUARY 27, 2024">
+            <Text fx:id="currentDate" layoutX="734.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FEBRUARY 27, 2024">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
@@ -213,10 +213,10 @@
             <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#f1f8fe" height="35.0" layoutX="570.0" layoutY="225.0" stroke="#f1f8fe" strokeType="INSIDE" width="35.0" x="17.0" y="101.0" />
             <ImageView fitHeight="19.0" fitWidth="19.0" layoutX="595.0" layoutY="334.0">
                <image>
-                  <Image url="@../../../Images/driver.png" />
+                  <Image url="@../Images/driver.png" />
                </image>
             </ImageView>
-            <Text fill="#167efb" layoutX="628.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="327,000">
+            <Text fx:id="totalPaidQuotaText" fill="#167efb" layoutX="628.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                <font>
                   <Font name="Arial Bold" size="53.0" />
                </font>
@@ -241,7 +241,7 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <Text fill="#167efb" layoutX="629.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="145,890">
+            <Text fx:id="totalPaidAmortization" fill="#167efb" layoutX="629.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                <font>
                   <Font name="Arial Bold" size="53.0" />
                </font>
@@ -260,7 +260,7 @@
             <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#f1f8fe" height="35.0" layoutX="4.0" layoutY="400.0" stroke="#f1f8fe" strokeType="INSIDE" width="35.0" x="17.0" y="101.0" />
             <ImageView fitHeight="19.0" fitWidth="19.0" layoutX="29.0" layoutY="509.0">
                <image>
-                  <Image url="@../../../Images/driver.png" />
+                  <Image url="@../Images/driver.png" />
                </image>
             </ImageView>
             <Text layoutX="62.0" layoutY="523.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DRIVER WITH BALANCE">
@@ -308,11 +308,11 @@
                </font>
             </Text>
             <Rectangle arcHeight="18.0" arcWidth="18.0" fill="WHITE" height="99.0" layoutX="435.0" layoutY="612.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="459.0" />
-            <TableView editable="true" layoutX="24.0" layoutY="546.0" prefHeight="149.0" prefWidth="392.0">
+            <TableView fx:id="driverTableView" editable="true" layoutX="24.0" layoutY="546.0" prefHeight="149.0" prefWidth="392.0">
               <columns>
-                <TableColumn editable="false" prefWidth="140.0" text="Name" />
-                <TableColumn prefWidth="130.0" text="Contact Number" />
-                  <TableColumn minWidth="15.0" prefWidth="100.0" text="Balance" />
+                <TableColumn fx:id="nameColumn" editable="false" prefWidth="140.0" text="Name" />
+                <TableColumn fx:id="contactColumn" prefWidth="130.0" text="Contact Number" />
+                  <TableColumn fx:id="balanceColumn" minWidth="15.0" prefWidth="100.0" text="Balance" />
               </columns>
             </TableView>
          </children></Pane>

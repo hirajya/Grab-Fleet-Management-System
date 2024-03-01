@@ -47,7 +47,7 @@ public class driver_database {
             while(resultSet.next()){
                 System.out.println(resultSet.getString("driver_LicenseNum"));
                 System.out.println(resultSet.getString("driver_CNumber"));
-                System.out.println(resultSet.getString("driver_CPerson"));
+                System.out.println(resultSet.getString("driver_CPersonNum"));
                 System.out.println(resultSet.getString("driver_Sex"));
                 System.out.println(resultSet.getString("driver_FName"));
                 System.out.println(resultSet.getString("driver_MName"));
@@ -77,7 +77,7 @@ public class driver_database {
         }
     }
 
-    public static void insert(String d_LicenseNum, String d_CNumber, String d_CPerson, String d_Sex, String d_FName, String d_MName, String d_LName, String d_Birthdate, int d_HouseNum, String d_City, String d_Street, String d_Block, String d_Brgy) throws ParseException {
+    public static void insert(String d_LicenseNum, String d_CNumber, String d_CPersonNum, String d_Sex, String d_FName, String d_MName, String d_LName, String d_Birthdate, int d_HouseNum, String d_City, String d_Street, String d_Block, String d_Brgy) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -95,8 +95,8 @@ public class driver_database {
 
             preparedStatement.setString(1, d_LicenseNum);
             preparedStatement.setString(2, d_CNumber);
-            preparedStatement.setString(3, d_CPerson);
-            preparedStatement.setString(4, d_CPerson);
+            preparedStatement.setString(3, d_CPersonNum);
+            preparedStatement.setString(4, d_CPersonNum);
 
 
             int rows = preparedStatement.executeUpdate();
@@ -264,5 +264,24 @@ public class driver_database {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static int countDrivers() {
+        int count = 0;
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) AS total FROM " + tableName)) {
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 }

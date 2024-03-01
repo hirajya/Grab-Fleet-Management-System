@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.driver_database;
 
 public class Notification {
 
