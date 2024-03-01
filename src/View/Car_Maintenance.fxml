@@ -136,69 +136,25 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fafafa" height="30.0" layoutX="22.0" layoutY="99.0" stroke="#101010" strokeType="INSIDE" width="96.0" />
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="WHITE" height="30.0" layoutX="128.0" layoutY="99.0" stroke="#101010" strokeType="INSIDE" width="96.0" />
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#f4f4f4" height="30.0" layoutX="232.0" layoutY="99.0" stroke="#101010" strokeType="INSIDE" width="96.0" />
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="WHITE" height="30.0" layoutX="338.0" layoutY="99.0" stroke="#101010" strokeType="INSIDE" width="147.0" />
             <Rectangle arcHeight="16.0" arcWidth="16.0" fill="WHITE" height="30.0" layoutX="493.0" layoutY="99.0" stroke="#101010" strokeType="INSIDE" width="96.0" />
-            <Text layoutX="142.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Text>
-            <Text layoutX="250.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End Date">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Text>
-            <Text layoutX="354.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monthly Due Date">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Text>
             <Text layoutX="509.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
                <font>
                   <Font name="Arial Bold" size="12.0" />
                </font>
             </Text>
-            <Text layoutX="35.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Record ID">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Text>
-            <ImageView fitHeight="15.0" fitWidth="14.0" layoutX="98.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/down.png" />
-               </image>
-            </ImageView>
             <ImageView fitHeight="15.0" fitWidth="14.0" layoutX="558.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Images/down.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="15.0" fitWidth="14.0" layoutX="203.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/datepicker.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="15.0" fitWidth="14.0" layoutX="307.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/datepicker.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="15.0" fitWidth="14.0" layoutX="462.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/datepicker.png" />
-               </image>
-            </ImageView>
             <TableView layoutX="18.0" layoutY="150.0" prefHeight="516.0" prefWidth="878.0">
                <columns>
-                  <TableColumn prefWidth="115.19998168945312" text="Record ID" />
-                  <TableColumn prefWidth="138.0" text="Car Plate" />
-                  <TableColumn minWidth="5.599945068359375" prefWidth="189.0" text="License Number" />
-                  <TableColumn minWidth="0.0" prefWidth="152.0" text="Change Oil" />
-                  <TableColumn minWidth="0.0" prefWidth="146.0" text="Change Belt" />
-                  <TableColumn minWidth="0.0" prefWidth="136.0" text="Status" />
+                  <TableColumn fx:id="RecordIDcolumn" prefWidth="115.19998168945312" text="Record ID" />
+                  <TableColumn fx:id="CarPlateColumn" prefWidth="138.0" text="Car Plate" />
+                  <TableColumn fx:id="LicenseColumn" minWidth="5.599945068359375" prefWidth="189.0" text="License Number" />
+                  <TableColumn fx:id="ChangeOilColumn" minWidth="0.0" prefWidth="152.0" text="Change Oil" />
+                  <TableColumn fx:id="ChangeBeltColumn" minWidth="0.0" prefWidth="146.0" text="Change Belt" />
+                  <TableColumn fx:id="StatusColumn" minWidth="0.0" prefWidth="136.0" text="Status" />
                </columns>
             </TableView>
          </children>
