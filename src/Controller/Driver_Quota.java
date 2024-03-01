@@ -16,9 +16,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -72,6 +75,11 @@ public class Driver_Quota {
     @FXML
     private ComboBox<String> statusOptions;
 
+    private ObservableList<Driver_Quota_obj> originalData;
+
+    @FXML
+    private TextField searchTextField;
+
     public void initialize() {
         setUpColumns();
         setUpComboBox();
@@ -82,9 +90,18 @@ public class Driver_Quota {
         // Handle ComboBox selection changes
         statusOptions.setOnAction(event -> filterTableByStatus());
 
+        // Save the original data
+        originalData = FXCollections.observableArrayList(model.quota_table.getQuotaData());
+
         // Populate TableView with data from the database
-        List<Driver_Quota_obj> quotaData = model.quota_table.getQuotaData();
-        quota_table.getItems().addAll(quotaData);
+        quota_table.getItems().addAll(originalData);
+
+        // Handle search on Enter key press
+        searchTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                filterTableByStatus();
+            }
+        });
     }
 
     private void setUpColumns() {
@@ -142,30 +159,35 @@ public class Driver_Quota {
 
     private void filterTableByStatus() {
         String selectedStatus = statusOptions.getValue();
-    
+        String searchKeyword = searchTextField.getText().toLowerCase();
+
         // Clear existing items in the table
         quota_table.getItems().clear();
-    
-        // Get updated data based on the selected status
-        List<Driver_Quota_obj> filteredData;
-        if ("All".equals(selectedStatus)) {
-            // Show all data
-            filteredData = model.quota_table.getQuotaData();
-        } else {
-            // Show data based on selected status
-            filteredData = model.quota_table.getQuotaDataByStatus(selectedStatus);
+
+        // Get updated data based on the selected status and search keyword
+        List<Driver_Quota_obj> filteredData = new ArrayList<>();
+        for (Driver_Quota_obj item : originalData) {
+            if (("All".equals(selectedStatus) || selectedStatus.equals(item.getStatus()))
+                    && (item.getDriverName().toLowerCase().contains(searchKeyword))) {
+                filteredData.add(item);
+            }
         }
-    
+
         // Add the filtered data to the table
         quota_table.getItems().addAll(filteredData);
     }
 
-    private void populateTable() {
-        List<Driver_Quota_obj> quotaData = model.quota_table.getQuotaData();
-        System.out.println("Quota Data Size: " + quotaData.size());
-        quota_table.getItems().addAll(quotaData);
+    @FXML
+    private void refreshTable() {
+        filterTableByStatus();
     }
 
+    @FXML
+    private void handleSearch(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            filterTableByStatus();
+        }
+    }
     
 
 
