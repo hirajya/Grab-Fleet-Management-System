@@ -9,6 +9,13 @@
       "name": "car_table",
       "request": "launch",
       "mainClass": "model.car_table",
+      "projectName": "Grab-Fleet-Management-System_796429a8"
+    },
+    {
+      "type": "java",
+      "name": "car_table",
+      "request": "launch",
+      "mainClass": "model.car_table",
       "projectName": "Grab-Fleet-Management-System_e1908bcb"
     },
     {
