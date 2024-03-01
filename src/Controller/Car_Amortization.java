@@ -138,12 +138,6 @@ private void handleSearch(KeyEvent event) {
     }
 }
 
-    
-
-
-
-    
-
 
     public void GoToHome(ActionEvent event) throws IOException {
 
@@ -182,6 +176,17 @@ private void handleSearch(KeyEvent event) {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/View/Driver_Accounts.fxml"));
+
+        Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+    }
+
+    public void GoToC_Amortization(ActionEvent event) throws IOException {
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/View/Car_Amortization.fxml"));
 
         Scene scene = new Scene(root);
             stage.setScene(scene);
