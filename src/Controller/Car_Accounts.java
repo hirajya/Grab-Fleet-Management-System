@@ -22,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -82,6 +83,18 @@ public class Car_Accounts implements Initializable {
 
     @FXML
     private TextField searchTextField;
+
+    @FXML
+    private Button addCarButton;
+
+    @FXML
+    private Pane addCarPane;
+
+    @FXML
+    private Pane carAccPane;
+
+    @FXML
+    private Button backButtonCarAcc;
 
     String query = null;
     Connection connection = null;
@@ -233,7 +246,15 @@ private void handleSearch(KeyEvent event) {
     
 
 
+    public void GoAddCar() {
+        carAccPane.setVisible(false);
+        addCarPane.setVisible(true);
+    }
 
+    public void GoCarAcc() {
+        carAccPane.setVisible(true);
+        addCarPane.setVisible(false);
+    }
     
 
 
