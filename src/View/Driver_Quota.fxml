@@ -35,7 +35,7 @@
       <Pane layoutX="211.0" layoutY="80.0" prefHeight="720.0" prefWidth="913.0" style="-fx-background-color: F6F6F6;">
          <children>
             <Rectangle arcHeight="18.0" arcWidth="18.0" fill="WHITE" height="30.0" layoutX="-990.0" stroke="BLACK" strokeType="INSIDE" width="56.0" x="1008.0" y="20.0" />
-            <TextField layoutX="43.0" layoutY="20.0" prefHeight="30.0" prefWidth="189.0" promptText="Search by license number" style="-fx-background-color: #FfFfFf; -fx-background-radius: 8; -fx-border-color: #000000; -fx-border-radius: 8;" styleClass="text-field-black" stylesheets="@../CSS/home.css">
+            <TextField fx:id="searchTextField" layoutX="43.0" layoutY="20.0" prefHeight="30.0" prefWidth="189.0" promptText="Search by license number" style="-fx-background-color: #FfFfFf; -fx-background-radius: 8; -fx-border-color: #000000; -fx-border-radius: 8;" styleClass="text-field-black" stylesheets="@../CSS/home.css">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>

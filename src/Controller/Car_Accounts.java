@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -18,6 +19,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 public class Car_Accounts {
+
+    @FXML
+    private Button addCarButton;
+    
+    @FXML
+    private Pane addCarPane;
+
+    public void showAddCarPane(ActionEvent event) throws IOException {
+        addCarPane.setVisible(true);
+    }
 
 
     public void GoToHome(ActionEvent event) throws IOException {
