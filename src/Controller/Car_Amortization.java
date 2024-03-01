@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -25,14 +26,20 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import model.DbConnect;
 import model.amortization;
 import model.amortization_table;
+import model.object_model.Driver_Quota_obj;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.util.Callback;
+
 
 public class Car_Amortization implements Initializable {
     @FXML
@@ -85,6 +92,40 @@ public class Car_Amortization implements Initializable {
         PaymentColumn.setCellValueFactory(new PropertyValueFactory<amortization, Integer>("amortization_Payment"));
         StatusColumn.setCellValueFactory(new PropertyValueFactory<amortization, String>("amortization_Status"));
 
+        StatusColumn.setCellFactory(createStatusCellFactory());
+
+
+    }
+
+    private Callback<TableColumn<amortization, String>, TableCell<amortization, String>> createStatusCellFactory() {
+        return new Callback<TableColumn<amortization, String>, TableCell<amortization, String>>() {
+            @Override
+            public TableCell<amortization, String> call(TableColumn<amortization, String> param) {
+                return new TableCell<amortization, String>() {
+                    final Circle circle = new Circle(8);
+
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            setText(item);
+
+                            if ("Unpaid".equals(item)) {
+                                circle.setFill(Color.web("#FB1616")); // Set to #FB1616 for Red
+                            } else {
+                                circle.setFill(Color.web("#FBC916")); // Set to #FBC916 for Green
+                            }
+                            setGraphic(circle);
+                        }
+                    }
+
+                };
+            }
+        };
     }
 
     @FXML
@@ -130,19 +171,13 @@ public class Car_Amortization implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
 private void handleSearch(KeyEvent event) {
     if (event.getCode() == KeyCode.ENTER) {
         refreshTable();
     }
 }
-
-    
-
-
-
-    
 
 
     public void GoToHome(ActionEvent event) throws IOException {
@@ -182,6 +217,17 @@ private void handleSearch(KeyEvent event) {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/View/Driver_Accounts.fxml"));
+
+        Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+    }
+
+    public void GoToC_Amortization(ActionEvent event) throws IOException {
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/View/Car_Amortization.fxml"));
 
         Scene scene = new Scene(root);
             stage.setScene(scene);
