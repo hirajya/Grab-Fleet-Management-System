@@ -93,14 +93,14 @@ public class Car_Accounts implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-       
+        loadDate();
          setupSeriesComboBox();
-            setupKindComboBox();
+           setupKindComboBox();
             setupYearComboBox();
             setupColorComboBox();
-            setupRegStatusComboBox();
-            setupAvailabilityComboBox();
-            loadDate();
+        setupRegStatusComboBox();
+           setupAvailabilityComboBox();
+           
     }
 
 
@@ -109,14 +109,14 @@ public class Car_Accounts implements Initializable {
         connection = DbConnect.getConnect();
         refreshTable();
         carplateColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Plate"));
-        CRcolumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_CR"));
-        ORcolumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_OR"));
+        CRcolumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_CRNum"));
+        ORcolumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_ORNum"));
         seriesColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Series"));
         kindColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Kind"));
-        yearColumn.setCellValueFactory(new PropertyValueFactory<car, Integer>("car_Year"));
+        yearColumn.setCellValueFactory(new PropertyValueFactory<car, Integer>("car_YearModel"));
         colorColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Color"));
-        registrationColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_RegDate"));
-        expiryColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Expiry"));
+        registrationColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Registration"));
+        expiryColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_RegExpiry"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_RegStatus"));
         availabilityColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Availability"));
 
@@ -126,109 +126,101 @@ public class Car_Accounts implements Initializable {
     
 
     @FXML
-private void refreshTable() {
-    try {
-        carList.clear();
-
-        carList.clear();
-
-        setDefaultComboBoxValue(seriesComboBox, "All");
-        setDefaultComboBoxValue(kindComboBox, "All");
-        setDefaultComboBoxValue(yearComboBox, "All");
-        setDefaultComboBoxValue(colorComboBox, "All");
-        setDefaultComboBoxValue(RegstatusComboBox, "All");
-        setDefaultComboBoxValue(AvailabilityComboBox, "All");
-
-        String selectedSeries = seriesComboBox.getValue() != null ? seriesComboBox.getValue() : "All";
-        String selectedKind = kindComboBox.getValue() != null ? kindComboBox.getValue() : "All";
-        String selectedYear = yearComboBox.getValue() != null ? yearComboBox.getValue() : "All";
-        String selectedColor = colorComboBox.getValue() != null ? colorComboBox.getValue() : "All";
-        String selectedRegStatus = RegstatusComboBox.getValue() != null ? RegstatusComboBox.getValue() : "All";
-        String selectedAvailability = AvailabilityComboBox.getValue() != null ? AvailabilityComboBox.getValue() : "All";
-       
-
-        String searchKeyword = searchTextField.getText();
-
-        // Update the query based on the selected criteria
-        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM car WHERE car_Plate LIKE ?");
-
-        if (!selectedSeries.equals("All")) {
-            queryBuilder.append(" AND car_Series LIKE ?");
+    public void refreshTable() {
+        try {
+            carList.clear();
+    
+            String selectedSeries = seriesComboBox.getValue();
+            String selectedKind = kindComboBox.getValue();
+            String selectedYearModel = yearComboBox.getValue();
+            String selectedColor = colorComboBox.getValue();
+            String selectedRegStatus = RegstatusComboBox.getValue();
+            String selectedAvailability = AvailabilityComboBox.getValue();
+            String searchKeyword = searchTextField.getText();
+    
+            StringBuilder queryBuilder = new StringBuilder("SELECT * FROM car WHERE car_Plate LIKE ?");
+    
+            if (selectedSeries != null && !selectedSeries.equals("All")) {
+                queryBuilder.append(" AND car_Series = ?");
+            }
+    
+            if (selectedKind != null && !selectedKind.equals("All")) {
+                queryBuilder.append(" AND car_Kind = ?");
+            }
+    
+            if (selectedYearModel != null && !selectedYearModel.equals("All")) {
+                queryBuilder.append(" AND car_YearModel = ?");
+            }
+    
+            if (selectedColor != null && !selectedColor.equals("All")) {
+                queryBuilder.append(" AND car_Color = ?");
+            }
+    
+            if (selectedRegStatus != null && !selectedRegStatus.equals("All")) {
+                queryBuilder.append(" AND car_RegStatus = ?");
+            }
+    
+            if (selectedAvailability != null && !selectedAvailability.equals("All")) {
+                queryBuilder.append(" AND car_Availability = ?");
+            }
+    
+            preparedStatement = connection.prepareStatement(queryBuilder.toString());
+            preparedStatement.setString(1, "%" + searchKeyword + "%");
+    
+            int parameterIndex = 2;
+    
+            if (selectedSeries != null && !selectedSeries.equals("All")) {
+                preparedStatement.setString(parameterIndex++, selectedSeries);
+            }
+    
+            if (selectedKind != null && !selectedKind.equals("All")) {
+                preparedStatement.setString(parameterIndex++, selectedKind);
+            }
+    
+            if (selectedYearModel != null && !selectedYearModel.equals("All")) {
+                preparedStatement.setString(parameterIndex++, selectedYearModel);
+            }
+    
+            if (selectedColor != null && !selectedColor.equals("All")) {
+                preparedStatement.setString(parameterIndex++, selectedColor);
+            }
+    
+            if (selectedRegStatus != null && !selectedRegStatus.equals("All")) {
+                preparedStatement.setString(parameterIndex++, selectedRegStatus);
+            }
+    
+            if (selectedAvailability != null && !selectedAvailability.equals("All")) {
+                preparedStatement.setString(parameterIndex++, selectedAvailability);
+            }
+    
+            resultSet = preparedStatement.executeQuery();
+    
+            while (resultSet.next()) {
+                carList.add(new car(
+                        resultSet.getString("car_Plate"),
+                        resultSet.getString("car_CRNum"),
+                        resultSet.getString("car_ORNum"),
+                        resultSet.getString("car_Series"),
+                        resultSet.getInt("car_YearModel"),
+                        resultSet.getString("car_Kind"),
+                        resultSet.getString("car_Color"),
+                        resultSet.getDate("car_Registration"),
+                        resultSet.getDate("car_RegExpiry"),
+                        resultSet.getString("car_RegStatus"),
+                        resultSet.getString("car_Availability")
+                ));
+            }
+            carTable.setItems(carList);
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        if (!selectedKind.equals("All")) {
-            queryBuilder.append(" AND car_Kind LIKE ?");
-        }
-
-        if (!selectedYear.equals("All")) {
-            queryBuilder.append(" AND car_Year LIKE ?");
-        }
-
-        if (!selectedColor.equals("All")) {
-            queryBuilder.append(" AND car_Color LIKE ?");
-        }
-
-        if (!selectedRegStatus.equals("All")) {
-            queryBuilder.append(" AND car_RegStatus LIKE ?");
-        }
-
-        if (!selectedAvailability.equals("All")) {
-            queryBuilder.append(" AND car_Availability LIKE ?");
-        }
-
-        preparedStatement = connection.prepareStatement(queryBuilder.toString());
-        preparedStatement.setString(1, "%" + searchKeyword + "%");
-
-        int parameterIndex = 2;
-
-        if (!selectedSeries.equals("All")) {
-            preparedStatement.setString(parameterIndex++, "%" + selectedSeries + "%");
-        }
-
-        if (!selectedKind.equals("All")) {
-            preparedStatement.setString(parameterIndex++, "%" + selectedKind + "%");
-        }
-
-        if (!selectedYear.equals("All")) {
-            preparedStatement.setString(parameterIndex++, "%" + selectedYear + "%");
-        }
-
-        if (!selectedColor.equals("All")) {
-            preparedStatement.setString(parameterIndex++, "%" + selectedColor + "%");
-        }
-
-        if (!selectedRegStatus.equals("All")) {
-            preparedStatement.setString(parameterIndex++, "%" + selectedRegStatus + "%");
-        }
-
-        if (!selectedAvailability.equals("All")) {
-            preparedStatement.setString(parameterIndex++, "%" + selectedAvailability + "%");
-        }
-
-        resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-            carList.add(new car(
-                resultSet.getString("car_Plate"),
-                resultSet.getString("car_CR"),
-                resultSet.getString("car_OR"),
-                resultSet.getString("car_Series"),
-                resultSet.getInt("car_Year"),
-                resultSet.getString("car_Kind"),
-                resultSet.getString("car_Color"),
-                resultSet.getDate("car_RegDate"),
-                resultSet.getDate("car_Expiry"),
-                resultSet.getString("car_RegStatus"),
-                resultSet.getString("car_Availability")
-            ));
-        }
-        carTable.setItems(carList);
-
-    } catch (SQLException e) {
-        e.printStackTrace();
     }
-}
+    
+    
+    
 
+        
 
 
     @FXML
