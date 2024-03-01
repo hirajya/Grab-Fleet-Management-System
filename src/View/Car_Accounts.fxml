@@ -16,7 +16,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Car_Accounts">
    <children>
-      <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grabwheels">
+      <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GrabWheels">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
@@ -35,7 +35,7 @@
       <Pane layoutX="211.0" layoutY="80.0" prefHeight="720.0" prefWidth="913.0" style="-fx-background-color: F6F6F6;">
          <children>
             <Rectangle arcHeight="18.0" arcWidth="18.0" fill="WHITE" height="30.0" layoutX="-990.0" stroke="BLACK" strokeType="INSIDE" width="56.0" x="1008.0" y="20.0" />
-            <TextField layoutX="43.0" layoutY="20.0" prefHeight="30.0" prefWidth="189.0" promptText="Search by car plate" style="-fx-background-color: #FfFfFf; -fx-background-radius: 8; -fx-border-color: #000000; -fx-border-radius: 8;" styleClass="text-field-black" stylesheets="@../CSS/home.css">
+            <TextField fx:id="searchTextField" layoutX="43.0" layoutY="20.0" onKeyReleased="#handleSearch" prefHeight="30.0" prefWidth="189.0" promptText="Search by car plate" style="-fx-background-color: #FfFfFf; -fx-background-radius: 8; -fx-border-color: #000000; -fx-border-radius: 8;" styleClass="text-field-black" stylesheets="@../CSS/home.css">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
@@ -79,18 +79,37 @@
                   <Image url="@../Images/delete.png" />
                </image>
             </ImageView>
-            <TableView layoutX="18.0" layoutY="150.0" prefHeight="530.0" prefWidth="867.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
-            </TableView>
-            <Text layoutX="18.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter by:">
+            <Text layoutX="-34.0" layoutY="-21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter by:" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="15.0" />
+                  <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <ComboBox fx:id="statusOptions" layoutX="18.0" layoutY="101.0" prefWidth="150.0" promptText="Status" />
+            <ComboBox fx:id="seriesComboBox" layoutX="22.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="90.0" promptText="Series" />
+            <TableView fx:id="carTable" layoutX="22.0" layoutY="145.0" prefHeight="535.0" prefWidth="866.0">
+              <columns>
+                <TableColumn fx:id="carplateColumn" prefWidth="87.19999694824219" text="Car Plate" />
+                <TableColumn fx:id="CRcolumn" prefWidth="79.99996948242188" text="CR Number" />
+                  <TableColumn fx:id="ORcolumn" prefWidth="83.99993896484375" text="OR Number" />
+                  <TableColumn fx:id="seriesColumn" prefWidth="78.39996337890625" text="Series" />
+                  <TableColumn fx:id="kindColumn" prefWidth="67.20001220703125" text="Kind" />
+                  <TableColumn fx:id="yearColumn" prefWidth="74.4000244140625" text="Year Model" />
+                  <TableColumn fx:id="colorColumn" prefWidth="70.39996337890625" text="Color" />
+                  <TableColumn fx:id="registrationColumn" prefWidth="90.39996337890625" text="Registration" />
+                  <TableColumn fx:id="expiryColumn" minWidth="8.79998779296875" prefWidth="115.99993896484375" text="Registation Expiry" />
+                  <TableColumn fx:id="statusColumn" minWidth="0.0" prefWidth="119.199951171875" text="Registration Status" />
+                  <TableColumn fx:id="availabilityColumn" prefWidth="79.199951171875" text="Availability" />
+              </columns>
+            </TableView>
+            <Text layoutX="-34.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort by:" x="56.0" y="109.0">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="kindComboBox" layoutX="120.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="90.0" promptText="Kind" />
+            <ComboBox fx:id="yearComboBox" layoutX="219.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="109.0" promptText="Year Model" />
+            <ComboBox fx:id="colorComboBox" layoutX="337.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="90.0" promptText="Color" />
+            <ComboBox fx:id="RegstatusComboBox" layoutX="436.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="153.0" promptText="Registration Status" />
+            <ComboBox fx:id="AvailabilityComboBox" layoutX="598.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="109.0" promptText="Availability" />
          </children></Pane>
       <ImageView fitHeight="19.0" fitWidth="19.0" layoutY="-8.0" x="24.0" y="160.0">
          <image>
@@ -163,9 +182,9 @@
             <Image url="@../Images/dash1.png" />
          </image>
       </ImageView>
-      <Button layoutX="172.0" layoutY="259.0" mnemonicParsing="false" onAction="#GoToC_Amortization" prefHeight="25.0" prefWidth="30.0" text="Button" />
-      <Button layoutX="172.0" layoutY="225.0" mnemonicParsing="false" onAction="#GoToC_Maintenance" prefHeight="25.0" prefWidth="30.0" text="Button" />
-      <Button layoutX="172.0" layoutY="98.0" mnemonicParsing="false" onAction="#GoToHome" prefHeight="25.0" prefWidth="30.0" text="Button" />
-      <Button layoutX="172.0" layoutY="311.0" mnemonicParsing="false" onAction="#GoToD_Accounts" prefHeight="25.0" prefWidth="30.0" text="Button" />
+      <Button layoutX="48.0" layoutY="260.0" mnemonicParsing="false" onAction="#GoToC_Amortization" opacity="0.0" prefHeight="25.0" prefWidth="90.0" text="Button" />
+      <Button layoutX="49.0" layoutY="225.0" mnemonicParsing="false" onAction="#GoToC_Maintenance" opacity="0.0" prefHeight="25.0" prefWidth="90.0" text="Button" />
+      <Button layoutX="13.0" layoutY="102.0" mnemonicParsing="false" onAction="#GoToHome" opacity="0.0" prefHeight="25.0" prefWidth="119.0" text="Button" />
+      <Button layoutX="22.0" layoutY="311.0" mnemonicParsing="false" onAction="#GoToD_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="98.0" text="Button" />
    </children>
 </Pane>

@@ -31,7 +31,7 @@
             <Font name="Arial Bold" size="24.0" />
          </font>
       </Text>
-      <Pane layoutX="199.0" layoutY="80.0" prefHeight="720.0" prefWidth="913.0" style="-fx-background-color: F6F6F6;">
+      <Pane layoutX="199.0" layoutY="80.0" prefHeight="720.0" prefWidth="926.0" style="-fx-background-color: F6F6F6;">
          <children>
             <Rectangle arcHeight="18.0" arcWidth="18.0" fill="WHITE" height="30.0" layoutX="-990.0" stroke="BLACK" strokeType="INSIDE" width="56.0" x="1008.0" y="20.0" />
             <TextField fx:id="searchTextField" layoutX="43.0" layoutY="20.0" onKeyReleased="#handleSearch" prefHeight="30.0" prefWidth="189.0" promptText="Search by car plate" style="-fx-background-color: #FfFfFf; -fx-background-radius: 8; -fx-border-color: #000000; -fx-border-radius: 8;" styleClass="text-field-black" stylesheets="@../CSS/home.css">
@@ -72,7 +72,7 @@
                   <TableColumn fx:id="StatusColumn" prefWidth="125.5999755859375" text="Status" />
               </columns>
             </TableView>
-            <ComboBox fx:id="filterComboBox" layoutX="22.0" layoutY="94.0" onAction="#handleFilterChange" prefWidth="150.0" />
+            <ComboBox fx:id="filterComboBox" layoutX="19.0" layoutY="94.0" onAction="#handleFilterChange" prefWidth="150.0" />
             <Text layoutX="-36.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort by:" x="56.0" y="109.0">
                <font>
                   <Font name="Arial Bold" size="14.0" />
@@ -155,5 +155,6 @@
       <Button layoutX="48.0" layoutY="191.0" mnemonicParsing="false" onAction="#GoToC_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="96.0" text="Button" />
       <Button layoutX="18.0" layoutY="102.0" mnemonicParsing="false" onAction="#GoToHome" opacity="0.0" prefHeight="25.0" prefWidth="120.0" text="Button" />
       <Button layoutX="16.0" layoutY="310.0" mnemonicParsing="false" onAction="#GoToD_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="113.0" text="Button" />
+      <Pane layoutX="199.0" layoutY="81.0" prefHeight="720.0" prefWidth="926.0" style="-fx-background-color: F6F6F6;" />
    </children>
 </Pane>
