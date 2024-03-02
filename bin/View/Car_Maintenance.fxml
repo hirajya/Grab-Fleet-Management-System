@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -136,27 +137,18 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="WHITE" height="30.0" layoutX="493.0" layoutY="99.0" stroke="#101010" strokeType="INSIDE" width="96.0" />
-            <Text layoutX="509.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Text>
-            <ImageView fitHeight="15.0" fitWidth="14.0" layoutX="558.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/down.png" />
-               </image>
-            </ImageView>
             <TableView layoutX="18.0" layoutY="150.0" prefHeight="516.0" prefWidth="878.0">
                <columns>
-                  <TableColumn fx:id="RecordIDcolumn" prefWidth="115.19998168945312" text="Record ID" />
-                  <TableColumn fx:id="CarPlateColumn" prefWidth="138.0" text="Car Plate" />
-                  <TableColumn fx:id="LicenseColumn" minWidth="5.599945068359375" prefWidth="189.0" text="License Number" />
-                  <TableColumn fx:id="ChangeOilColumn" minWidth="0.0" prefWidth="152.0" text="Change Oil" />
-                  <TableColumn fx:id="ChangeBeltColumn" minWidth="0.0" prefWidth="146.0" text="Change Belt" />
-                  <TableColumn fx:id="StatusColumn" minWidth="0.0" prefWidth="136.0" text="Status" />
+                  <TableColumn fx:id="RecordIDcolumn" prefWidth="99.0" text="Maintenance ID" />
+                  <TableColumn fx:id="CarSeriesColumn" prefWidth="105.0" text="Car Series" />
+                  <TableColumn fx:id="CarPlateColumn" prefWidth="127.66668701171875" text="Car Plate" />
+                  <TableColumn fx:id="LicenseColumn" minWidth="5.599945068359375" prefWidth="163.33331298828125" text="License Number" />
+                  <TableColumn fx:id="ChangeOilColumn" minWidth="0.0" prefWidth="140.66668701171875" text="Change Oil" />
+                  <TableColumn fx:id="ChangeBeltColumn" minWidth="0.0" prefWidth="133.33331298828125" text="Change Belt" />
+                  <TableColumn fx:id="StatusColumn" minWidth="0.0" prefWidth="110.0" text="Status" />
                </columns>
             </TableView>
+            <ComboBox fx:id="statusOptions" layoutX="19.0" layoutY="106.0" prefWidth="150.0" promptText="Status" />
          </children>
       </Pane>
    </children>

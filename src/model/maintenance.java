@@ -1,92 +1,98 @@
-// Purpose: Maintenance class to store maintenance information.
 package model;
-import java.sql.Date;
 
 public class maintenance {
-    int maintenance_RecordID;
-    String car_Plate;
-    Date maintenance_SDate;
-    Date maintenance_DDate;
-    Date maintenance_EDate;
-    int maintenance_Amount;
-    int maintenance_Payment;
-    String maintenance_Status;
-    
+    int recordId;
+    String driverName;
+    String licenseNumber;
+    int amount;
+    int paidAmount;
+    int balance;
+    String startDate;
+    String dueDate;
+    String status;
 
-    public maintenance(int maintenance_RecordID, String car_Plate, Date maintenance_SDate, Date maintenance_DDate, Date maintenance_EDate, int maintenance_Payment, String maintenance_Status) {
-        this.maintenance_RecordID = maintenance_RecordID;
-        this.car_Plate = car_Plate;
-        this.maintenance_SDate = maintenance_SDate;
-        this.maintenance_DDate = maintenance_DDate;
-        this.maintenance_EDate = maintenance_EDate;
-        this.maintenance_Payment = maintenance_Payment;
-        this.maintenance_Status = maintenance_Status;
-     
+    public maintenance(int recordId, String driverName, String licenseNumber, int amount, int paidAmount, int balance, String startDate, String dueDate, String status) {
+        this.recordId = recordId;
+        this.driverName = driverName;
+        this.licenseNumber = licenseNumber;
+        this.amount = amount;
+        this.paidAmount = paidAmount;
+        this.balance = balance;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
+        this.status = status;
     }
 
-    public void setMaintenance_RecordID(int maintenance_RecordID) {
-        this.maintenance_RecordID = maintenance_RecordID;
+    public int getRecordId() {
+        return recordId;
     }
 
-    public Date getMaintenance_SDate() {
-        return maintenance_SDate;
+    public void setRecordId(int recordId) {
+        this.recordId = recordId;
     }
 
-    public void setMaintenance_SDate(Date maintenance_SDate) {
-        this.maintenance_SDate = maintenance_SDate;
+    public String getLicenseNumber() {
+        return licenseNumber;
     }
 
-    public Date getMaintenance_DDate() {
-        return maintenance_DDate;
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
     }
 
-    public void setMaintenance_DDate(Date maintenance_DDate) {
-        this.maintenance_DDate = maintenance_DDate;
-    }
-    
-    public Date getMaintenance_EDate() {
-        return maintenance_EDate;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setMaintenance_EDate(Date maintenance_EDate) {
-        this.maintenance_EDate = maintenance_EDate;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
-    public int getMaintenance_Amount() {
-        return maintenance_Amount;
+    public int getPaidAmount() {
+        return paidAmount;
     }
 
-    public void setMaintenance_Amount(int maintenance_Amount) {
-        this.maintenance_Amount = maintenance_Amount;
+    public void setPaidAmount(int paidAmount) {
+        this.paidAmount = paidAmount;
     }
 
-    public int getMaintenance_Payment() {
-        return maintenance_Payment;
+    public int getBalance() {
+        return balance;
     }
 
-    public void setMaintenance_Payment(int maintenance_Payment) {
-        this.maintenance_Payment = maintenance_Payment;
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
-    public String getCar_Plate() {
-        return car_Plate;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setCar_Plate(String car_Plate) {
-        this.car_Plate = car_Plate;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public String getMaintenance_Status() {
-        return maintenance_Status;
+    public String getDueDate() {
+        return dueDate;
     }
 
-    public void setMaintenance_Status(String maintenance_Status) {
-        this.maintenance_Status = maintenance_Status;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
-    public int getMaintenance_RecordID() {
-        return maintenance_RecordID;
+    public String getStatus() {
+        return status;
     }
 
-    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
+
 }

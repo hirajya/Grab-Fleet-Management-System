@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+//import model.object_model.Driver_Quota_obj;
 
 
 public class maintenance_table {
@@ -16,12 +20,176 @@ public class maintenance_table {
 
     public static void main(String[] args) throws Exception {
         // connect();
-        // insert("B0222300753", 9000, 2500, "2021-10-01", "2021-10-31", false, "Michael Angelo Balubar");
-        // updateStr("B0222300753", "driver_Name", "Rodney Lei");
-        // updateInt("B0222300753", "boundary_InputAmount", 200);
-        // delete("B0222300753");
-        connect();
+        // insert(9000, 2500, "2021-10-01", "2021-10-31", "B0222300753");
+        // insert(5000, 5000, "2022-11-02", "2022-11-04", "B0233303753");
+        // insert(5000, 3000, "2022-11-02", "2024-11-04", "B0211103753");
+        insert(5000, 2000, "2022-11-02", "2023-09-04", "B0111103753");
+
+
+        // // updateStr("B0222300753", "driver_Name", "Rodney Lei");
+        // // updateInt("B0222300753", "boundary_InputAmount", 200);
+        // // delete("B0222300753");
+        // connect();
+        System.out.println(getName("B0222300753"));
     }
+
+    public static List<maintenance> getMaintenanceData() {
+        List<maintenance> maintenanceList = new ArrayList<>();
+    
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+    
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+    
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, user, password);
+            statement = connection.createStatement();
+    
+            String sqlQuery = "SELECT * FROM " + tableName + "";
+            System.out.println("Connected to the database");
+    
+            resultSet = statement.executeQuery(sqlQuery);
+    
+            while (resultSet.next()) {
+                // Extract data from the result set
+                int recordId = resultSet.getInt("maintenance_RecordID");
+                String licenseNumber = resultSet.getString("driver_LicenseNum");
+                int amount = resultSet.getInt("maintenance_Amount");
+                int paidAmount = resultSet.getInt("maintenance_InputAmount");
+
+                // Calculate balance
+                int balance = amount - paidAmount;
+
+                String startDate = resultSet.getString("maintenance_SDate");
+                String dueDate = resultSet.getString("maintenance_DDate");
+
+                // Determine status
+                String status = (paidAmount >= amount) ? "Paid" : "Unpaid";
+
+                String dName = getName(licenseNumber);
+
+                // Create maintenance object and add it to the list
+                maintenance maintenanceObj = new maintenance(recordId, dName, licenseNumber, amount, paidAmount, balance, startDate, dueDate, status);
+                maintenanceList.add(maintenanceObj);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    
+        return maintenanceList;
+    }
+
+    public static List<maintenance> getMaintenanceDataByStatus(String status) {
+        List<maintenance> maintenanceList = new ArrayList<>();
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, user, password);
+
+            // Modify the SQL query to include a WHERE clause for status
+            String sqlQuery = "SELECT * FROM maintenance WHERE maintenance_Status = ?";
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1, status);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                // Extract data from the result set
+                int recordId = resultSet.getInt("maintenance_RecordID");
+                String licenseNumber = resultSet.getString("driver_LicenseNum");
+                String driverName = getName(licenseNumber);
+                int amount = resultSet.getInt("maintenance_Amount");
+                int paidAmount = resultSet.getInt("maintenance_InputAmount");
+                int balance = resultSet.getInt("maintenance_Balance");
+                String startDate = resultSet.getString("maintenance_SDate");
+                String dueDate = resultSet.getString("maintenance_DDate");
+                String maintenanceStatus = resultSet.getString("maintenance_Status");
+
+
+                // Create Driver_Maintenance_obj and add it to the list
+                maintenance maintenanceObj = new maintenance(recordId, driverName, licenseNumber, amount, paidAmount, balance, startDate, dueDate, maintenanceStatus);
+                maintenanceList.add(maintenanceObj);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return maintenanceList;
+    }
+
+    public static String getName(String licenseNumber) {
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+    
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+    
+        String dName = "";
+    
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, user, password);
+    
+            // Modify the SQL query to include a WHERE clause for status
+            String sqlQuery = "SELECT * FROM driver WHERE driver_LicenseNum = ?";
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1, licenseNumber);
+    
+            resultSet = preparedStatement.executeQuery();
+    
+            // Check if there is any result
+            if (resultSet.next()) {
+                String dFName = resultSet.getString("driver_FName");
+                String dMName = resultSet.getString("driver_MName");
+                String dLName = resultSet.getString("driver_LName");
+                dName = dFName + " " + dMName + " " + dLName;
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    
+        return dName;
+    }
+    
+    
 
     public static void connect(){
 
@@ -45,12 +213,13 @@ public class maintenance_table {
 
             while(resultSet.next()){
                 System.out.println(resultSet.getString("maintenance_RecordID"));
-                System.out.println(resultSet.getString("maintenance_ChangeOil"));
-                System.out.println(resultSet.getString("maintenance_ChangeBelt"));
-                System.out.println(resultSet.getString("maintenance_MStatus"));
-                System.out.println(resultSet.getString("car_Plate"));
+                System.out.println(resultSet.getInt("maintenance_Amount"));
+                System.out.println(resultSet.getInt("maintenance_InputAmount"));
+                System.out.println(resultSet.getString("maintenance_Balance"));
+                System.out.println(resultSet.getString("maintenance_SDate"));
+                System.out.println(resultSet.getString("maintenance_DDate"));
+                System.out.println(resultSet.getString("maintenance_Status"));
                 System.out.println(resultSet.getString("driver_LicenseNum"));
-                
             
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -67,7 +236,7 @@ public class maintenance_table {
         }
     }
 
-    public static void insert(String m_ChangeOil, String m_ChangeBelt, String m_MStatus, String c_Plate, String d_LicenseNum) throws ParseException {
+    public static void insert(int q_Amount, int q_InputAmount, String q_SDate, String q_DDate, String d_LicenseNum) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -80,21 +249,28 @@ public class maintenance_table {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO maintenance (maintenance_ChangeOil, maintenance_ChangeBelt, maintenance_MStatus, car_Plate, driver_LicenseNum) VALUES (?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO maintenance (maintenance_Amount, maintenance_InputAmount, maintenance_Balance, maintenance_SDate, maintenance_DDate, maintenance_Status, driver_LicenseNum) VALUES (?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
-            preparedStatement.setTimestamp(1, new java.sql.Timestamp(dateFormat.parse(m_ChangeOil).getTime()));
-            preparedStatement.setTimestamp(2, new java.sql.Timestamp(dateFormat.parse(m_ChangeBelt).getTime()));
-            preparedStatement.setString(3, m_MStatus);
-            preparedStatement.setString(4, c_Plate);
-            preparedStatement.setString(5, d_LicenseNum);
+            preparedStatement.setInt(1, q_Amount);
+            preparedStatement.setInt(2, q_InputAmount);
+            preparedStatement.setInt(3, q_Amount - q_InputAmount);
+            preparedStatement.setString(4, q_SDate);
+            preparedStatement.setString(5, q_DDate);
+            if (q_InputAmount >= q_Amount) {
+                preparedStatement.setString(6, "Paid");
+            } else {
+                preparedStatement.setString(6, "Unpaid");
+            }
+            preparedStatement.setString(7, d_LicenseNum);
             
+
             int rows = preparedStatement.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("A new maintenance has been inserted");
+                System.out.println("A new boundary has been inserted");
             } else {
-                System.out.println("A new maintenance has not been inserted");
+                System.out.println("A new boundary has not been inserted");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,7 +306,7 @@ public class maintenance_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[car maintenance] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
             } else {
                 System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
             }
@@ -166,7 +342,7 @@ public class maintenance_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[car maintenance] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
             } else {
                 System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
             }
@@ -206,7 +382,7 @@ public class maintenance_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[car maintenance "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
             } else {
                 System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
             }
@@ -240,9 +416,9 @@ public class maintenance_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("Car maintenance record deleted successfully");
+                System.out.println("Car boundary record deleted successfully");
             } else {
-                System.out.println("No car maintenance record found for the given ID:" + d_LicenseNum);
+                System.out.println("No car boundary record found for the given ID:" + d_LicenseNum);
             }
         } catch (SQLException e) {
             e.printStackTrace();
