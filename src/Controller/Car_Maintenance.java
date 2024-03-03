@@ -2,6 +2,9 @@ package Controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -234,5 +237,59 @@ public class Car_Maintenance {
 
     }
 
+    public void GoToM_Update(ActionEvent event) throws IOException {
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/View/Car_Maintenance Update.fxml"));
+
+        Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+    }
+
+    @FXML
+    private Button deleteBtn;
+
+    @FXML
+    public void deleteRow(ActionEvent event) {
+        // Get the selected item from the table
+        maintenance selectedMaintenance = maintenance_table.getSelectionModel().getSelectedItem();
+        
+        if (selectedMaintenance != null) {
+            // Delete the selected item from the database
+            try {
+                // Call a method to delete the selected maintenance record from the database
+                deleteMaintenance(selectedMaintenance);
+                
+                // Remove the selected item from the table
+                maintenance_table.getItems().remove(selectedMaintenance);
+            } catch (SQLException e) {
+                // Handle any exceptions that occur during the deletion process
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void deleteMaintenance(maintenance maintenance) throws SQLException {
+        // Implement the logic to delete the maintenance record from the database
+        // You can use JDBC or any other database access method to perform the deletion
+        // Here's an example using JDBC:
+        
+        // 1. Create a connection to the database
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "username", "password");
+        
+        // 2. Create a prepared statement to delete the maintenance record
+        String sql = "DELETE FROM maintenance WHERE maintenanceId = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, maintenance.getMaintenanceId());
+        
+        // 3. Execute the delete statement
+        statement.executeUpdate();
+        
+        // 4. Close the statement and connection
+        statement.close();
+        connection.close();
+    }
 }
 

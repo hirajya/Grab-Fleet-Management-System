@@ -299,6 +299,190 @@ try {
 
 
     
+    // public static void insert(int m_CarID, String m_Description, String m_Date) throws ParseException {
+    //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+    //     String user = "root";
+    //     String password = "";
+
+    //     Connection connection = null;
+    //     PreparedStatement preparedStatement = null;
+
+    //     try {
+    //         connection = DriverManager.getConnection(url, user, password);
+
+    //         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    //         String sqlQuery = "INSERT INTO maintenance (car_ID, description, date) VALUES (?, ?, ?)";
+    //         preparedStatement = connection.prepareStatement(sqlQuery);
+
+    //         preparedStatement.setInt(1, m_CarID);
+    //         preparedStatement.setString(2, m_Description);
+    //         preparedStatement.setString(3, m_Date);
+
+    //         int rows = preparedStatement.executeUpdate();
+
+    //         if (rows > 0) {
+    //             System.out.println("A new maintenance record has been inserted");
+    //         } else {
+    //             System.out.println("A new maintenance record has not been inserted");
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (preparedStatement != null) preparedStatement.close();
+    //             if (connection != null) connection.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
+
+    // public static void updateStr(int m_ID, String columnName, String newValue) {
+    //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+    //     String user = "root";
+    //     String password = "";
+
+    //     Connection connection = null;
+    //     PreparedStatement preparedStatement = null;
+
+    //     try {
+    //         connection = DriverManager.getConnection(url, user, password);
+    //         String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE " + "maintenance_RecordID = ?";
+
+    //         preparedStatement = connection.prepareStatement(sqlQuery);
+
+    //         preparedStatement.setString(1, newValue);
+    //         preparedStatement.setInt(2, m_ID);
+
+    //         int rows = preparedStatement.executeUpdate();
+
+    //         if (rows > 0) {
+    //             System.out.println("[maintenance record] "+ columnName + " updated successfully" + " to " + newValue + " for maintenance ID: " + m_ID);
+    //         } else {
+    //             System.out.println("No record found for the given " + columnName + " for maintenance ID: " + m_ID);
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (preparedStatement != null) preparedStatement.close();
+    //             if (connection != null) connection.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
+
+    // public static void updateInt(int m_ID, String columnName, int newValue) {
+    //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+    //     String user = "root";
+    //     String password = "";
+
+    //     Connection connection = null;
+    //     PreparedStatement preparedStatement = null;
+
+    //     try {
+    //         connection = DriverManager.getConnection(url, user, password);
+    //         String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE maintenance_RecordID = ?";
+
+    //         preparedStatement = connection.prepareStatement(sqlQuery);
+
+    //         preparedStatement.setInt(1, newValue);
+    //         preparedStatement.setInt(2, m_ID);
+
+    //         int rows = preparedStatement.executeUpdate();
+
+    //         if (rows > 0) {
+    //             System.out.println("[maintenance record] "+ columnName + " updated successfully" + " to " + newValue + " for maintenance ID: " + m_ID);
+    //         } else {
+    //             System.out.println("No record found for the given " + columnName + " for maintenance ID: " + m_ID);
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (preparedStatement != null) preparedStatement.close();
+    //             if (connection != null) connection.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
+
+    // public static void updateDatetime(int m_ID, String columnName, String newValue) throws ParseException {
+    //     // new val format: yyyy-MM-dd
+    //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+    //     String user = "root";
+    //     String password = "";
+
+    //     Connection connection = null;
+    //     PreparedStatement preparedStatement = null;
+
+    //     try {
+    //         connection = DriverManager.getConnection(url, user, password);
+
+    //         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    //         String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE " + "maintenance_RecordID = ?";
+
+    //         preparedStatement = connection.prepareStatement(sqlQuery);
+
+    //         preparedStatement.setTimestamp(1, new java.sql.Timestamp(dateFormat.parse(newValue).getTime()));
+    //         preparedStatement.setInt(2, m_ID);
+
+    //         int rows = preparedStatement.executeUpdate();
+
+    //         if (rows > 0) {
+    //             System.out.println("[maintenance record] "+ columnName + " updated successfully" + " to " + newValue + " for maintenance ID: " + m_ID);
+    //         } else {
+    //             System.out.println("No record found for the given " + columnName + " for maintenance ID: " + m_ID);
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (preparedStatement != null) preparedStatement.close();
+    //             if (connection != null) connection.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
+
+    // public static void delete(int m_ID) {
+    //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+    //     String user = "root";
+    //     String password = "";
+
+    //     Connection connection = null;
+    //     PreparedStatement preparedStatement = null;
+
+    //     try {
+    //         connection = DriverManager.getConnection(url, user, password);
+    //         String sqlQuery = "DELETE FROM maintenance WHERE maintenance_RecordID = ?";
+    //         preparedStatement = connection.prepareStatement(sqlQuery);
+
+    //         preparedStatement.setInt(1, m_ID);
+
+    //         int rows = preparedStatement.executeUpdate();
+
+    //         if (rows > 0) {
+    //             System.out.println("Maintenance record deleted successfully");
+    //         } else {
+    //             System.out.println("No maintenance record found for the given ID:" + m_ID);
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (preparedStatement != null) preparedStatement.close();
+    //             if (connection != null) connection.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
+
     public static void insert(int m_CarID, String m_Description, String m_Date) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
@@ -309,10 +493,7 @@ try {
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-            String sqlQuery = "INSERT INTO maintenance (car_ID, description, date) VALUES (?, ?, ?)";
+            String sqlQuery = "INSERT INTO maintenance (m_CarID, m_Description, m_Date) VALUES (?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setInt(1, m_CarID);
@@ -322,9 +503,9 @@ try {
             int rows = preparedStatement.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("A new maintenance record has been inserted");
+                System.out.println("Maintenance record inserted successfully");
             } else {
-                System.out.println("A new maintenance record has not been inserted");
+                System.out.println("Failed to insert maintenance record");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -348,8 +529,7 @@ try {
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE " + "maintenance_RecordID = ?";
-
+            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE maintenance_RecordID = ?";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setString(1, newValue);
@@ -358,9 +538,9 @@ try {
             int rows = preparedStatement.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("[maintenance record] "+ columnName + " updated successfully" + " to " + newValue + " for maintenance ID: " + m_ID);
+                System.out.println("Maintenance record updated successfully");
             } else {
-                System.out.println("No record found for the given " + columnName + " for maintenance ID: " + m_ID);
+                System.out.println("No maintenance record found for the given ID:" + m_ID);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -385,7 +565,6 @@ try {
         try {
             connection = DriverManager.getConnection(url, user, password);
             String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE maintenance_RecordID = ?";
-
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setInt(1, newValue);
@@ -394,9 +573,9 @@ try {
             int rows = preparedStatement.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("[maintenance record] "+ columnName + " updated successfully" + " to " + newValue + " for maintenance ID: " + m_ID);
+                System.out.println("Maintenance record updated successfully");
             } else {
-                System.out.println("No record found for the given " + columnName + " for maintenance ID: " + m_ID);
+                System.out.println("No maintenance record found for the given ID:" + m_ID);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -411,7 +590,6 @@ try {
     }
 
     public static void updateDatetime(int m_ID, String columnName, String newValue) throws ParseException {
-        // new val format: yyyy-MM-dd
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -421,21 +599,22 @@ try {
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE " + "maintenance_RecordID = ?";
-
+            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE maintenance_RecordID = ?";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
-            preparedStatement.setTimestamp(1, new java.sql.Timestamp(dateFormat.parse(newValue).getTime()));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date parsedDate = dateFormat.parse(newValue);
+            java.sql.Date sqlDate = new java.sql.Date(parsedDate.getTime());
+
+            preparedStatement.setDate(1, sqlDate);
             preparedStatement.setInt(2, m_ID);
 
             int rows = preparedStatement.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("[maintenance record] "+ columnName + " updated successfully" + " to " + newValue + " for maintenance ID: " + m_ID);
+                System.out.println("Maintenance record updated successfully");
             } else {
-                System.out.println("No record found for the given " + columnName + " for maintenance ID: " + m_ID);
+                System.out.println("No maintenance record found for the given ID:" + m_ID);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -482,6 +661,5 @@ try {
             }
         }
     }
-
     
 }

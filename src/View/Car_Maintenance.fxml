@@ -121,13 +121,13 @@
                   <Image url="@../Images/search.png" />
                </image>
             </ImageView>
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fbc916" height="30.0" layoutX="821.0" layoutY="20.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="74.0" />
-            <Text fill="WHITE" layoutX="786.0" layoutY="-69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update" x="56.0" y="109.0">
+            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fbc916" height="30.0" layoutX="739.0" layoutY="20.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="74.0" />
+            <Text fill="WHITE" layoutX="704.0" layoutY="-69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update" x="56.0" y="109.0">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <ImageView fitHeight="11.0" fitWidth="11.0" layoutX="828.0" layoutY="29.0">
+            <ImageView fitHeight="11.0" fitWidth="11.0" layoutX="746.0" layoutY="29.0">
                <image>
                   <Image url="@../Images/update.png" />
                </image>
@@ -149,6 +149,14 @@
                </columns>
             </TableView>
             <ComboBox fx:id="statusOptions" layoutX="19.0" layoutY="106.0" prefWidth="150.0" promptText="Status" />
+            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fb1616" height="30.0" layoutX="821.0" layoutY="20.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="74.0" />
+            <Text fill="WHITE" layoutX="786.0" layoutY="-69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete" x="56.0" y="109.0">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Text>
+            <Button layoutX="742.0" layoutY="23.0" mnemonicParsing="false" onAction="#GoToM_Update" prefHeight="25.0" prefWidth="68.0" style="-fx-background-color: transparent;" />
+            <Button fx:id="deleteBtn" layoutX="825.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" style="-fx-background-color: transparent;" />
          </children>
       </Pane>
    </children>
