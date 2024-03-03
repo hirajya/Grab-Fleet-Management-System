@@ -56,7 +56,7 @@ public class maintenance_table {
     
             while (resultSet.next()) {
                 // Extract data from the result set
-                int maintenanceId = resultSet.getInt("maintenance_ID");
+                int maintenanceId = resultSet.getInt("maintenance_RecordID");
                 String carPlate = resultSet.getString("car_Plate");
                 String licenseNumber = resultSet.getString("driver_LicenseNum");
                 String changeOil = resultSet.getString("maintenance_ChangeOil");
@@ -146,7 +146,7 @@ try {
 
             while (resultSet.next()) {
                 // Extract data from the result set
-                int maintenanceId = resultSet.getInt("maintenance_ID");
+                int maintenanceId = resultSet.getInt("maintenance_RecordID");
                 String carPlate = resultSet.getString("car_Plate");
                 String licenseNumber = resultSet.getString("driver_LicenseNum");
                 String changeOil = resultSet.getString("maintenance_ChangeOil");
@@ -229,6 +229,26 @@ try {
 
     public static void connect(){
 
+        // public static void connect() {
+        //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        //     String user = "root";
+        //     String password = "";
+        
+        //     Connection connection = null;
+        
+        //     try {
+        //         connection = DriverManager.getConnection(url, user, password);
+        //         System.out.println("Connected to the database");
+        //     } catch (SQLException e) {
+        //         e.printStackTrace();
+        //     } finally {
+        //         try {
+        //             if (connection != null) connection.close();
+        //         } catch (SQLException e) {
+        //             e.printStackTrace();
+        //         }
+        //     }
+
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -248,7 +268,7 @@ try {
             resultSet = statement.executeQuery(sqlQuery);
 
             while(resultSet.next()){
-                System.out.println(resultSet.getInt("maintenance_ID"));
+                System.out.println(resultSet.getInt("maintenance_RecordID"));
                 System.out.println(resultSet.getString("car_Plate"));
                 System.out.println(resultSet.getString("driver_LicenseNum"));
                 System.out.println(resultSet.getString("maintenance_ChangeOil"));
@@ -330,7 +350,7 @@ try {
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE " + "maintenance_ID = ?";
+            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE " + "maintenance_RecordID = ?";
 
             preparedStatement = connection.prepareStatement(sqlQuery);
 
@@ -366,7 +386,7 @@ try {
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE maintenance_ID = ?";
+            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE maintenance_RecordID = ?";
 
             preparedStatement = connection.prepareStatement(sqlQuery);
 
@@ -405,7 +425,7 @@ try {
             connection = DriverManager.getConnection(url, user, password);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE " + "maintenance_ID = ?";
+            String sqlQuery = "UPDATE maintenance SET " + columnName + " = ? WHERE " + "maintenance_RecordID = ?";
 
             preparedStatement = connection.prepareStatement(sqlQuery);
 
@@ -441,7 +461,7 @@ try {
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "DELETE FROM maintenance WHERE maintenance_ID = ?";
+            String sqlQuery = "DELETE FROM maintenance WHERE maintenance_RecordID = ?";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setInt(1, m_ID);
@@ -464,4 +484,6 @@ try {
             }
         }
     }
+
+    
 }
