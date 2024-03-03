@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -22,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -62,6 +64,52 @@ public class Car_Accounts implements Initializable {
     @FXML
     private TableColumn<car, String> availabilityColumn;
 
+    @FXML
+    private TextField addPlate;
+
+    @FXML
+    private TextField addCRNum;
+
+    @FXML 
+    private TextField addORNum;
+
+    @FXML
+    private TextField addSeries;
+
+    @FXML
+    private TextField addKind;
+
+    @FXML
+    private TextField addYearModel;
+
+    @FXML 
+    private TextField addColor;
+
+    @FXML 
+    private DatePicker addCarReg;
+
+    @FXML
+    private DatePicker addCarRegExpiry;
+
+    @FXML
+    private DatePicker addCarChangeOil;
+
+    @FXML
+    private DatePicker addCarChangeBelt;
+
+    @FXML
+    private DatePicker addAmortizationSDate;
+
+    @FXML
+    private DatePicker addAmortizationEDate;
+
+    @FXML
+    private DatePicker addAmortizationDDate;
+
+    @FXML
+    private TextField addAmortizationPayment;
+
+
 
     @FXML
     private ComboBox<String> seriesComboBox;
@@ -91,7 +139,13 @@ public class Car_Accounts implements Initializable {
     private Pane addCarPane;
 
     @FXML
+    private Pane addCarPane2;
+
+    @FXML
     private Pane carAccPane;
+
+    @FXML 
+    private Pane updateCarPane;
 
     @FXML
     private Button backButtonCarAcc;
@@ -116,6 +170,71 @@ public class Car_Accounts implements Initializable {
            
     }
 
+    public void save(ActionEvent event){
+        String plate = addPlate.getText();
+        String CRNum = addCRNum.getText();
+        String ORNum = addORNum.getText();
+        String series = addSeries.getText();
+        String kind = addKind.getText();
+        int yearModel = Integer.parseInt(addYearModel.getText());
+        String color = addColor.getText();
+        String registration = addCarReg.getValue().toString();
+        String regExpiry = addCarRegExpiry.getValue().toString();
+        String changeOil = addCarChangeOil.getValue().toString();
+        String changeBelt = addCarChangeBelt.getValue().toString();
+        String amortizationSDate = addAmortizationSDate.getValue().toString();
+        String amortizationEDate = addAmortizationEDate.getValue().toString();
+        String amortizationDDate = addAmortizationDDate.getValue().toString();
+        int amortizationPayment = Integer.parseInt(addAmortizationPayment.getText());
+        
+        try (Connection connection = DbConnect.getConnect()) {
+            // Insert into car table
+            String carInsertQuery = "INSERT INTO car (car_Plate, car_CRNum, car_Series, car_Kind, car_YearModel, car_Color, car_ORNum, car_RegExpiry, car_Registration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+ 
+            try (PreparedStatement carStatement = connection.prepareStatement(carInsertQuery)) {
+                carStatement.setString(1, plate);
+                carStatement.setString(2, CRNum);
+                carStatement.setString(3, series);
+                carStatement.setString(4, kind);
+                carStatement.setInt(5, yearModel);
+                carStatement.setString(6, color);
+                carStatement.setString(7, ORNum);
+                carStatement.setDate(8, java.sql.Date.valueOf(regExpiry));
+                carStatement.setDate(9, java.sql.Date.valueOf(registration));
+             
+                carStatement.executeUpdate();
+            }
+        
+            // Insert into maintenance table
+            String maintenanceInsertQuery = "INSERT INTO maintenance (maintenance_ChangeOil, maintenance_ChangeBelt, car_Plate) VALUES (?, ?, ?)";
+            try (PreparedStatement maintenanceStatement = connection.prepareStatement(maintenanceInsertQuery)) {
+                maintenanceStatement.setDate(1, java.sql.Date.valueOf(changeOil));
+                maintenanceStatement.setDate(2, java.sql.Date.valueOf(changeBelt));
+                maintenanceStatement.setString(3, plate);
+                maintenanceStatement.executeUpdate();
+            }
+        
+            // Insert into amortization table
+            String amortizationInsertQuery = "INSERT INTO amortization (amortization_SDate, amortization_DDate, amortization_EDate, amortization_Payment, car_Plate) " +
+                                              "VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement amortizationStatement = connection.prepareStatement(amortizationInsertQuery)) {
+                amortizationStatement.setDate(1, java.sql.Date.valueOf(amortizationSDate));
+                amortizationStatement.setDate(2, java.sql.Date.valueOf(amortizationDDate));
+                amortizationStatement.setDate(3, java.sql.Date.valueOf(amortizationEDate));
+                amortizationStatement.setInt(4, amortizationPayment);
+                amortizationStatement.setString(5, plate);
+                amortizationStatement.executeUpdate();
+            }
+        
+        
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception, e.g., rollback the transaction
+        }
+    }
+
+   
+
 
 
     private void loadDate() {
@@ -123,17 +242,15 @@ public class Car_Accounts implements Initializable {
         refreshTable();
         carplateColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Plate"));
         CRcolumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_CRNum"));
-        ORcolumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_ORNum"));
         seriesColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Series"));
         kindColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Kind"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<car, Integer>("car_YearModel"));
         colorColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Color"));
+        ORcolumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_ORNum"));
         registrationColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Registration"));
         expiryColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_RegExpiry"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_RegStatus"));
         availabilityColumn.setCellValueFactory(new PropertyValueFactory<car, String>("car_Availability"));
-
-
     }
 
     
@@ -212,11 +329,11 @@ public class Car_Accounts implements Initializable {
                 carList.add(new car(
                         resultSet.getString("car_Plate"),
                         resultSet.getString("car_CRNum"),
-                        resultSet.getString("car_ORNum"),
                         resultSet.getString("car_Series"),
-                        resultSet.getInt("car_YearModel"),
                         resultSet.getString("car_Kind"),
+                        resultSet.getInt("car_YearModel"),
                         resultSet.getString("car_Color"),
+                        resultSet.getString("car_ORNum"),
                         resultSet.getDate("car_Registration"),
                         resultSet.getDate("car_RegExpiry"),
                         resultSet.getString("car_RegStatus"),
@@ -255,6 +372,26 @@ private void handleSearch(KeyEvent event) {
         carAccPane.setVisible(true);
         addCarPane.setVisible(false);
     }
+
+    public void GoUpdateCar(){
+        updateCarPane.setVisible(true);
+        carAccPane.setVisible(false);
+
+    }
+
+    public void GoAddCar2(){
+        addCarPane2.setVisible(true);
+        addCarPane.setVisible(false);
+        carAccPane.setVisible(false);
+    }
+
+    public void GoBackAddCar(){
+        addCarPane2.setVisible(false);
+        addCarPane.setVisible(true);
+        carAccPane.setVisible(false);
+    }
+
+    
     
 
 
