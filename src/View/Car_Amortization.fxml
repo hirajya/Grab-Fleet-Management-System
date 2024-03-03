@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -253,6 +254,13 @@
             <DatePicker fx:id="monthlyDueDatePicker" layoutX="290.0" layoutY="375.0" prefHeight="25.0" prefWidth="531.0" />
             <DatePicker fx:id="endDatePicker" layoutX="290.0" layoutY="275.0" prefHeight="25.0" prefWidth="531.0" />
             <Button fx:id="updateCarAmorButton" layoutX="632.0" layoutY="448.0" mnemonicParsing="false" onAction="#updateCarAmortization" opacity="0.0" prefHeight="25.0" prefWidth="189.0" text="Button" />
+            <Text layoutX="394.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Text>
+            <RadioButton fx:id="paidRadioButton" layoutX="556.0" layoutY="179.0" mnemonicParsing="false" text="Paid" />
+            <RadioButton fx:id="unpaidRadioButton" layoutX="667.0" layoutY="179.0" mnemonicParsing="false" text="Unpaid" />
          </children>
       </Pane>
    </children>

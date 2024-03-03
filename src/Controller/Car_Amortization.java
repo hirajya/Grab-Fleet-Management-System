@@ -9,7 +9,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
@@ -19,6 +22,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -52,6 +57,9 @@ import javafx.util.Callback;
 
 
 public class Car_Amortization implements Initializable {
+
+    @FXML
+    private RadioButton paidRadioButton, unpaidRadioButton;
 
     @FXML
     private DatePicker endDatePicker;
@@ -103,6 +111,8 @@ public class Car_Amortization implements Initializable {
     @FXML
     private Text UCarPlate, UStartDate;
 
+    private ToggleGroup statusToggleGroup = new ToggleGroup();
+
     String query = null;
     Connection connection = null;
     PreparedStatement preparedStatement = null;
@@ -115,6 +125,12 @@ public class Car_Amortization implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
        loadDate();
        setupFilterComboBox();
+
+       updateRadioButtonsBasedOnSelection();
+
+       // Add radio buttons to the toggle group
+       paidRadioButton.setToggleGroup(statusToggleGroup);
+       unpaidRadioButton.setToggleGroup(statusToggleGroup);
 
         // Set the selection mode to SINGLE to allow only one row to be selected at a time
         amortizationTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -130,6 +146,8 @@ public class Car_Amortization implements Initializable {
 
         // Configure date pickers to display dates in the format you desire
         configureDatePickers();
+
+        
     }
 
     private void printSelectedRowData(amortization selectedAmortization) {
@@ -157,10 +175,36 @@ public class Car_Amortization implements Initializable {
     }
 
     public void GoUpdateCarAmortization() {
-        updateDetails();
-        updateCarAmortizationPane.setVisible(true);
-        carAmortizationTablePane.setVisible(false);
+        try {
+            if (amortizationTable.getSelectionModel().getSelectedItem() == null) {
+                showAlert("No Selected Data", "Please select a car from the table to update.");
+                return; // Exit the method if no item is selected
+            }
+
+            updateDetails();
+            updateCarAmortizationPane.setVisible(true);
+            carAmortizationTablePane.setVisible(false);
         System.out.println("Update Car Amortization");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Error in GoUpdateCar");
+        }   
+    }
+
+    private void showErrorAlert(String message) {
+     Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+         alert.showAndWait();
+}
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private void loadDate() {
@@ -212,6 +256,16 @@ public class Car_Amortization implements Initializable {
         endDatePicker.setValue(selectedAmortization.getAmortization_EDate().toLocalDate());
         monthlyDueDatePicker.setValue(selectedAmortization.getAmortization_DDate().toLocalDate());
         paymentTextField.setText(String.valueOf(selectedAmortization.getAmortization_Payment()));
+        updateRadioButtonsBasedOnStatus(selectedAmortization.getAmortization_Status());
+
+    }
+
+    private void updateRadioButtonsBasedOnStatus(String status) {
+        if ("Paid".equals(status)) {
+            paidRadioButton.setSelected(true);
+        } else if ("Unpaid".equals(status)) {
+            unpaidRadioButton.setSelected(true);
+        }
     }
 
     @FXML
@@ -222,15 +276,37 @@ public class Car_Amortization implements Initializable {
         int newPayment = Integer.parseInt(paymentTextField.getText());
 
         // Perform the update in the database using the selected row's RecordID
-        int recordID = amortizationTable.getSelectionModel().getSelectedItem().getAmortization_RecordID();
+        amortization selectedAmortization = amortizationTable.getSelectionModel().getSelectedItem();
+        int recordID = selectedAmortization.getAmortization_RecordID();
+        
+        Toggle selectedStatus = statusToggleGroup.getSelectedToggle();
+        String selectedStatusText = null;
+
+        if (selectedStatus != null) {
+            RadioButton selectedRadioButton = (RadioButton) selectedStatus;
+            selectedStatusText = selectedRadioButton.getText();
+        }
+
+        // Fetch the previous status from the selected row
+        String previousStatus = selectedAmortization.getAmortization_Status();
+
+        // Decide the new status based on the previous value
+        String newStatus;
+        if ("Paid".equals(previousStatus)) {
+            newStatus = "Unpaid";
+        } else {
+            newStatus = "Paid";
+        }
 
         // Your update SQL query goes here
-        String updateQuery = "UPDATE amortization SET amortization_EDate = ?, amortization_DDate = ?, amortization_Payment = ? WHERE amortization_RecordID = ?";
+        String updateQuery = "UPDATE amortization SET amortization_EDate = ?, amortization_DDate = ?, "
+                + "amortization_Payment = ?, amortization_Status = ? WHERE amortization_RecordID = ?";
         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
             updateStatement.setDate(1, Date.valueOf(newEndDate));
             updateStatement.setDate(2, Date.valueOf(newMonthlyDueDate));
             updateStatement.setInt(3, newPayment);
-            updateStatement.setInt(4, recordID);
+            updateStatement.setString(4, newStatus);
+            updateStatement.setInt(5, recordID);
 
             // Execute the update
             int rowsAffected = updateStatement.executeUpdate();
@@ -247,37 +323,49 @@ public class Car_Amortization implements Initializable {
         GoCarAmortization();
     }
 
-    private Callback<TableColumn<amortization, String>, TableCell<amortization, String>> createStatusCellFactory() {
-        return new Callback<TableColumn<amortization, String>, TableCell<amortization, String>>() {
-            @Override
-            public TableCell<amortization, String> call(TableColumn<amortization, String> param) {
-                return new TableCell<amortization, String>() {
-                    final Circle circle = new Circle(8);
 
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
+        private Callback<TableColumn<amortization, String>, TableCell<amortization, String>> createStatusCellFactory() {
+            return new Callback<TableColumn<amortization, String>, TableCell<amortization, String>>() {
+                @Override
+                public TableCell<amortization, String> call(TableColumn<amortization, String> param) {
+                    return new TableCell<amortization, String>() {
+                        final Circle circle = new Circle(8);
 
-                        if (item == null || empty) {
-                            setGraphic(null);
-                            setText(null);
-                        } else {
-                            setText(item);
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
 
-                            if ("Unpaid".equals(item)) {
-                                circle.setFill(Color.web("#FB1616")); // red
+                            if (item == null || empty) {
+                                setGraphic(null);
+                                setText(null);
                             } else {
-                                circle.setFill(Color.web("#64e338")); // green
+                                setText(item);
+
+                                if ("Unpaid".equals(item)) {
+                                    circle.setFill(Color.web("#FB1616")); // red
+                                } else {
+                                    circle.setFill(Color.web("#64e338")); // green
+                                }
+                                setGraphic(circle);
                             }
-                            setGraphic(circle);
                         }
-                    }
 
-                };
+                    };
+                }
+            };
+        }
+    
+    private void updateRadioButtonsBasedOnSelection() {
+        amortization selectedAmortization = amortizationTable.getSelectionModel().getSelectedItem();
+        if (selectedAmortization != null) {
+            String status = selectedAmortization.getAmortization_Status();
+            if ("Paid".equals(status)) {
+                paidRadioButton.setSelected(true);
+            } else if ("Unpaid".equals(status)) {
+                unpaidRadioButton.setSelected(true);
             }
-        };
+        }
     }
-
     @FXML
     private void refreshTable() {
         try {
