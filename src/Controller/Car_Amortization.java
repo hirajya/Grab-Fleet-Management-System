@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,11 +24,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -42,6 +45,10 @@ import javafx.util.Callback;
 
 
 public class Car_Amortization implements Initializable {
+
+    @FXML
+    private Button backButtonCarAmortization;
+
     @FXML
     private TableView<amortization> amortizationTable;
     @FXML
@@ -65,6 +72,18 @@ public class Car_Amortization implements Initializable {
     @FXML
     private TextField searchTextField;
 
+    @FXML
+    private Pane updateCarAmortizationPane;
+
+    @FXML
+    private Pane carAmortizationTablePane;
+
+    @FXML
+    private Button updateCarAmortizationButton;
+
+    @FXML
+    private Text UCarPlate, UStartDate;
+
     String query = null;
     Connection connection = null;
     PreparedStatement preparedStatement = null;
@@ -77,9 +96,49 @@ public class Car_Amortization implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
        loadDate();
        setupFilterComboBox();
+
+        // Set the selection mode to SINGLE to allow only one row to be selected at a time
+        amortizationTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        // Add a selection listener to the table
+        amortizationTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                // Handle the selected row, you can print the data or perform any other action
+                printSelectedRowData(newSelection);
+            }
+        });
     }
 
+    private void printSelectedRowData(amortization selectedAmortization) {
+        System.out.println("Selected Row Data:");
+        System.out.println("Record ID: " + selectedAmortization.getAmortization_RecordID());
+        System.out.println("Car Plate: " + selectedAmortization.getCar_Plate());
+        System.out.println("Start Date: " + selectedAmortization.getAmortization_SDate());
+        System.out.println("Due Date: " + selectedAmortization.getAmortization_DDate());
+        System.out.println("End Date: " + selectedAmortization.getAmortization_EDate());
+        System.out.println("Payment: " + selectedAmortization.getAmortization_Payment());
+        System.out.println("Status: " + selectedAmortization.getAmortization_Status());
+    }
 
+    public void GoCarAmortization() {
+        updateCarAmortizationPane.setVisible(false);
+        carAmortizationTablePane.setVisible(true);
+    }
+
+    public void updateDetails() {
+        amortization selectedAmortization = amortizationTable.getSelectionModel().getSelectedItem();
+        if (selectedAmortization != null) {
+            UCarPlate.setText(selectedAmortization.getCar_Plate());
+            UStartDate.setText(selectedAmortization.getAmortization_SDate().toString());
+        }
+    }
+
+    public void GoUpdateCarAmortization() {
+        updateDetails();
+        updateCarAmortizationPane.setVisible(true);
+        carAmortizationTablePane.setVisible(false);
+        System.out.println("Update Car Amortization");
+    }
 
     private void loadDate() {
         connection = DbConnect.getConnect();
@@ -115,9 +174,9 @@ public class Car_Amortization implements Initializable {
                             setText(item);
 
                             if ("Unpaid".equals(item)) {
-                                circle.setFill(Color.web("#FB1616")); // Set to #FB1616 for Red
+                                circle.setFill(Color.web("#FB1616")); // red
                             } else {
-                                circle.setFill(Color.web("#FBC916")); // Set to #FBC916 for Green
+                                circle.setFill(Color.web("#64e338")); // green
                             }
                             setGraphic(circle);
                         }
