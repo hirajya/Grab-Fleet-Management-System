@@ -291,30 +291,54 @@ public class Car_Accounts implements Initializable {
 
     }
 
-    public void deleteCar(ActionEvent event){
+    public void deleteCar(ActionEvent event) {
         try {
             if (carTable.getSelectionModel().getSelectedItem() == null || carTable.getSelectionModel().getSelectedItem().getCar_Plate() == null) {
                 showAlert("No Selected Data", "Please select a car from the table to delete.");
                 return; // Exit the method if no item is selected
             }
-        
+    
             String carPlate = carTable.getSelectionModel().getSelectedItem().getCar_Plate();
             String deleteCarQuery = "DELETE FROM car WHERE car_Plate = ?";
-            try (Connection connection = DbConnect.getConnect()) {
-                try (PreparedStatement preparedStatement = connection.prepareStatement(deleteCarQuery)) {
-                    preparedStatement.setString(1, carPlate);
-                    preparedStatement.executeUpdate();
-                }
-                showSuccessAlert("Car deleted successfully");
+            String deleteAmortizationQuery = "DELETE FROM amortization WHERE car_Plate = ?";
+            String deleteMaintenanceQuery = "DELETE FROM maintenance WHERE car_Plate = ?";
+    
+            try (Connection connection = DbConnect.getConnect();
+                 PreparedStatement deleteCarStatement = connection.prepareStatement(deleteCarQuery);
+                 PreparedStatement deleteAmortizationStatement = connection.prepareStatement(deleteAmortizationQuery);
+                 PreparedStatement deleteMaintenanceStatement = connection.prepareStatement(deleteMaintenanceQuery)) {
+    
+                connection.setAutoCommit(false); // Start a transaction
+    
+                // Delete from car table
+                deleteCarStatement.setString(1, carPlate);
+                deleteCarStatement.executeUpdate();
+    
+                // Delete from amortization table
+                deleteAmortizationStatement.setString(1, carPlate);
+                deleteAmortizationStatement.executeUpdate();
+    
+                // Delete from maintenance table
+                deleteMaintenanceStatement.setString(1, carPlate);
+                deleteMaintenanceStatement.executeUpdate();
+    
+                connection.commit(); // Commit the transaction
+                connection.setAutoCommit(true); // Reset auto-commit to the default value
+    
+                showSuccessAlert("Car, Amortization, and Maintenance records deleted successfully");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showErrorAlert("Error deleting records");
             }
+    
             GoCarAccounts();
             refreshTable();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Error deleting car");
+            showErrorAlert("Error connecting to the database");
         }
     }
-
+    
     public void discardUpdate(ActionEvent event) {
         // Clear all text fields
         addPlate.clear();
