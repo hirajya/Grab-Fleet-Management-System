@@ -8,16 +8,11 @@
       "type": "java",
       "name": "maintenance_table",
       "request": "launch",
-<<<<<<< Updated upstream
       "mainClass": "model.maintenance_table",
-=======
-      "mainClass": "App",
->>>>>>> Stashed changes
       "projectName": "Grab-Fleet-Management-System_87cfe0bc"
     },
     {
       "type": "java",
-<<<<<<< Updated upstream
       "name": "quota_table",
       "request": "launch",
       "mainClass": "model.quota_table",
@@ -64,13 +59,6 @@
       "request": "launch",
       "mainClass": "model.admin_table",
       "projectName": "Grab-Fleet-Management-System_e1908bcb"
-=======
-      "name": "App",
-      "request": "launch",
-      "mainClass": "App",
-      "projectName": "Grab Fleet Management System_59852446",
-      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
->>>>>>> Stashed changes
     },
     {
       "type": "java",
