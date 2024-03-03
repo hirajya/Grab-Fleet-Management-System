@@ -203,24 +203,27 @@ public class Driver_Accounts {
     
                 try (Connection connection = DbConnect.getConnect()) {
                     // Insert into car table
-                    String driverInsertQuery = "INSERT INTO driver (driver_FName, driver_MName, driver_LName, driver_LicenseNum, driver_LicenseExpiry, driver_CNumber, driver_CPersonNum, driver_HouseNum, driver_Brgy, driver_Street, driver_Block, driver_Sex, driver_City, driver_Birthdate, car_Plate) VALUES (?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String driverInsertQuery = "INSERT INTO driver (driver_LicenseNum, driver_LicenseExpiry, driver_CPersonNum, driver_CNumber, driver_HouseNum, driver_Block, driver_Brgy, driver_Street, driver_City, driver_Sex, driver_Birthdate, driver_FName, driver_MName, driver_LName, car_Plate) VALUES (?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
                     try (PreparedStatement driverStatement = connection.prepareStatement(driverInsertQuery)) {
-                        driverStatement.setString(1, fName);
-                        driverStatement.setString(2, mName);
-                        driverStatement.setString(3, lName);
-                        driverStatement.setString(4, licenseNum);
-                        driverStatement.setDate(5, java.sql.Date.valueOf(licenseExpiry));
-                        driverStatement.setString(6, contactNum);
-                        driverStatement.setString(7, cPersonNum);
-                        driverStatement.setString(8, houseNum); // Corrected index
-                        driverStatement.setString(9, block);
-                        driverStatement.setString(10, street);
-                        driverStatement.setString(11, brgy);
-                        driverStatement.setString(12, city);
-                        driverStatement.setString(13, sex);
-                        driverStatement.setDate(14, java.sql.Date.valueOf(birthDate));
-                        driverStatement.setString(15, carPlate);
+                        driverStatement.setString(1, licenseNum);
+                        driverStatement.setString(2, licenseExpiry);
+                        driverStatement.setString(3, cPersonNum);
+                        driverStatement.setString(4, contactNum);
+                        driverStatement.setString(5, houseNum);
+                        driverStatement.setString(6, block);
+                        driverStatement.setString(7, brgy);
+                        driverStatement.setString(8, street);
+                        driverStatement.setString(9, city);
+                        driverStatement.setString(10, brgy);
+                        driverStatement.setString(11, city);
+                        driverStatement.setString(12, sex);
+                        driverStatement.setString(13, birthDate);
+                        driverStatement.setString(14, fName);
+                        driverStatement.setString(15, mName);
+                        driverStatement.setString(16, lName);
+                        driverStatement.setString(17, carPlate);
+                        
 
                         driverStatement.executeUpdate();
                     }

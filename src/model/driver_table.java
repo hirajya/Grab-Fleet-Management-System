@@ -162,20 +162,20 @@ public class driver_table {
 
             while(resultSet.next()){
                 System.out.println(resultSet.getString("driver_LicenseNum"));
-                System.out.println(resultSet.getString("driver_CNumber"));
+                System.out.println(resultSet.getString("driver_LicenseExpiry"));
                 System.out.println(resultSet.getString("driver_CPersonNum"));
+                System.out.println(resultSet.getString("driver_CNumber"));
+                System.out.println(resultSet.getString("driver_HouseNum"));
+                System.out.println(resultSet.getString("driver_Block"));
+                System.out.println(resultSet.getString("driver_Brgy"));
+                System.out.println(resultSet.getDate("driver_Street"));
+                System.out.println(resultSet.getString("driver_City"));
                 System.out.println(resultSet.getString("driver_Sex"));
+                System.out.println(resultSet.getString("driver_Birthdate"));
                 System.out.println(resultSet.getString("driver_FName"));
                 System.out.println(resultSet.getString("driver_MName"));
                 System.out.println(resultSet.getString("driver_LName"));
-                System.out.println(resultSet.getDate("driver_Birthdate"));
-                System.out.println(resultSet.getString("driver_HouseNum"));
-                System.out.println(resultSet.getString("driver_City"));
-                System.out.println(resultSet.getString("driver_Street"));
-                System.out.println(resultSet.getString("driver_Block"));
-                System.out.println(resultSet.getString("driver_Brgy"));
                 System.out.println(resultSet.getString("car_Plate"));
-                System.out.println(resultSet.getString("driver_LicenseExpiry"));
                 System.out.println(resultSet.getString("admin_Id"));
                 System.out.println(resultSet.getString("quota_RecordID"));
 
