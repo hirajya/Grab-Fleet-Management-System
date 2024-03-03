@@ -185,42 +185,41 @@ public class Car_Maintenance {
     }
 
     @FXML
-    public void deleteMaintenance() {
+    private void deleteCarMaintenance() {
         try {
-            if (maintenance_table.getSelectionModel().getSelectedItem() == null) {
-                showAlert("No Maintenance Record Selected", "Please select a maintenance record to delete");
-                return;
-            }
-
-            String confirmationText = confirmationTextField.getText().trim();
-
-            if (!"DELETE".equalsIgnoreCase(confirmationText)) {
-                showNoDeleteMsg();
-                System.out.println("Deletion cancelled. Text does not match 'DELETE'.");
-                return;
-            }
-
-            int maintenanceId = maintenance_table.getSelectionModel().getSelectedItem().getMaintenanceId();
-            String deleteQuery = "DELETE FROM maintenance WHERE maintenance_RecordID = ?";
-
-            try (Connection connection = DbConnect.getConnect()) {
-                try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
-                    preparedStatement.setInt(1, maintenanceId);
-                    preparedStatement.executeUpdate();
-                    System.out.println("Maintenance record deleted successfully");
+            maintenance selectedMaintenance = maintenance_table.getSelectionModel().getSelectedItem();
+    
+            if (selectedMaintenance != null) {
+                // Validate deletion
+                boolean isDeleteConfirmed = isDeleteText(confirmationTextField);
+    
+                if (isDeleteConfirmed) {
+                    int recordID = selectedMaintenance.getMaintenanceId();
+                    String deleteQuery = "DELETE FROM maintenance WHERE maintenance_RecordID = ?";
+    
+                    try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "root", "");
+                         PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+    
+                        deleteStatement.setInt(1, recordID);
+                        int rowsAffected = deleteStatement.executeUpdate();
+    
+                        if (rowsAffected > 0) {
+                            System.out.println("Row deleted successfully.");
+                            refreshTable();
+                            GoCarMaintenanceView();
+                        } else {
+                            System.out.println("Failed to delete row.");
+                        }
+                    }
+                } else {
+                    showNoDeleteMsg();
+                    System.out.println("Deletion cancelled. Text does not match 'DELETE'.");
                 }
-                showSuccessAlert("Car Maintenance record deleted successfully");
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-                showErrorAlert("An error occurred while deleting the maintenance record");
+            } else {
+                showErrorAlert("Please select a row to delete.");
             }
-            GoCarMaintenanceView();
-            refreshTable();
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            showErrorAlert("An error occurred while trying to delete the maintenance record");
         }
     }
 
