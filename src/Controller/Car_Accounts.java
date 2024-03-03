@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.SelectionMode;
@@ -177,6 +178,10 @@ public class Car_Accounts implements Initializable {
     @FXML
     private Pane deletePane;
 
+    @FXML
+    private ChoiceBox<String> statusCB, availabilityCB;
+
+
     String query = null;
     Connection connection = null;
     PreparedStatement preparedStatement = null;
@@ -194,6 +199,15 @@ public class Car_Accounts implements Initializable {
             // setupColorComboBox();
         setupRegStatusComboBox();
            setupAvailabilityComboBox();
+        
+           ObservableList<String> availabilityOptions = FXCollections.observableArrayList("Available", "Unavailable");
+        availabilityCB.setItems(availabilityOptions);
+
+        ObservableList<String> statusOptions = FXCollections.observableArrayList("Registered", "Expired");
+        statusCB.setItems(statusOptions);
+
+
+
 
             // Set the selection mode to SINGLE to allow only one row to be selected at a time
         carTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -257,15 +271,16 @@ public class Car_Accounts implements Initializable {
         updateColor.setText(selectedCar.getCar_Color());
         updateCarReg.setValue(selectedCar.getCar_Registration().toLocalDate());
         updateCarRegExpiry.setValue(selectedCar.getCar_RegExpiry().toLocalDate());
+
         
     }
 
-    public void updateCarAccounts(ActionEvent event){
-
+    public void updateCarAccounts(ActionEvent event) throws SQLException {
         if (carTable.getSelectionModel().getSelectedItem().getCar_Plate() == null) {
             showAlert("No Selected Data", "Please select a car from the table to update.");
             return; // Exit the method if no item is selected
         }
+    
         String newPlate = updateCarPlate.getText();
         String newCRNum = updateCRNum.getText();
         String newORNum = updateORNum.getText();
@@ -275,35 +290,43 @@ public class Car_Accounts implements Initializable {
         String newColor = updateColor.getText();
         LocalDate newReg = updateCarReg.getValue();
         LocalDate newRegExpiry = updateCarRegExpiry.getValue();
-
+    
         String carPlate = carTable.getSelectionModel().getSelectedItem().getCar_Plate();
-
+    
         String updateCarQuery = "UPDATE car SET car_Plate = ?, car_CRNum = ?, car_ORNum = ?, car_Series = ?, car_Kind = ?, car_YearModel = ?, car_Color = ?, car_Registration = ?, car_RegExpiry = ? WHERE car_Plate = ?";
-        try (Connection connection = DbConnect.getConnect()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(updateCarQuery)) {
-                preparedStatement.setString(1, newPlate);
-                preparedStatement.setString(2, newCRNum);
-                preparedStatement.setString(3, newORNum);
-                preparedStatement.setString(4, newSeries);
-                preparedStatement.setString(5, newKind);
-                preparedStatement.setInt(6, newYearModel);
-                preparedStatement.setString(7, newColor);
-                preparedStatement.setDate(8, java.sql.Date.valueOf(newReg));
-                preparedStatement.setDate(9, java.sql.Date.valueOf(newRegExpiry));
-                preparedStatement.setString(10, carPlate);
-                preparedStatement.executeUpdate();
-            }
-            showSuccessAlert("Car updated successfully");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showErrorAlert("Error updating car");
+        try (PreparedStatement preparedStatement = connection.prepareStatement(updateCarQuery)) {
+            preparedStatement.setString(1, newPlate);
+            preparedStatement.setString(2, newCRNum);
+            preparedStatement.setString(3, newORNum);
+            preparedStatement.setString(4, newSeries);
+            preparedStatement.setString(5, newKind);
+            preparedStatement.setInt(6, newYearModel);
+            preparedStatement.setString(7, newColor);
+            preparedStatement.setDate(8, java.sql.Date.valueOf(newReg));
+            preparedStatement.setDate(9, java.sql.Date.valueOf(newRegExpiry));
+            preparedStatement.setString(10, carPlate);
+
+            preparedStatement.executeUpdate();
         }
+    
+            // Update the carList with the modified data
+            carTable.getSelectionModel().getSelectedItem().setCar_Plate(newPlate);
+            carTable.getSelectionModel().getSelectedItem().setCar_CRNum(newCRNum);
+            carTable.getSelectionModel().getSelectedItem().setCar_ORNum(newORNum);
+            carTable.getSelectionModel().getSelectedItem().setCar_Series(newSeries);
+            carTable.getSelectionModel().getSelectedItem().setCar_Kind(newKind);
+            carTable.getSelectionModel().getSelectedItem().setCar_YearModel(newYearModel);
+            carTable.getSelectionModel().getSelectedItem().setCar_Color(newColor);
+            carTable.getSelectionModel().getSelectedItem().setCar_Registration(Date.valueOf(newReg));
+            carTable.getSelectionModel().getSelectedItem().setCar_RegExpiry(Date.valueOf(newRegExpiry));
+    
+            showSuccessAlert("Car updated successfully");
+        
         GoCarAccounts();
         refreshTable();
-
-
-
     }
+    
+    
     
     public void deleteCarAccs() {
         try {
@@ -427,10 +450,12 @@ public class Car_Accounts implements Initializable {
                 String amortizationEDate = addAmortizationEDate.getValue().toString();
                 String amortizationDDate = addAmortizationDDate.getValue().toString();
                 int amortizationPayment = Integer.parseInt(addAmortizationPayment.getText());
+                String status = statusCB.getValue();
+                String availability = availabilityCB.getValue();
     
                 try (Connection connection = DbConnect.getConnect()) {
                     // Insert into car table
-                    String carInsertQuery = "INSERT INTO car (car_Plate, car_CRNum, car_Series, car_Kind, car_YearModel, car_Color, car_ORNum, car_RegExpiry, car_Registration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String carInsertQuery = "INSERT INTO car (car_Plate, car_CRNum, car_Series, car_Kind, car_YearModel, car_Color, car_ORNum, car_RegExpiry, car_Registration, car_RegStatus, car_Availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
                     try (PreparedStatement carStatement = connection.prepareStatement(carInsertQuery)) {
                         carStatement.setString(1, plate);
@@ -442,6 +467,8 @@ public class Car_Accounts implements Initializable {
                         carStatement.setString(7, ORNum);
                         carStatement.setDate(8, java.sql.Date.valueOf(regExpiry));
                         carStatement.setDate(9, java.sql.Date.valueOf(registration));
+                        carStatement.setString(10, status);
+                        carStatement.setString(11, availability);
     
                         carStatement.executeUpdate();
                     }

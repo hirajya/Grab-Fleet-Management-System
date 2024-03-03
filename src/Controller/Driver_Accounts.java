@@ -29,6 +29,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -106,6 +107,10 @@ public class Driver_Accounts {
     public TableColumn<model.Driver_Accounts_obj, String> CarPlateColumn;
 
     @FXML
+    private Pane updateDriverPanes;
+
+
+    @FXML
     public TextField confirmationTextField;
 
     @FXML
@@ -113,6 +118,15 @@ public class Driver_Accounts {
 
     @FXML
     private Button deleteButtonGoPush;
+
+    @FXML
+    private TextArea DAFirstName, DAMiddleName, DALastName, DALicenseNumber, DAContactNumber, DAContactPersonNumber, DAHouseNumber, DABarangay, DABlock, DAStreet, DASex, DACity, DACarPlate;
+
+    @FXML
+    private DatePicker DABirthDate, DALicenseExpiry;
+
+    @FXML
+    private Pane updateDriver;
 
 
    
@@ -126,6 +140,7 @@ public class Driver_Accounts {
     public void initialize() { 
         deleteText.setVisible(false);
         setUpColumns();
+
         
         originalData = FXCollections.observableArrayList(model.driver_table.getDriverData());
 
@@ -136,12 +151,12 @@ public class Driver_Accounts {
         // List<Driver_Accounts_obj> driverData = model.driver_table.getDriverData();
         // driver_acc_table.getItems().addAll(driverData);
 
-        setDatePickerFormat(datePicker1);
-        setDatePickerFormat(datePicker2);
-        setDatePickerFormat(datePicker3);
-        setDatePickerFormat(datePicker4);
-        setDatePickerFormat(datePicker5);
-        setDatePickerFormat(datePicker6);
+        // setDatePickerFormat(datePicker1);
+        // setDatePickerFormat(datePicker2);
+        // setDatePickerFormat(datePicker3);
+        // setDatePickerFormat(datePicker4);
+        // setDatePickerFormat(datePicker5);
+        // setDatePickerFormat(datePicker6);
     }
 
     private void setDatePickerFormat(DatePicker datePicker) {
@@ -180,21 +195,22 @@ public class Driver_Accounts {
         }
         
     @FXML
-    public Pane addDriver, addDriver2, updateDriver, deleteDriver;
+    public Pane addDriver, addDriver2, deleteDriver;
 
-    public void showAddDriverPane(ActionEvent event) {
+    public void showAddDriverPane() {
         addDriver.setVisible(true);
     }    
 
-    public void showAddDriverPane2(ActionEvent event) {
+    public void showAddDriverPane2() {
         addDriver2.setVisible(true);
     }    
 
-    public void showUpdateDriverPane(ActionEvent event) {
+    public void showUpdateDriverPane() {
+        updateBindDetails();
         updateDriver.setVisible(true);
     }    
 
-    public void showDeleteDriverPane(ActionEvent event) {
+    public void showDeleteDriverPane() {
         deleteDriver.setVisible(true);
     }   
 
@@ -234,6 +250,191 @@ public class Driver_Accounts {
             addDriver2.setVisible(false);
         }
     }
+
+    public void updateBindDetails() {
+        Driver_Accounts_obj selectedDriver = driver_acc_table.getSelectionModel().getSelectedItem();
+        if (selectedDriver != null) {
+            DALicenseNumber.setText(selectedDriver.getDriver_LicenseNum());
+            DALicenseExpiry.setValue(selectedDriver.getDriver_LicenseExpiry().toLocalDate());
+            DAFirstName.setText(selectedDriver.getDriver_FName());
+            DAMiddleName.setText(selectedDriver.getDriver_MName());
+            DALastName.setText(selectedDriver.getDriver_LName());
+            DAContactNumber.setText(selectedDriver.getDriver_CNumber());
+            DAContactPersonNumber.setText(selectedDriver.getDriver_CPersonNum());
+            DASex.setText(selectedDriver.getDriver_Sex());
+            DABirthDate.setValue(selectedDriver.getDriver_Birthdate().toLocalDate());
+            DAHouseNumber.setText(selectedDriver.getDriver_HouseNum());
+            DABlock.setText(selectedDriver.getDriver_Block());
+            DAStreet.setText(selectedDriver.getDriver_Street());
+            DABarangay.setText(selectedDriver.getDriver_Brgy());
+            DACity.setText(selectedDriver.getDriver_City());
+            DACarPlate.setText(selectedDriver.getCar_Plate());
+
+        } 
+    }
+
+    @FXML
+    private void addDriverProfile() {
+        // Retrieve values from controls
+        LocalDate newBirthDate = DABirthDate.getValue();
+        String newLicenseNumber = DALicenseNumber.getText();
+        LocalDate newLicenseExpiry = DALicenseExpiry.getValue();
+        String newFirstName = DAFirstName.getText();
+        String newMiddleName = DAMiddleName.getText();
+        String newLastName = DALastName.getText();
+        String newContactNumber = DAContactNumber.getText();
+        String newContactPersonNumber = DAContactPersonNumber.getText();
+        String newHouseNumber = DAHouseNumber.getText();
+        String newBlock = DABlock.getText();
+        String newStreet = DAStreet.getText();
+        String newBrgy = DABarangay.getText();
+        String newCity = DACity.getText();
+        String newCarPlate = DACarPlate.getText();
+
+        // Perform the insert into the database
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            String insertQuery = "INSERT INTO driver (driver_Birthdate, driver_LicenseNum, driver_LicenseExpiry, "
+                    + "driver_FName, driver_MName, driver_LName, driver_CNumber, driver_CPersonNum, driver_HouseNum, "
+                    + "driver_Block, driver_Street, driver_Brgy, driver_City, car_Plate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                insertStatement.setDate(1, Date.valueOf(newBirthDate));
+                insertStatement.setString(2, newLicenseNumber);
+                insertStatement.setDate(3, Date.valueOf(newLicenseExpiry));
+                insertStatement.setString(4, newFirstName);
+                insertStatement.setString(5, newMiddleName);
+                insertStatement.setString(6, newLastName);
+                insertStatement.setString(7, newContactNumber);
+                insertStatement.setString(8, newContactPersonNumber);
+                insertStatement.setString(9, newHouseNumber);
+                insertStatement.setString(10, newBlock);
+                insertStatement.setString(11, newStreet);
+                insertStatement.setString(12, newBrgy);
+                insertStatement.setString(13, newCity);
+                insertStatement.setString(14, newCarPlate);
+
+                // Execute the insert
+                int rowsAffected = insertStatement.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Row inserted successfully.");
+                    // Refresh the table to reflect the changes
+                    refreshTable();
+                } else {
+                    System.out.println("Failed to insert row.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Clear input fields after successful insertion
+        clearAddDriverFields();
+    }
+
+    private void clearAddDriverFields() {
+        DALicenseNumber.clear();
+        DALicenseExpiry.setValue(null);
+        DAFirstName.clear();
+        DAMiddleName.clear();
+        DALastName.clear();
+        DAContactNumber.clear();
+        DAContactPersonNumber.clear();
+        DAHouseNumber.clear();
+        DABlock.clear();
+        DAStreet.clear();
+        DABarangay.clear();
+        DACity.clear();
+        DACarPlate.clear();
+    }
+
+
+
+    @FXML
+    private void updateDriverProfile() {
+        // Retrieve values from controls
+        LocalDate newBirthDate = DABirthDate.getValue();
+        String newLicenseNumber = DALicenseNumber.getText();
+        LocalDate newLicenseExpiry = DALicenseExpiry.getValue();
+        String newFirstName = DAFirstName.getText();
+        String newMiddleName = DAMiddleName.getText();
+        String newLastName = DALastName.getText();
+        String newContactNumber = DAContactNumber.getText();
+        String newContactPersonNumber = DAContactPersonNumber.getText();
+        String newHouseNumber = DAHouseNumber.getText();
+        String newBlock = DABlock.getText();
+        String newStreet = DAStreet.getText();
+        String newBrgy = DABarangay.getText();
+        String newCity = DACity.getText();
+        String newCarPlate = DACarPlate.getText();
+    
+        // Perform the update in the database using the selected row's LicenseNumber
+        Driver_Accounts_obj selectedDriver = driver_acc_table.getSelectionModel().getSelectedItem();
+        String licenseNumber = selectedDriver.getDriver_LicenseNum();
+    
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+    
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            // Your update SQL query goes here
+            String updateQuery = "UPDATE driver SET driver_Birthdate = ?, driver_LicenseNum = ?, "
+                    + "driver_LicenseExpiry = ?, driver_FName = ?, driver_MName = ?, driver_LName = ?, "
+                    + "driver_CNumber = ?, driver_CPersonNum = ?, driver_HouseNum = ?, driver_Block = ?, "
+                    + "driver_Street = ?, driver_Brgy = ?, driver_City = ?, car_Plate = ? WHERE driver_LicenseNum = ?";
+    
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                updateStatement.setDate(1, Date.valueOf(newBirthDate));
+                updateStatement.setString(2, newLicenseNumber);
+                updateStatement.setDate(3, Date.valueOf(newLicenseExpiry));
+                updateStatement.setString(4, newFirstName);
+                updateStatement.setString(5, newMiddleName);
+                updateStatement.setString(6, newLastName);
+                updateStatement.setString(7, newContactNumber);
+                updateStatement.setString(8, newContactPersonNumber);
+                updateStatement.setString(9, newHouseNumber);
+                updateStatement.setString(10, newBlock);
+                updateStatement.setString(11, newStreet);
+                updateStatement.setString(12, newBrgy);
+                updateStatement.setString(13, newCity);
+                updateStatement.setString(14, newCarPlate);
+                updateStatement.setString(15, licenseNumber);
+    
+                // Execute the update
+                int rowsAffected = updateStatement.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Row updated successfully.");
+                    // Refresh the table to reflect the changes
+                    refreshTable();
+                } else {
+                    System.out.println("Failed to update row.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        // Assuming you have a method to bind details, call it to update the UI
+        updateBindDetails();
+    }
+    
+
+
+    // private void bindSelectedRowData(amortization selectedAmortization) {
+    //     // Bind selected row data to the controls
+    //     endDatePicker.setValue(selectedAmortization.getAmortization_EDate().toLocalDate());
+    //     monthlyDueDatePicker.setValue(selectedAmortization.getAmortization_DDate().toLocalDate());
+    //     paymentTextField.setText(String.valueOf(selectedAmortization.getAmortization_Payment()));
+    //     updateRadioButtonsBasedOnStatus(selectedAmortization.getAmortization_Status());
+
+    // }
+
+    
+
+    
     
     public void hideUpdateDriverPane(ActionEvent event) {
         Dialog<ButtonType> dialog = new Dialog<>();
