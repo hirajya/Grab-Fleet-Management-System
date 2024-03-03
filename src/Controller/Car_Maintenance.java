@@ -5,7 +5,10 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -15,8 +18,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -25,14 +31,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
+import model.DbConnect;
 import model.maintenance;
 import model.maintenance_table;
 import model.object_model.Driver_Quota_obj;
@@ -74,40 +84,48 @@ public class Car_Maintenance {
      @FXML
      private ComboBox<String> statusOptions;
 
-     private ObservableList<maintenance> originalData;
-
     @FXML
     private TextField searchTextField;
 
+    @FXML 
+    private Pane carMaintenancePane, updateCarMaintenancePane;
 
+    @FXML
+    private Text UCarPlate, ULicenseNum;
+
+    @FXML 
+    private DatePicker updateChangeOil, updateChangeBelt;
+
+    String query = null;
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+    maintenance maintenance = null;
+
+    ObservableList<maintenance> maintenanceList = FXCollections.observableArrayList();
+    
 
     public void initialize() {
-        setUpColumns();
-        setUpComboBox();
-        ObservableList<String> statusOptionsList = FXCollections.observableArrayList("All", "Due Soon", "Up to Date", "Overdue");
-         statusOptions.setItems(statusOptionsList);
-         statusOptions.setValue("All");  // Set default value
+        loadDate();
+       setupFilterComboBox();
 
-        // // Handle ComboBox selection changes
-         statusOptions.setOnAction(event -> filterTableByStatus());
+        maintenance_table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
+        maintenance_table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                // Show the selected item in the update pane
+                printSelectedRowData(newSelection);
+                bindSelectedRowData(newSelection);
+            }
+        });
 
+        configureDatePickers();
 
-        // // Save the original data
-         originalData = FXCollections.observableArrayList(model.maintenance_table.getMaintenanceData());
-
-        // // Populate TableView with data from the database
-         maintenance_table.getItems().addAll(originalData);
-
-        // // Handle search on Enter key press
-         searchTextField.setOnKeyPressed(event -> {
-             if (event.getCode() == KeyCode.ENTER) {
-                 filterTableByStatus();
-             }
-         });
     }
 
-    public void setUpColumns() {
+    public void loadDate() {
+        connection = DbConnect.getConnect();
+        refreshTable();
         System.err.println("Car Maintenance Controller Initialized"); // Debug statement
         MaintenanceIDcolumn.setCellValueFactory(new PropertyValueFactory<>("maintenanceId"));
         CarSeriesColumn.setCellValueFactory(new PropertyValueFactory<>("carSeries"));
@@ -116,6 +134,109 @@ public class Car_Maintenance {
         ChangeOilColumn.setCellValueFactory(new PropertyValueFactory<>("changeOil"));
         ChangeBeltColumn.setCellValueFactory(new PropertyValueFactory<>("changeBelt"));
         StatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+    }
+
+    private void printSelectedRowData(maintenance selectedMaintenance){
+        System.out.println("Selected Maintenance Record:");
+        System.out.println("Maintenance ID: " + selectedMaintenance.getMaintenanceId());
+        System.out.println("Car Series: " + selectedMaintenance.getCarSeries());
+        System.out.println("Car Plate: " + selectedMaintenance.getCarPlate());
+        System.out.println("License Number: " + selectedMaintenance.getLicenseNumber());
+        System.out.println("Change Oil: " + selectedMaintenance.getChangeOil());
+        System.out.println("Change Belt: " + selectedMaintenance.getChangeBelt());
+        System.out.println("Status: " + selectedMaintenance.getStatus());
+    }
+
+    public void configureDatePickers(){
+        
+    StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
+            final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            @Override
+            public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                } else {
+                    return null;
+                }
+            }
+        };
+
+        updateChangeOil.setConverter(converter);
+        updateChangeBelt.setConverter(converter);
+    }
+
+    private void bindSelectedRowData(maintenance selectedMaintenance){
+        UCarPlate.setText(selectedMaintenance.getCarPlate());
+        ULicenseNum.setText(selectedMaintenance.getLicenseNumber());
+        updateChangeOil.setValue(LocalDate.parse(selectedMaintenance.getChangeOil()));
+        updateChangeBelt.setValue(LocalDate.parse(selectedMaintenance.getChangeBelt()));
+    }
+
+    @FXML
+    private void updateCarMaintenance(){
+        LocalDate newchangeOil = updateChangeOil.getValue();
+        LocalDate newchangeBelt = updateChangeBelt.getValue();
+
+        maintenance selectedMaintenance = maintenance_table.getSelectionModel().getSelectedItem();
+        int maintenanceId = selectedMaintenance.getMaintenanceId();
+
+        String updateQuery = "UPDATE maintenance SET changeOil = ?, changeBelt = ? WHERE maintenance_RecordID = ?";
+
+        try (Connection connection = DbConnect.getConnect()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+                preparedStatement.setString(1, newchangeOil.toString());
+                preparedStatement.setString(2, newchangeBelt.toString());
+                preparedStatement.setInt(3, maintenanceId);
+                preparedStatement.executeUpdate();
+                System.out.println("Maintenance record updated successfully");
+            }
+            showSuccessAlert("Car Maintenance record updated successfully");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showErrorAlert("An error occurred while updating the maintenance record");
+        }
+        GoCarMaintenance();
+        refreshTable();
+    }
+
+    private void GoCarMaintenance(){
+        updateCarMaintenancePane.setVisible(false);
+        carMaintenancePane.setVisible(true);
+    }
+
+    private void showSuccessAlert(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showErrorAlert(String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showAlert(String title, String content){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     public Callback<TableColumn<maintenance, String>, TableCell<maintenance, String>> createStatusCellFactory() {
@@ -151,43 +272,95 @@ public class Car_Maintenance {
         };
     }
 
-    public void setUpComboBox() {
-        ObservableList<String> statusOptionsList = FXCollections.observableArrayList("All", "Due Soon", "Up to Date", "Overdue");
-        statusOptions.setItems(statusOptionsList);
-        statusOptions.setValue("All");  // Default value
-        statusOptions.setOnAction(event -> filterTableByStatus());
-    }
+   public void discardUpdate(){
+        updateChangeBelt.setValue(null);
+        updateChangeOil.setValue(null);
+        GoCarMaintenance();
+        refreshTable();
 
-    public void filterTableByStatus() {
-        String selectedStatus = statusOptions.getValue();
-        String searchKeyword = searchTextField.getText().toLowerCase();
+    
+   }
+   @FXML
+   private void handleFilterChange(ActionEvent event) {
+       refreshTable();
+   }
 
-        // Clear existing items in the table
-        maintenance_table.getItems().clear();
+ 
+   @FXML
+   public void refreshTable() {
+       try {
+           maintenanceList.clear();
+   
+           String selectedFilter = statusOptions.getValue();
+           String searchKeyword = searchTextField.getText();
+   
+           if (selectedFilter == null) {
+               selectedFilter = "All";
+               statusOptions.setValue(selectedFilter);
+           }
+   
+           // Modify the query to join the maintenance table with the car table
+           String query = "SELECT m.*, c.car_Series FROM maintenance m JOIN car c ON m.car_Plate = c.car_Plate WHERE m.car_Plate LIKE ?";
+   
+           if (!selectedFilter.equals("All")) {
+               query += " AND m.status = ?";
+           }
+   
+           preparedStatement = connection.prepareStatement(query);
+           preparedStatement.setString(1, "%" + searchKeyword + "%");
+   
+           if (!selectedFilter.equals("All")) {
+               preparedStatement.setString(2, selectedFilter);
+           }
+   
+           resultSet = preparedStatement.executeQuery();
+   
+           while (resultSet.next()) {
+               maintenanceList.add(new maintenance(
+                       resultSet.getInt("maintenance_RecordID"),
+                       resultSet.getString("car_Series"),
+                       resultSet.getString("car_Plate"),
+                       resultSet.getString("driver_LicenseNum"),
+                       resultSet.getString("maintenance_ChangeOil"),
+                       resultSet.getString("maintenance_ChangeBelt"),
+                       resultSet.getString("maintenance_MStatus")
+               ));
+           }
+   
+           maintenance_table.setItems(maintenanceList);
+   
+       } catch (SQLException e) {
+           e.printStackTrace();
+       } finally {
+           try {
+               if (resultSet != null) {
+                   resultSet.close();
+               }
+               if (preparedStatement != null) {
+                   preparedStatement.close();
+               }
+           } catch (SQLException ex) {
+               ex.printStackTrace();
+           }
+       }
+   }
+   
 
-        // Get updated data based on the selected status and search keyword
-        List<maintenance> filteredData = new ArrayList<>();
-        for (maintenance item : originalData) {
-            if (("All".equals(selectedStatus) || selectedStatus.equals(item.getStatus()))
-                    && (item.getCarPlate().toLowerCase().contains(searchKeyword))) {
-                filteredData.add(item);
-            }
-        }
+                            
 
-        // Add the filtered data to the table
-        maintenance_table.getItems().addAll(filteredData);
-    }
 
-    @FXML
-    public void refreshTable() {
-        filterTableByStatus();
-    }
+    
 
     @FXML
     public void handleSearch(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
-            filterTableByStatus();
+            refreshTable();
         }
+    }
+
+    private void setupFilterComboBox() {
+        statusOptions.getItems().addAll("All", "Due Soon", "Up to Date", "Overdue");
+        statusOptions.setValue("All");
     }
     
 
@@ -237,64 +410,52 @@ public class Car_Maintenance {
 
     }
 
-    public void GoToM_Update(ActionEvent event) throws IOException {
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/View/Car_Maintenance_Update.fxml"));
-
-        Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
-    }
-
-    @FXML
-    private Button deleteBtn;
-
-    @FXML
-    public void deleteRow(ActionEvent event) {
-        // Get the selected item from the table
-        maintenance selectedMaintenance = maintenance_table.getSelectionModel().getSelectedItem();
-        
-        if (selectedMaintenance != null) {
-            // Delete the selected item from the database
-            try {
-                // Call a method to delete the selected maintenance record from the database
-                deleteMaintenance(selectedMaintenance);
-                
-                // Remove the selected item from the table
-                maintenance_table.getItems().remove(selectedMaintenance);
-            } catch (SQLException e) {
-                // Handle any exceptions that occur during the deletion process
-                e.printStackTrace();
+    public void GoUpdateMaintenance(){
+        try{
+            if (maintenance_table.getSelectionModel().getSelectedItem() == null){
+                showAlert("No Maintenance Record Selected", "Please select a maintenance record to update");
+                return;
             }
+            updateCarMaintenancePane.setVisible(true);
+            carMaintenancePane.setVisible(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("An error occurred while trying to update the maintenance record");
         }
     }
 
-    private void deleteMaintenance(maintenance maintenance) throws SQLException {
-        // Implement the logic to delete the maintenance record from the database
-        // You can use JDBC or any other database access method to perform the deletion
-        // Here's an example using JDBC:
-        
-        // 1. Create a connection to the database
-        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
-        String user = "root";
-        String password = "";
+    public void deleteMaintenance(ActionEvent event){
+        try {
+            if (maintenance_table.getSelectionModel().getSelectedItem() == null){
+                showAlert("No Maintenance Record Selected", "Please select a maintenance record to delete");
+                return;
+            }
+            int maintenanceId = maintenance_table.getSelectionModel().getSelectedItem().getMaintenanceId();
+            String deleteQuery = "DELETE FROM maintenance WHERE maintenance_RecordID = ?";
 
-        Connection connection = null;
+            try (Connection connection = DbConnect.getConnect()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                    preparedStatement.setInt(1, maintenanceId);
+                    preparedStatement.executeUpdate();
+                    System.out.println("Maintenance record deleted successfully");
+                }
+                showSuccessAlert("Car Maintenance record deleted successfully");
 
-        // 2. Create a prepared statement to delete the maintenance record
-        connection = DriverManager.getConnection(url, user, password);
-        String sql = "DELETE FROM maintenance WHERE maintenance_RecordID = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, maintenance.getMaintenanceId());
-        
-        // 3. Execute the delete statement
-        statement.executeUpdate();
-        
-        // 4. Close the statement and connection
-        statement.close();
-        connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showErrorAlert("An error occurred while deleting the maintenance record");
+            }
+            GoCarMaintenance();
+            refreshTable();
+
+        } catch(Exception e){
+            e.printStackTrace();
+            showErrorAlert("An error occurred while trying to delete the maintenance record");
+        }
     }
+
+
+    
 }
+   
 
