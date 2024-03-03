@@ -2,7 +2,13 @@ package Controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -15,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -33,6 +40,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
+import model.amortization;
+import model.quota_table;
 import model.object_model.Driver_Quota_obj;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -84,7 +94,7 @@ public class Driver_Quota {
     private ObservableList<Driver_Quota_obj> originalData;
 
     @FXML
-    private Text UDQAmount, UDQLicenseNumber;
+    private Text UDQAmount, UDQLicenseNumber, UDQName;
 
     @FXML
     private TextField UDQPaidAmount;
@@ -104,6 +114,9 @@ public class Driver_Quota {
 
     @FXML
     private Pane updateCarQuotaPane;
+    
+    @FXML
+    private Button updateButtonInsert;
 
     public void initialize() {
         setUpColumns();
@@ -127,7 +140,117 @@ public class Driver_Quota {
                 filterTableByStatus();
             }
         });
+
+        // Set the selection mode to SINGLE to allow only one row to be selected at a time
+        quota_table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        // Add a selection listener to the table
+        quota_table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                // Handle the selected row, you can print the data or perform any other action
+                printSelectedRowData(newSelection);
+                bindSelectedRowData(newSelection);
+            }
+        });
+
+        // Configure date pickers to display dates in the format you desire
+        configureDatePickers();
     }
+
+    private void printSelectedRowData(model.object_model.Driver_Quota_obj selectedQuota) {
+        System.out.println("Selected Row Data:");
+        System.out.println("Record ID: " + selectedQuota.getRecordId());
+        System.out.println("Driver Name: " + selectedQuota.getDriverName());
+        System.out.println("License Number: " + selectedQuota.getLicenseNumber());
+        System.out.println("Amount: " + selectedQuota.getAmount());
+        System.out.println("Paid Amount: " + selectedQuota.getPaidAmount());
+        System.out.println("Balance: " + selectedQuota.getBalance());
+        System.out.println("Start Date: " + selectedQuota.getStartDate());
+        System.out.println("Due Date: " + selectedQuota.getDueDate());
+        System.out.println("Status: " + selectedQuota.getStatus());
+    }
+
+    private void configureDatePickers() {
+        // Configure StringConverter to format dates in the desired way
+        StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
+            final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            @Override
+            public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                } else {
+                    return null;
+                }
+            }
+        };
+
+        UDQStartDate.setConverter(converter);
+        UDQDueDate.setConverter(converter);
+    }
+
+    private void bindSelectedRowData(model.object_model.Driver_Quota_obj selectedQuota) {
+        // Bind selected row data to the controls
+        UDQStartDate.setValue(LocalDate.parse(selectedQuota.getStartDate()));
+        UDQDueDate.setValue(LocalDate.parse(selectedQuota.getDueDate()));
+        UDQPaidAmount.setText(String.valueOf(selectedQuota.getPaidAmount()));
+        UDQAmount.setText(String.valueOf(selectedQuota.getAmount()));
+        UDQLicenseNumber.setText(selectedQuota.getLicenseNumber());
+        UDQName.setText(selectedQuota.getDriverName());
+    }
+
+    @FXML
+    private void updateDriverQuota() {
+        // Retrieve values from controls
+        LocalDate newEndDate = UDQStartDate.getValue();
+        LocalDate newMonthlyDueDate = UDQDueDate.getValue();
+        double newPayment = Double.parseDouble(UDQPaidAmount.getText());
+
+        // Perform the update in the database using the selected row's RecordID
+        int recordID = quota_table.getSelectionModel().getSelectedItem().getRecordId();
+        System.out.println("TANGINA ITO ID");
+        System.out.println(recordID);
+
+        // Replace "your_driver_quota_table" with the actual name of your driver quota table
+        String updateQuery = "UPDATE quota SET quota_DDate = ?, quota_DDate = ?, quota_InputAmount = ?, "
+                + "quota_Balance = (quota_InputAmount - ?), quota_Status = CASE WHEN (quota_InputAmount - ?) = 0 THEN 'Paid' ELSE 'Unpaid' END "
+                + "WHERE quota_RecordID = ?";
+
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "root", "");
+            PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+            updateStatement.setDate(1, Date.valueOf(newEndDate));
+            updateStatement.setDate(2, Date.valueOf(newMonthlyDueDate));
+            updateStatement.setDouble(3, newPayment);
+            updateStatement.setDouble(4, newPayment);
+            updateStatement.setDouble(5, newPayment);
+            updateStatement.setInt(6, recordID);
+
+            // Execute the update
+            int rowsAffected = updateStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Row updated successfully.");
+                // Refresh the table to reflect the changes
+                refreshTable();
+            } else {
+                System.out.println("Failed to update row.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        refreshTable1();
+        switchToView();
+    }
+
+
 
     private void setUpColumns() {
         System.err.println("Driver Quota Controller Initialized"); // Debug statement
@@ -193,6 +316,8 @@ public class Driver_Quota {
 
     }
 
+    
+
     private void filterTableByStatus() {
         String selectedStatus = statusOptions.getValue();
         String searchKeyword = searchTextField.getText().toLowerCase();
@@ -217,6 +342,26 @@ public class Driver_Quota {
     private void refreshTable() {
         filterTableByStatus();
     }
+
+    @FXML
+    private void refreshTable1() {
+        try {
+            // Fetch updated data from the database
+            List<Driver_Quota_obj> updatedData = model.quota_table.getQuotaData();
+
+            // Clear existing items in the table and originalData list
+            quota_table.getItems().clear();
+            originalData.clear();
+
+            // Add the updated data to the table and originalData list
+            quota_table.getItems().addAll(updatedData);
+            originalData.addAll(updatedData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     @FXML
     private void handleSearch(KeyEvent event) {

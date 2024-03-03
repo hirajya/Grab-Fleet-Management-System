@@ -234,6 +234,17 @@
             <DatePicker fx:id="UDQDueDate" layoutX="290.0" layoutY="325.0" prefHeight="25.0" prefWidth="531.0" />
             <TextField fx:id="UDQPaidAmount" layoutX="290.0" layoutY="225.0" prefHeight="25.0" prefWidth="531.0" />
             <Button fx:id="back2ViewButton" layoutX="417.0" layoutY="448.0" mnemonicParsing="false" onAction="#switchToView" opacity="0.0" prefHeight="25.0" prefWidth="200.0" text="Button" />
+            <Text layoutX="11.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="UDQName" layoutX="290.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </Text>
+            <Button fx:id="updateButtonInsert" layoutX="632.0" layoutY="448.0" mnemonicParsing="false" onAction="#updateDriverQuota" opacity="0.0" prefHeight="25.0" prefWidth="189.0" text="Button" />
          </children>
       </Pane>
    </children>
