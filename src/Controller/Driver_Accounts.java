@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
@@ -26,6 +28,8 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -100,11 +104,50 @@ public class Driver_Accounts {
     @FXML
     public TableColumn<model.Driver_Accounts_obj, String> CarPlateColumn;
 
-   
-    /*String query = null;
-    Connection connection = null;
-    ResultSet resultSet = null;
-    */
+    @FXML
+    private TextArea addFName;
+
+    @FXML
+    private TextArea addMName;
+
+    @FXML
+    private TextArea addLName;
+
+    @FXML
+    private TextArea addLicenseNum;
+
+    @FXML
+    private TextArea addContactNum;
+
+    @FXML
+    private TextArea addCPersonNum;
+
+    @FXML
+    private TextArea addHouseNum; 
+
+    @FXML
+    private TextArea addBlock;
+
+    @FXML
+    private TextArea addStreet;
+
+    @FXML
+    private TextArea addBrgy;
+
+    @FXML
+    private TextArea addCity;
+
+    @FXML
+    private TextArea addSex;
+
+    @FXML
+    private TextArea addCarPlate;
+
+    @FXML
+    private DatePicker addBirthDate,addLicenseNumExpiry;
+
+    
+    
 
     private ObservableList<Driver_Accounts_obj> originalData;
 
@@ -116,35 +159,9 @@ public class Driver_Accounts {
 
         driver_acc_table.getItems().addAll(originalData);
 
-        // originalData = FXCollections.observableArrayList(model.driver_table.getDriverData());
-
-        // List<Driver_Accounts_obj> driverData = model.driver_table.getDriverData();
-        // driver_acc_table.getItems().addAll(driverData);
-
-        setDatePickerFormat(datePicker1);
-        setDatePickerFormat(datePicker2);
-        setDatePickerFormat(datePicker3);
-        setDatePickerFormat(datePicker4);
-        setDatePickerFormat(datePicker5);
-        setDatePickerFormat(datePicker6);
     }
 
-    private void setDatePickerFormat(DatePicker datePicker) {
-        datePicker.setConverter(new StringConverter<LocalDate>() {
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-
-            @Override
-            public String toString(LocalDate date) {
-                return (date != null) ? dateFormatter.format(date) : "";
-            }
-
-            @Override
-            public LocalDate fromString(String string) {
-                return (string != null && !string.isEmpty()) ? LocalDate.parse(string, dateFormatter) : null;
-            }
-        });
-    };
-    
+    //display sa table
     private void setUpColumns() {
         System.err.println("Driver Accounts Initialized");
 
@@ -163,6 +180,104 @@ public class Driver_Accounts {
             CityColumn.setCellValueFactory(new PropertyValueFactory<>("driver_City"));
             CarPlateColumn.setCellValueFactory(new PropertyValueFactory<>("car_Plate"));
         }
+    
+    //add driver feature
+    public void add(ActionEvent event) {
+        try {
+            if (isValidData()) {
+                String fName = addFName.getText();
+                String mName = addMName.getText();
+                String lName = addLName.getText();
+                String licenseNum = addLicenseNum.getText();
+                String licenseExpiry = addLicenseNumExpiry.getValue().toString();
+                String contactNum = addContactNum.getText();
+                String cPersonNum = addCPersonNum.getText();
+                String houseNum = addHouseNum.getText();
+                String block = addBlock.getText();
+                String street = addStreet.getText();
+                String brgy = addBrgy.getText();
+                String city = addCity.getText();
+                String sex = addSex.getText();
+                String birthDate = addBirthDate.getValue().toString();
+                String carPlate = addCarPlate.getText();
+    
+                try (Connection connection = DbConnect.getConnect()) {
+                    // Insert into car table
+                    String driverInsertQuery = "INSERT INTO driver (driver_FName, driver_MName, driver_LName, driver_LicenseNum, driver_LicenseExpiry, driver_CNumber, driver_CPersonNum, driver_HouseNum, driver_Brgy, driver_Street, driver_Block, driver_Sex, driver_City, driver_Birthdate, car_Plate) VALUES (?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+                    try (PreparedStatement driverStatement = connection.prepareStatement(driverInsertQuery)) {
+                        driverStatement.setString(1, fName);
+                        driverStatement.setString(2, mName);
+                        driverStatement.setString(3, lName);
+                        driverStatement.setString(4, licenseNum);
+                        driverStatement.setDate(5, java.sql.Date.valueOf(licenseExpiry));
+                        driverStatement.setString(6, contactNum);
+                        driverStatement.setString(7, cPersonNum);
+                        driverStatement.setString(8, houseNum); // Corrected index
+                        driverStatement.setString(9, block);
+                        driverStatement.setString(10, street);
+                        driverStatement.setString(11, brgy);
+                        driverStatement.setString(12, city);
+                        driverStatement.setString(13, sex);
+                        driverStatement.setDate(14, java.sql.Date.valueOf(birthDate));
+                        driverStatement.setString(15, carPlate);
+
+                        driverStatement.executeUpdate();
+                    }
+                    showSuccessAlert("Data inserted successfully");
+                }
+            } else {
+                showErrorAlert("Invalid data. Please check your input.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showErrorAlert("Error inserting data", e);
+        }
+    }
+
+    private void showErrorAlert(String message, SQLException e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message + "\nError Details: " + e.getMessage()); // Display the error message from SQLException
+        alert.showAndWait();
+    }
+    
+
+    private boolean isValidData() {
+        if (addFName.getText().isEmpty() || addMName.getText().isEmpty() || addLName.getText().isEmpty() ||
+                addLicenseNum.getText().isEmpty() || addLicenseNumExpiry.getValue() == null || addContactNum.getText().isEmpty() ||
+                addCPersonNum.getText().isEmpty() || addHouseNum.getText().isEmpty() || addBlock.getText().isEmpty() ||
+                addStreet.getText().isEmpty() || addBrgy.getText().isEmpty() || addCity.getText().isEmpty() ||
+                addSex.getText().isEmpty() || addBirthDate.getValue() == null || addCarPlate.getText().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    private void showSuccessAlert(String message) {
+         Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+             alert.showAndWait();
+}       
+
+    private void showErrorAlert(String message) {
+     Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+             alert.showAndWait();
+}
+
+    /*private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(title);
+            alert.setHeaderText(null);
+            alert.setContentText(content);
+             alert.showAndWait();
+}       */
         
     @FXML
     public Pane addDriver, addDriver2, updateDriver, deleteDriver;
@@ -251,12 +366,6 @@ public class Driver_Accounts {
             updateDriver.setVisible(false);
         }
     }
-
-
-    @FXML
-    private DatePicker datePicker1, datePicker2, datePicker3, datePicker4, datePicker5, datePicker6;
-
-    //public void initialize() {
         
 
     public void GoToHome(ActionEvent event) throws IOException {

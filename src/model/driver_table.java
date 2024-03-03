@@ -88,6 +88,58 @@ public class driver_table {
         return driverList;
     }
 
+    public static void add(String driver_LicenseNum, String driver_LicenseExpiry, String driver_FName, String driver_MName, String driver_LName, String driver_CNumber, String driver_CPersonNum, String driver_Sex, String driver_Birthdate, String driver_HouseNum, String driver_Street, String driver_Block, String driver_Brgy, String driver_City, String car_Plate) throws ParseException {
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            String sqlQuery = "INSERT INTO car (car_Plate, car_CRNum, car_Series, car_Kind, car_YearModel, car_Color, car_ORNum, car_RegExpiry, car_Registration, car_RegStatus, car_Availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
+            preparedStatement = connection.prepareStatement(sqlQuery);
+
+            preparedStatement.setString(1, driver_FName);
+            preparedStatement.setString(2, driver_MName);
+            preparedStatement.setString(3, driver_LName);
+            preparedStatement.setString(4, driver_LicenseNum);
+            preparedStatement.setTimestamp(5, new java.sql.Timestamp(dateFormat.parse(driver_LicenseExpiry).getTime()));
+            preparedStatement.setString(6, driver_CNumber);
+            preparedStatement.setString(7, driver_CPersonNum);
+            preparedStatement.setString(8, driver_HouseNum);
+            preparedStatement.setString(9, driver_Block);
+            preparedStatement.setString(10, driver_Street);
+            preparedStatement.setString(11, driver_Brgy);
+            preparedStatement.setString(12, driver_City);
+            preparedStatement.setString(13, driver_Sex);
+            preparedStatement.setTimestamp(14, new java.sql.Timestamp(dateFormat.parse(driver_Birthdate).getTime()));
+            preparedStatement.setString(15, car_Plate);
+
+
+            int rows = preparedStatement.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("A new car has been inserted");
+            } else {
+                System.out.println("A new car has not been inserted");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void connect(){
 
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
