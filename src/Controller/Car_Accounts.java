@@ -292,20 +292,27 @@ public class Car_Accounts implements Initializable {
     }
 
     public void deleteCar(ActionEvent event){
-        String carPlate = carTable.getSelectionModel().getSelectedItem().getCar_Plate();
-        String deleteCarQuery = "DELETE FROM car WHERE car_Plate = ?";
-        try (Connection connection = DbConnect.getConnect()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteCarQuery)) {
-                preparedStatement.setString(1, carPlate);
-                preparedStatement.executeUpdate();
+        try {
+            if (carTable.getSelectionModel().getSelectedItem() == null || carTable.getSelectionModel().getSelectedItem().getCar_Plate() == null) {
+                showAlert("No Selected Data", "Please select a car from the table to delete.");
+                return; // Exit the method if no item is selected
             }
-            showSuccessAlert("Car deleted successfully");
+        
+            String carPlate = carTable.getSelectionModel().getSelectedItem().getCar_Plate();
+            String deleteCarQuery = "DELETE FROM car WHERE car_Plate = ?";
+            try (Connection connection = DbConnect.getConnect()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(deleteCarQuery)) {
+                    preparedStatement.setString(1, carPlate);
+                    preparedStatement.executeUpdate();
+                }
+                showSuccessAlert("Car deleted successfully");
+            }
+            GoCarAccounts();
+            refreshTable();
         } catch (SQLException e) {
             e.printStackTrace();
             showErrorAlert("Error deleting car");
         }
-        GoCarAccounts();
-        refreshTable();
     }
 
     public void discardUpdate(ActionEvent event) {
