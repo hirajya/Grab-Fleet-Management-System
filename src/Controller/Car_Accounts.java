@@ -305,7 +305,7 @@ public class Car_Accounts implements Initializable {
 
     }
     
-    private void deleteCarAccs() {
+    public void deleteCarAccs() {
         try {
             car selectedCar = carTable.getSelectionModel().getSelectedItem();
     
@@ -319,7 +319,7 @@ public class Car_Accounts implements Initializable {
                 }
     
                 String carPlateRecord = selectedCar.getCar_Plate();
-                String deleteQuery = "DELETE FROM quota WHERE car_Plate = ?";
+                String deleteQuery = "DELETE FROM car WHERE car_Plate = ?";
     
                 try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "root", "");
                      PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
@@ -329,7 +329,8 @@ public class Car_Accounts implements Initializable {
     
                     if (rowsAffected > 0) {
                         System.out.println("Row deleted successfully.");
-                        
+                        GoCarView();
+                        refreshTable();
                     } else {
                         System.out.println("Failed to delete row.");
                     }
