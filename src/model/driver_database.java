@@ -1,7 +1,7 @@
 package model;
 
+
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,83 +9,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.collections.ObservableList;
 
 
-public class driver_table {
+public class driver_database {
     private static String tableName = "driver";
 
 
     public static void main(String[] args) throws Exception {
         // connect();
-        // insert("B0222300753", "09123456789", "09123456789", "Male", "Rodney", "Lei", "Lopez", "1999-12-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "NAC2393", "2022-12-12", 1, 3);
-        // insert("B0233303753", "09123456789", "09123456789", "Female", "Jaena", "Lei", "Ara", "1989-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "PAC2393", "2022-11-12", 1, 4);
-        
-        // insert("B0211103753", "09123456789", "09123456789", "Male", "Jaenaru", "Kairu", "Ara", "2001-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "DAC2393", "2022-11-12", 1, 4);
-        // insert("B0111103753", "09123456789", "09123456789", "Male", "Boki", "Kairu", "Shin", "2001-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "TAC2393", "2022-11-12", 1, 4);
-
+        // insert("B0222300753", 9000, 2500, "2021-10-01", "2021-10-31", false, "Michael Angelo Balubar");
+        // updateStr("B0222300753", "driver_Name", "Rodney Lei");
         // updateInt("B0222300753", "boundary_InputAmount", 200);
         // delete("B0222300753");
         connect();
-    }
-
-    public static List<Driver_Accounts_obj> getDriverData() {
-        List<Driver_Accounts_obj> driverList = new ArrayList<>();
-    
-        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
-        String user = "root";
-        String password = "";
-    
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-    
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, user, password);
-            statement = connection.createStatement();
-    
-            String sqlQuery = "SELECT * FROM " + tableName + "";
-            System.out.println("Connected to the database");
-    
-            resultSet = statement.executeQuery(sqlQuery);
-    
-            while (resultSet.next()) {
-                String driver_LicenseNum = resultSet.getString("driver_LicenseNum");
-                Date driver_LicenseExpiry = resultSet.getDate("driver_LicenseExpiry");
-                String driver_FName = resultSet.getString("driver_FName");
-                String driver_MName = resultSet.getString("driver_MName");
-                String driver_LName = resultSet.getString("driver_LName");
-                String driver_CNumber = resultSet.getString("driver_CNumber");
-                String driver_CPersonNum = resultSet.getString("driver_CPersonNum");
-                String driver_Sex = resultSet.getString("driver_Sex");
-                Date driver_Birthdate = resultSet.getDate("driver_Birthdate");
-                String driver_HouseNum = resultSet.getString("driver_HouseNum");
-                String driver_Street = resultSet.getString("driver_Street");
-                String driver_Block = resultSet.getString("driver_Block");
-                String driver_Brgy = resultSet.getString("driver_Brgy");
-                String driver_City = resultSet.getString("driver_City");
-                String car_Plate = resultSet.getString("car_Plate");
-
-                Driver_Accounts_obj driverObj = new Driver_Accounts_obj(driver_LicenseNum, driver_LicenseExpiry, driver_FName, driver_MName, driver_LName, driver_CNumber, driver_CPersonNum, driver_Sex, driver_Birthdate, driver_HouseNum, driver_Street, driver_Block, driver_Brgy, driver_City, car_Plate);
-                driverList.add(driverObj);
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    
-        return driverList;
     }
 
     public static void connect(){
@@ -116,7 +52,7 @@ public class driver_table {
                 System.out.println(resultSet.getString("driver_FName"));
                 System.out.println(resultSet.getString("driver_MName"));
                 System.out.println(resultSet.getString("driver_LName"));
-                System.out.println(resultSet.getDate("driver_Birthdate"));
+                System.out.println(resultSet.getString("driver_Birthdate"));
                 System.out.println(resultSet.getString("driver_HouseNum"));
                 System.out.println(resultSet.getString("driver_City"));
                 System.out.println(resultSet.getString("driver_Street"));
@@ -125,8 +61,6 @@ public class driver_table {
                 System.out.println(resultSet.getString("car_Plate"));
                 System.out.println(resultSet.getString("driver_LicenseExpiry"));
                 System.out.println(resultSet.getString("admin_Id"));
-                System.out.println(resultSet.getString("quota_RecordID"));
-
 
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -143,7 +77,7 @@ public class driver_table {
         }
     }
 
-    public static void insert(String d_LicenseNum, String d_CNumber, String d_CPersonNum, String d_Sex, String d_FName, String d_MName, String L_Name, String d_Birthdate, int d_HouseNum, String d_City, String d_Street, String d_Block, String d_Brgy, String c_Plate, String d_LicenseExpiry, int a_Id, int q_RecordID) throws ParseException {
+    public static void insert(String d_LicenseNum, String d_CNumber, String d_CPersonNum, String d_Sex, String d_FName, String d_MName, String d_LName, String d_Birthdate, int d_HouseNum, String d_City, String d_Street, String d_Block, String d_Brgy) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -156,33 +90,21 @@ public class driver_table {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO driver (driver_LicenseNum, driver_CNumber, driver_CPersonNum, driver_Sex, driver_FName, driver_MName, driver_LName, driver_Birthdate, driver_HouseNum, driver_City, driver_Street, driver_Block, driver_Brgy, car_Plate, driver_LicenseExpiry, admin_Id, quota_RecordID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO  boundary (driver_LicenseNum, boundary_Amount, ";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setString(1, d_LicenseNum);
             preparedStatement.setString(2, d_CNumber);
             preparedStatement.setString(3, d_CPersonNum);
-            preparedStatement.setString(4, d_Sex);
-            preparedStatement.setString(5, d_FName);
-            preparedStatement.setString(6, d_MName);
-            preparedStatement.setString(7, L_Name);
-            preparedStatement.setTimestamp(8, new java.sql.Timestamp(dateFormat.parse(d_Birthdate).getTime()));
-            preparedStatement.setInt(9, d_HouseNum);
-            preparedStatement.setString(10, d_City);
-            preparedStatement.setString(11, d_Street);
-            preparedStatement.setString(12, d_Block);
-            preparedStatement.setString(13, d_Brgy);
-            preparedStatement.setString(14, c_Plate);
-            preparedStatement.setTimestamp(15, new java.sql.Timestamp(dateFormat.parse(d_LicenseExpiry).getTime()));
-            preparedStatement.setInt(16, a_Id);
-            preparedStatement.setInt(17, q_RecordID);
+            // preparedStatement.setString(4, d_CPerson);
+
 
             int rows = preparedStatement.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("A new driver has been inserted");
+                System.out.println("A new boundary has been inserted");
             } else {
-                System.out.println("A new driver has not been inserted");
+                System.out.println("A new boundary has not been inserted");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -208,7 +130,7 @@ public class driver_table {
     
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE driver SET " + columnName + " = ? WHERE " + "driver_LicenseNum = ?";
+            String sqlQuery = "UPDATE boundary SET " + columnName + " = ? WHERE " + "driver_LicenseNum = ?";
 
             preparedStatement = connection.prepareStatement(sqlQuery);
     
@@ -218,7 +140,7 @@ public class driver_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[driver] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
             } else {
                 System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
             }
@@ -244,7 +166,7 @@ public class driver_table {
     
         try {
             connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE driver SET " + columnName + " = ? WHERE driver_LicenseNum = ?";
+            String sqlQuery = "UPDATE boundary SET " + columnName + " = ? WHERE driver_LicenseNum = ?";
     
             preparedStatement = connection.prepareStatement(sqlQuery);
     
@@ -254,7 +176,7 @@ public class driver_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[driver] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
             } else {
                 System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
             }
@@ -284,7 +206,7 @@ public class driver_table {
             connection = DriverManager.getConnection(url, user, password);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String sqlQuery = "UPDATE driver SET " + columnName + " = ? WHERE " + "driver_LicenseNumber = ?";
+            String sqlQuery = "UPDATE boundary SET " + columnName + " = ? WHERE " + "driver_LicenseNumber = ?";
 
             preparedStatement = connection.prepareStatement(sqlQuery);
     
@@ -294,7 +216,7 @@ public class driver_table {
             int rows = preparedStatement.executeUpdate();
     
             if (rows > 0) {
-                System.out.println("[driver] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
             } else {
                 System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
             }
@@ -310,37 +232,37 @@ public class driver_table {
         }
     }
 
-    public static void delete(String d_LicenseNum) {
-        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
-        String user = "root";
-        String password = "";
+    // public static void delete(String d_LicenseNum) {
+    //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+    //     String user = "root";
+    //     String password = "";
     
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+    //     Connection connection = null;
+    //     PreparedStatement preparedStatement = null;
     
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "DELETE FROM driver WHERE driver_LicenseNum = ?";
-            preparedStatement = connection.prepareStatement(sqlQuery);
+    //     try {
+    //         connection = DriverManager.getConnection(url, user, password);
+    //         String sqlQuery = "DELETE FROM boundary WHERE driver_LicenseNum = ?";
+    //         preparedStatement = connection.prepareStatement(sqlQuery);
     
-            preparedStatement.setString(1, d_LicenseNum);
+    //         preparedStatement.setString(1, d_LicenseNum);
     
-            int rows = preparedStatement.executeUpdate();
+    //         int rows = preparedStatement.executeUpdate();
     
-            if (rows > 0) {
-                System.out.println("Car driver record deleted successfully");
-            } else {
-                System.out.println("No car driver record found for the given ID:" + d_LicenseNum);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    //         if (rows > 0) {
+    //             System.out.println("Car boundary record deleted successfully");
+    //         } else {
+    //             System.out.println("No car boundary record found for the given ID:" + d_LicenseNum);
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (preparedStatement != null) preparedStatement.close();
+    //             if (connection != null) connection.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
 }
