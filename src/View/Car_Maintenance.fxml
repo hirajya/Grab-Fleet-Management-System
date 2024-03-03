@@ -137,9 +137,9 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <TableView layoutX="18.0" layoutY="150.0" prefHeight="516.0" prefWidth="878.0">
+            <TableView fx:id="maintenance_table" layoutX="18.0" layoutY="150.0" prefHeight="516.0" prefWidth="878.0">
                <columns>
-                  <TableColumn fx:id="RecordIDcolumn" prefWidth="99.0" text="Maintenance ID" />
+                  <TableColumn fx:id="MaintenanceIDcolumn" prefWidth="99.0" text="Maintenance ID" />
                   <TableColumn fx:id="CarSeriesColumn" prefWidth="105.0" text="Car Series" />
                   <TableColumn fx:id="CarPlateColumn" prefWidth="127.66668701171875" text="Car Plate" />
                   <TableColumn fx:id="LicenseColumn" minWidth="5.599945068359375" prefWidth="163.33331298828125" text="License Number" />

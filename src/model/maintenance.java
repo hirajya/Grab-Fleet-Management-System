@@ -1,34 +1,46 @@
 package model;
 
 public class maintenance {
-    int recordId;
-    String driverName;
+    int maintenanceId;
+    String carSeries;
+    String carPlate;
     String licenseNumber;
-    int amount;
-    int paidAmount;
-    int balance;
-    String startDate;
-    String dueDate;
+    String changeOil;
+    String changeBelt;
     String status;
 
-    public maintenance(int recordId, String driverName, String licenseNumber, int amount, int paidAmount, int balance, String startDate, String dueDate, String status) {
-        this.recordId = recordId;
-        this.driverName = driverName;
+    public maintenance(int maintenanceId, String carSeries, String carPlate, String licenseNumber, String changeOil, String changeBelt, String status) {
+        this.maintenanceId = maintenanceId;
+        this.carSeries = carSeries;
+        this.carPlate = carPlate;
         this.licenseNumber = licenseNumber;
-        this.amount = amount;
-        this.paidAmount = paidAmount;
-        this.balance = balance;
-        this.startDate = startDate;
-        this.dueDate = dueDate;
+        this.changeOil = changeOil;
+        this.changeBelt = changeBelt;
         this.status = status;
     }
 
-    public int getRecordId() {
-        return recordId;
+    public int getMaintenanceId() {
+        return maintenanceId;
     }
 
-    public void setRecordId(int recordId) {
-        this.recordId = recordId;
+    public void getMaintenanceId(int maintenanceId) {
+        this.maintenanceId = maintenanceId;
+    }
+
+    public String getCarSeries() {
+        return carSeries;
+    }
+
+    public void setCarSeries(String carSeries) {
+        this.carSeries = carSeries;
+    }
+
+    public String getCarPlate() {
+        return carPlate;
+    }
+
+    public void setCarPlate(String carPlate) {
+        this.carPlate = carPlate;
     }
 
     public String getLicenseNumber() {
@@ -39,44 +51,20 @@ public class maintenance {
         this.licenseNumber = licenseNumber;
     }
 
-    public int getAmount() {
-        return amount;
+    public String getChangeOil() {
+        return changeOil;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setChangeOil(String changeOil) {
+        this.changeOil = changeOil;
     }
 
-    public int getPaidAmount() {
-        return paidAmount;
+    public String getChangeBelt() {
+        return changeBelt;
     }
 
-    public void setPaidAmount(int paidAmount) {
-        this.paidAmount = paidAmount;
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public String getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(String dueDate) {
-        this.dueDate = dueDate;
+    public void setChangeBelt(String changeBelt) {
+        this.changeBelt = changeBelt;
     }
 
     public String getStatus() {
@@ -85,14 +73,6 @@ public class maintenance {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getDriverName() {
-        return driverName;
-    }
-
-    public void setDriverName(String driverName) {
-        this.driverName = driverName;
     }
 
 }
