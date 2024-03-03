@@ -23,14 +23,14 @@ public class quota_table {
         // insert(9000, 2500, "2021-10-01", "2021-10-31", "B0222300753");
         // insert(5000, 5000, "2022-11-02", "2022-11-04", "B0233303753");
         // insert(5000, 3000, "2022-11-02", "2024-11-04", "B0211103753");
-        insert(5000, 2000, "2022-11-02", "2023-09-04", "B0111103753");
+        // insert(5000, 2000, "2022-11-02", "2023-09-04", "B0111103753");
 
 
         // // updateStr("B0222300753", "driver_Name", "Rodney Lei");
         // // updateInt("B0222300753", "boundary_InputAmount", 200);
         // // delete("B0222300753");
         // connect();
-        System.out.println(getName("B0222300753"));
+       // System.out.println(getName("B0222300753"));
     }
 
     public static List<Driver_Quota_obj> getQuotaData() {
@@ -236,199 +236,199 @@ public class quota_table {
         }
     }
 
-    public static void insert(int q_Amount, int q_InputAmount, String q_SDate, String q_DDate, String d_LicenseNum) throws ParseException {
-        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
-        String user = "root";
-        String password = "";
+    // public static void insert(int q_Amount, int q_InputAmount, String q_SDate, String q_DDate, String d_LicenseNum) throws ParseException {
+    //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+    //     String user = "root";
+    //     String password = "";
 
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+    //     Connection connection = null;
+    //     PreparedStatement preparedStatement = null;
 
-        try {
-            connection = DriverManager.getConnection(url, user, password);
+    //     try {
+    //         connection = DriverManager.getConnection(url, user, password);
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    //         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO quota (quota_Amount, quota_InputAmount, quota_Balance, quota_SDate, quota_DDate, quota_Status, driver_LicenseNum) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            preparedStatement = connection.prepareStatement(sqlQuery);
+    //         String sqlQuery = "INSERT INTO quota (quota_Amount, quota_InputAmount, quota_Balance, quota_SDate, quota_DDate, quota_Status, driver_LicenseNum) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    //         preparedStatement = connection.prepareStatement(sqlQuery);
 
-            preparedStatement.setInt(1, q_Amount);
-            preparedStatement.setInt(2, q_InputAmount);
-            preparedStatement.setInt(3, q_Amount - q_InputAmount);
-            preparedStatement.setString(4, q_SDate);
-            preparedStatement.setString(5, q_DDate);
-            if (q_InputAmount >= q_Amount) {
-                preparedStatement.setString(6, "Paid");
-            } else {
-                preparedStatement.setString(6, "Unpaid");
-            }
-            preparedStatement.setString(7, d_LicenseNum);
+    //         preparedStatement.setInt(1, q_Amount);
+    //         preparedStatement.setInt(2, q_InputAmount);
+    //         preparedStatement.setInt(3, q_Amount - q_InputAmount);
+    //         preparedStatement.setString(4, q_SDate);
+    //         preparedStatement.setString(5, q_DDate);
+    //         if (q_InputAmount >= q_Amount) {
+    //             preparedStatement.setString(6, "Paid");
+    //         } else {
+    //             preparedStatement.setString(6, "Unpaid");
+    //         }
+    //         preparedStatement.setString(7, d_LicenseNum);
             
 
-            int rows = preparedStatement.executeUpdate();
+    //         int rows = preparedStatement.executeUpdate();
 
-            if (rows > 0) {
-                System.out.println("A new boundary has been inserted");
-            } else {
-                System.out.println("A new boundary has not been inserted");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    //         if (rows > 0) {
+    //             System.out.println("A new boundary has been inserted");
+    //         } else {
+    //             System.out.println("A new boundary has not been inserted");
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (preparedStatement != null) preparedStatement.close();
+    //             if (connection != null) connection.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
 
-    
-
-    public static void updateStr(String d_LicenseNum, String columnName, String newValue) {
-        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
-        String user = "root";
-        String password = "";
-    
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-    
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE quota SET " + columnName + " = ? WHERE " + "driver_LicenseNum = ?";
-
-            preparedStatement = connection.prepareStatement(sqlQuery);
-    
-            preparedStatement.setString(1, newValue);
-            preparedStatement.setString(2, d_LicenseNum);
-    
-            int rows = preparedStatement.executeUpdate();
-    
-            if (rows > 0) {
-                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
-            } else {
-                System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void updateInt(String d_LicenseNum, String columnName, int newValue) {
-        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
-        String user = "root";
-        String password = "";
-    
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-    
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "UPDATE quota SET " + columnName + " = ? WHERE driver_LicenseNum = ?";
-    
-            preparedStatement = connection.prepareStatement(sqlQuery);
-    
-            preparedStatement.setInt(1, newValue);
-            preparedStatement.setString(2, d_LicenseNum);
-    
-            int rows = preparedStatement.executeUpdate();
-    
-            if (rows > 0) {
-                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
-            } else {
-                System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     
 
-    public static void updateDatetime(String d_LicenseNum, String columnName, String newValue) throws ParseException {
-        // new val format: yyyy-MM-dd
-        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
-        String user = "root";
-        String password = "";
+    // public static void updateStr(String d_LicenseNum, String columnName, String newValue) {
+    //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+    //     String user = "root";
+    //     String password = "";
     
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+    //     Connection connection = null;
+    //     PreparedStatement preparedStatement = null;
     
-        try {
-            connection = DriverManager.getConnection(url, user, password);
+    //     try {
+    //         connection = DriverManager.getConnection(url, user, password);
+    //         String sqlQuery = "UPDATE quota SET " + columnName + " = ? WHERE " + "driver_LicenseNum = ?";
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String sqlQuery = "UPDATE quota SET " + columnName + " = ? WHERE " + "driver_LicenseNumber = ?";
+    //         preparedStatement = connection.prepareStatement(sqlQuery);
+    
+    //         preparedStatement.setString(1, newValue);
+    //         preparedStatement.setString(2, d_LicenseNum);
+    
+    //         int rows = preparedStatement.executeUpdate();
+    
+    //         if (rows > 0) {
+    //             System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+    //         } else {
+    //             System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (preparedStatement != null) preparedStatement.close();
+    //             if (connection != null) connection.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
 
-            preparedStatement = connection.prepareStatement(sqlQuery);
+    // public static void updateInt(String d_LicenseNum, String columnName, int newValue) {
+    //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+    //     String user = "root";
+    //     String password = "";
     
-            preparedStatement.setTimestamp(1, new java.sql.Timestamp(dateFormat.parse(newValue).getTime()));
-            preparedStatement.setString(2, d_LicenseNum);
+    //     Connection connection = null;
+    //     PreparedStatement preparedStatement = null;
     
-            int rows = preparedStatement.executeUpdate();
+    //     try {
+    //         connection = DriverManager.getConnection(url, user, password);
+    //         String sqlQuery = "UPDATE quota SET " + columnName + " = ? WHERE driver_LicenseNum = ?";
     
-            if (rows > 0) {
-                System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
-            } else {
-                System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    //         preparedStatement = connection.prepareStatement(sqlQuery);
+    
+    //         preparedStatement.setInt(1, newValue);
+    //         preparedStatement.setString(2, d_LicenseNum);
+    
+    //         int rows = preparedStatement.executeUpdate();
+    
+    //         if (rows > 0) {
+    //             System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+    //         } else {
+    //             System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (preparedStatement != null) preparedStatement.close();
+    //             if (connection != null) connection.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
+    
 
-    public static void delete(String d_LicenseNum) {
-        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
-        String user = "root";
-        String password = "";
+    // public static void updateDatetime(String d_LicenseNum, String columnName, String newValue) throws ParseException {
+    //     // new val format: yyyy-MM-dd
+    //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+    //     String user = "root";
+    //     String password = "";
     
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+    //     Connection connection = null;
+    //     PreparedStatement preparedStatement = null;
     
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "DELETE FROM quota WHERE driver_LicenseNum = ?";
-            preparedStatement = connection.prepareStatement(sqlQuery);
+    //     try {
+    //         connection = DriverManager.getConnection(url, user, password);
+
+    //         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    //         String sqlQuery = "UPDATE quota SET " + columnName + " = ? WHERE " + "driver_LicenseNumber = ?";
+
+    //         preparedStatement = connection.prepareStatement(sqlQuery);
     
-            preparedStatement.setString(1, d_LicenseNum);
+    //         preparedStatement.setTimestamp(1, new java.sql.Timestamp(dateFormat.parse(newValue).getTime()));
+    //         preparedStatement.setString(2, d_LicenseNum);
     
-            int rows = preparedStatement.executeUpdate();
+    //         int rows = preparedStatement.executeUpdate();
     
-            if (rows > 0) {
-                System.out.println("Car boundary record deleted successfully");
-            } else {
-                System.out.println("No car boundary record found for the given ID:" + d_LicenseNum);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    //         if (rows > 0) {
+    //             System.out.println("[driver boundary] "+ columnName + " updated successfully" + " to " + newValue + " for driver license number: " + d_LicenseNum);
+    //         } else {
+    //             System.out.println("No record found for the given " + columnName + " for driver license number: " + d_LicenseNum);
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (preparedStatement != null) preparedStatement.close();
+    //             if (connection != null) connection.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
+
+    // public static void delete(String d_LicenseNum) {
+    //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+    //     String user = "root";
+    //     String password = "";
+    
+    //     Connection connection = null;
+    //     PreparedStatement preparedStatement = null;
+    
+    //     try {
+    //         connection = DriverManager.getConnection(url, user, password);
+    //         String sqlQuery = "DELETE FROM quota WHERE driver_LicenseNum = ?";
+    //         preparedStatement = connection.prepareStatement(sqlQuery);
+    
+    //         preparedStatement.setString(1, d_LicenseNum);
+    
+    //         int rows = preparedStatement.executeUpdate();
+    
+    //         if (rows > 0) {
+    //             System.out.println("Car boundary record deleted successfully");
+    //         } else {
+    //             System.out.println("No car boundary record found for the given ID:" + d_LicenseNum);
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (preparedStatement != null) preparedStatement.close();
+    //             if (connection != null) connection.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
 }
