@@ -6,6 +6,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "driver_database",
+      "request": "launch",
+      "mainClass": "model.driver_database",
+      "projectName": "Grab-Fleet-Management-System_836ef886"
+    },
+    {
+      "type": "java",
+      "name": "driver_table",
+      "request": "launch",
+      "mainClass": "model.driver_table",
+      "projectName": "Grab-Fleet-Management-System_836ef886"
+    },
+    {
+      "type": "java",
       "name": "App",
       "request": "launch",
       "mainClass": "App",

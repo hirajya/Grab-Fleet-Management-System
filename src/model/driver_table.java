@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.collections.ObservableList;
 
 
 public class driver_table {
@@ -17,13 +22,70 @@ public class driver_table {
     public static void main(String[] args) throws Exception {
         // connect();
         // insert("B0222300753", "09123456789", "09123456789", "Male", "Rodney", "Lei", "Lopez", "1999-12-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "NAC2393", "2022-12-12", 1, 3);
-        insert("B0233303753", "09123456789", "09123456789", "Female", "Jaena", "Lei", "Ara", "1989-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "PAC2393", "2022-11-12", 1, 4);
+        // insert("B0233303753", "09123456789", "09123456789", "Female", "Jaena", "Lei", "Ara", "1989-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "PAC2393", "2022-11-12", 1, 4);
+        
         // insert("B0211103753", "09123456789", "09123456789", "Male", "Jaenaru", "Kairu", "Ara", "2001-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "DAC2393", "2022-11-12", 1, 4);
         // insert("B0111103753", "09123456789", "09123456789", "Male", "Boki", "Kairu", "Shin", "2001-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "TAC2393", "2022-11-12", 1, 4);
 
         // updateInt("B0222300753", "boundary_InputAmount", 200);
         // delete("B0222300753");
         connect();
+    }
+
+    public static List<Driver_Accounts_obj> getDriverData() {
+        List<Driver_Accounts_obj> driverList = new ArrayList<>();
+    
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+    
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+    
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, user, password);
+            statement = connection.createStatement();
+    
+            String sqlQuery = "SELECT * FROM " + tableName + "";
+            System.out.println("Connected to the database");
+    
+            resultSet = statement.executeQuery(sqlQuery);
+    
+            while (resultSet.next()) {
+                String driver_LicenseNum = resultSet.getString("driver_LicenseNum");
+                Date driver_LicenseExpiry = resultSet.getDate("driver_LicenseExpiry");
+                String driver_FName = resultSet.getString("driver_FName");
+                String driver_MName = resultSet.getString("driver_MName");
+                String driver_LName = resultSet.getString("driver_LName");
+                String driver_CNumber = resultSet.getString("driver_CNumber");
+                String driver_CPersonNum = resultSet.getString("driver_CPersonNum");
+                String driver_Sex = resultSet.getString("driver_Sex");
+                Date driver_Birthdate = resultSet.getDate("driver_Birthdate");
+                String driver_HouseNum = resultSet.getString("driver_HouseNum");
+                String driver_Street = resultSet.getString("driver_Street");
+                String driver_Block = resultSet.getString("driver_Block");
+                String driver_Brgy = resultSet.getString("driver_Brgy");
+                String driver_City = resultSet.getString("driver_City");
+                String car_Plate = resultSet.getString("car_Plate");
+
+                Driver_Accounts_obj driverObj = new Driver_Accounts_obj(driver_LicenseNum, driver_LicenseExpiry, driver_FName, driver_MName, driver_LName, driver_CNumber, driver_CPersonNum, driver_Sex, driver_Birthdate, driver_HouseNum, driver_Street, driver_Block, driver_Brgy, driver_City, car_Plate);
+                driverList.add(driverObj);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    
+        return driverList;
     }
 
     public static void connect(){
@@ -54,7 +116,7 @@ public class driver_table {
                 System.out.println(resultSet.getString("driver_FName"));
                 System.out.println(resultSet.getString("driver_MName"));
                 System.out.println(resultSet.getString("driver_LName"));
-                System.out.println(resultSet.getString("driver_Birthdate"));
+                System.out.println(resultSet.getDate("driver_Birthdate"));
                 System.out.println(resultSet.getString("driver_HouseNum"));
                 System.out.println(resultSet.getString("driver_City"));
                 System.out.println(resultSet.getString("driver_Street"));

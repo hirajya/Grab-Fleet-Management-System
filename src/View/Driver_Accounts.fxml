@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Driver_Accounts">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Driver_Accounts">
    <children>
       <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GrabWheels">
          <font>
@@ -83,23 +83,23 @@
             </ImageView>
             <ScrollPane layoutX="18.0" layoutY="66.0" prefHeight="624.0" prefWidth="876.0">
                <content>
-                  <TableView prefHeight="626.0" prefWidth="1800.0">
+                  <TableView fx:id="driver_acc_table" prefHeight="626.0" prefWidth="1800.0">
                     <columns>
-                      <TableColumn prefWidth="120.0" text="License Number" />
-                      <TableColumn prefWidth="120.0" text="License Expiry" />
-                        <TableColumn prefWidth="120.0" text="First Name" />
-                        <TableColumn prefWidth="120.0" text="Middle Name " />
-                        <TableColumn prefWidth="120.0" text="Last Name" />
-                        <TableColumn prefWidth="120.0" text="Phone Number" />
-                        <TableColumn prefWidth="120.0" text="Contact Person &#10;Number&#10;&#10;" />
-                        <TableColumn prefWidth="120.0" text="Sex" />
-                        <TableColumn prefWidth="120.0" text="Birthdate" />
-                        <TableColumn prefWidth="120.0" text="House Number" />
-                        <TableColumn prefWidth="120.0" text="Block" />
-                        <TableColumn prefWidth="120.0" text="Street" />
-                        <TableColumn prefWidth="120.0" text="Barangay" />
-                        <TableColumn prefWidth="120.0" text="City" />
-                        <TableColumn prefWidth="120.0" text="Car Plate" />
+                      <TableColumn fx:id="licenseNumColumn" prefWidth="120.0" text="License Number" />
+                      <TableColumn fx:id="licenseNumExpiryColumn" prefWidth="120.0" text="License Expiry" />
+                        <TableColumn fx:id="FNameColumn" prefWidth="120.0" text="First Name" />
+                        <TableColumn fx:id="MNameColumn" prefWidth="120.0" text="Middle Name " />
+                        <TableColumn fx:id="LNameColumn" prefWidth="120.0" text="Last Name" />
+                        <TableColumn fx:id="CNumColumn" prefWidth="120.0" text="Phone Number" />
+                        <TableColumn fx:id="CPersonNumColumn" prefWidth="120.0" text="Contact Person &#10;Number&#10;&#10;" />
+                        <TableColumn fx:id="SexColumn" prefWidth="120.0" text="Sex" />
+                        <TableColumn fx:id="BDateColumn" prefWidth="120.0" text="Birthdate" />
+                        <TableColumn fx:id="HouseNumColumn" prefWidth="120.0" text="House Number" />
+                        <TableColumn fx:id="BlockColumn" prefWidth="120.0" text="Block" />
+                        <TableColumn fx:id="StreetColumn" prefWidth="120.0" text="Street" />
+                        <TableColumn fx:id="BrgyColumn" prefWidth="120.0" text="Barangay" />
+                        <TableColumn fx:id="CityColumn" prefWidth="120.0" text="City" />
+                        <TableColumn fx:id="CarPlateColumn" prefWidth="120.0" text="Car Plate" />
                     </columns>
                   </TableView>
                </content>

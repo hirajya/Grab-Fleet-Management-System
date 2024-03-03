@@ -20,7 +20,7 @@ public class driver_database {
         // insert("B0222300753", 9000, 2500, "2021-10-01", "2021-10-31", false, "Michael Angelo Balubar");
         // updateStr("B0222300753", "driver_Name", "Rodney Lei");
         // updateInt("B0222300753", "boundary_InputAmount", 200);
-        delete("B0222300753");
+        // delete("B0222300753");
         connect();
     }
 
@@ -47,7 +47,7 @@ public class driver_database {
             while(resultSet.next()){
                 System.out.println(resultSet.getString("driver_LicenseNum"));
                 System.out.println(resultSet.getString("driver_CNumber"));
-                System.out.println(resultSet.getString("driver_CPerson"));
+                System.out.println(resultSet.getString("driver_CPersonNum"));
                 System.out.println(resultSet.getString("driver_Sex"));
                 System.out.println(resultSet.getString("driver_FName"));
                 System.out.println(resultSet.getString("driver_MName"));
@@ -77,7 +77,7 @@ public class driver_database {
         }
     }
 
-    public static void insert(String d_LicenseNum, String d_CNumber, String d_CPerson, String d_Sex, String d_FName, String d_MName, String d_LName, String d_Birthdate, int d_HouseNum, String d_City, String d_Street, String d_Block, String d_Brgy) throws ParseException {
+    public static void insert(String d_LicenseNum, String d_CNumber, String d_CPersonNum, String d_Sex, String d_FName, String d_MName, String d_LName, String d_Birthdate, int d_HouseNum, String d_City, String d_Street, String d_Block, String d_Brgy) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -95,8 +95,8 @@ public class driver_database {
 
             preparedStatement.setString(1, d_LicenseNum);
             preparedStatement.setString(2, d_CNumber);
-            preparedStatement.setString(3, d_CPerson);
-            preparedStatement.setString(4, d_CPerson);
+            preparedStatement.setString(3, d_CPersonNum);
+            // preparedStatement.setString(4, d_CPerson);
 
 
             int rows = preparedStatement.executeUpdate();
@@ -232,37 +232,37 @@ public class driver_database {
         }
     }
 
-    public static void delete(String d_LicenseNum) {
-        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
-        String user = "root";
-        String password = "";
+    // public static void delete(String d_LicenseNum) {
+    //     String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+    //     String user = "root";
+    //     String password = "";
     
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+    //     Connection connection = null;
+    //     PreparedStatement preparedStatement = null;
     
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-            String sqlQuery = "DELETE FROM boundary WHERE driver_LicenseNum = ?";
-            preparedStatement = connection.prepareStatement(sqlQuery);
+    //     try {
+    //         connection = DriverManager.getConnection(url, user, password);
+    //         String sqlQuery = "DELETE FROM boundary WHERE driver_LicenseNum = ?";
+    //         preparedStatement = connection.prepareStatement(sqlQuery);
     
-            preparedStatement.setString(1, d_LicenseNum);
+    //         preparedStatement.setString(1, d_LicenseNum);
     
-            int rows = preparedStatement.executeUpdate();
+    //         int rows = preparedStatement.executeUpdate();
     
-            if (rows > 0) {
-                System.out.println("Car boundary record deleted successfully");
-            } else {
-                System.out.println("No car boundary record found for the given ID:" + d_LicenseNum);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    //         if (rows > 0) {
+    //             System.out.println("Car boundary record deleted successfully");
+    //         } else {
+    //             System.out.println("No car boundary record found for the given ID:" + d_LicenseNum);
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (preparedStatement != null) preparedStatement.close();
+    //             if (connection != null) connection.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
 }
