@@ -89,7 +89,7 @@
               </columns>
             </TableView>
             <ComboBox fx:id="statusOptions" layoutX="18.0" layoutY="101.0" prefWidth="150.0" promptText="Status" />
-            <Button fx:id="GoDeleteButton1" layoutX="806.0" layoutY="24.0" mnemonicParsing="false" onAction="#GoDeleteQuota" prefHeight="25.0" prefWidth="74.0" text="Button" />
+            <Button fx:id="GoDeleteButton1" layoutX="806.0" layoutY="24.0" mnemonicParsing="false" onAction="#GoDeleteQuota" opacity="0.0" prefHeight="25.0" prefWidth="74.0" text="Button" />
          </children></Pane>
       <ImageView fitHeight="19.0" fitWidth="19.0" layoutY="-8.0" x="24.0" y="160.0">
          <image>

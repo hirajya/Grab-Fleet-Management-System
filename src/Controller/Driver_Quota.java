@@ -256,6 +256,7 @@ public class Driver_Quota {
                         if (rowsAffected > 0) {
                             System.out.println("Row deleted successfully.");
                             refreshTable1();
+                            GoDriverQuota();
                         } else {
                             System.out.println("Failed to delete row.");
                         }

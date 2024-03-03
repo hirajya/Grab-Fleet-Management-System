@@ -9,7 +9,8 @@
       "name": "App",
       "request": "launch",
       "mainClass": "App",
-      "projectName": "Grab Fleet Management System_59852446"
+      "projectName": "Grab Fleet Management System_59852446",
+      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
     },
     {
       "type": "java",
@@ -38,42 +39,48 @@
       "name": "admin_table",
       "request": "launch",
       "mainClass": "model.admin_table",
-      "projectName": "Grab-Fleet-Management-System_be3f6580"
+      "projectName": "Grab-Fleet-Management-System_be3f6580",
+      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
     },
     {
       "type": "java",
       "name": "amortization_table",
       "request": "launch",
       "mainClass": "model.amortization_table",
-      "projectName": "Grab-Fleet-Management-System_be3f6580"
+      "projectName": "Grab-Fleet-Management-System_be3f6580",
+      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
     },
     {
       "type": "java",
       "name": "car_table",
       "request": "launch",
       "mainClass": "model.car_table",
-      "projectName": "Grab-Fleet-Management-System_be3f6580"
+      "projectName": "Grab-Fleet-Management-System_be3f6580",
+      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
     },
     {
       "type": "java",
       "name": "driver_table",
       "request": "launch",
       "mainClass": "model.driver_table",
-      "projectName": "Grab-Fleet-Management-System_be3f6580"
+      "projectName": "Grab-Fleet-Management-System_be3f6580",
+      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
     },
     {
       "type": "java",
       "name": "maintenance_table",
       "request": "launch",
       "mainClass": "model.maintenance_table",
-      "projectName": "Grab-Fleet-Management-System_be3f6580"
+      "projectName": "Grab-Fleet-Management-System_be3f6580",
+      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
     },
     {
       "type": "java",
       "name": "quota_table",
       "request": "launch",
       "mainClass": "model.quota_table",
-      "projectName": "Grab-Fleet-Management-System_be3f6580"
+      "projectName": "Grab-Fleet-Management-System_be3f6580",
+      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
     }
   ]
 }

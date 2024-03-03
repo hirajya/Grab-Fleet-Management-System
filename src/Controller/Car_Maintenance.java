@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -27,6 +28,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -96,6 +98,18 @@ public class Car_Maintenance {
     @FXML 
     private DatePicker updateChangeOil, updateChangeBelt;
 
+    @FXML
+    private Button deleteButtonM, deleteButton, discardButtonDelete;
+
+    @FXML
+    private Pane deletePane;
+
+    @FXML
+    private TextField confirmationTextField;
+
+    @FXML
+    private Text deleteText;
+
     String query = null;
     Connection connection = null;
     PreparedStatement preparedStatement = null;
@@ -147,6 +161,103 @@ public class Car_Maintenance {
         System.out.println("Status: " + selectedMaintenance.getStatus());
     }
 
+    public void GoCarMaintenanceView() {
+        
+        deletePane.setVisible(false);
+        removeBlur(carMaintenancePane);
+        carMaintenancePane.setVisible(true);
+    }
+
+    public void GoDeleteCarMaintenance() {
+        confirmationTextField.clear();
+        deleteText.setVisible(false);
+        try {
+            if (maintenance_table.getSelectionModel().getSelectedItem() == null) {
+                showAlert("No Selected Data", "Please select a car from the table to delete.");
+                return; // Exit the method if no item is selected
+            }
+            applyBlur(carMaintenancePane);
+            deletePane.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Error in GoDeleteCar");
+        }
+    }
+
+    @FXML
+    public void deleteMaintenance() {
+        try {
+            if (maintenance_table.getSelectionModel().getSelectedItem() == null) {
+                showAlert("No Maintenance Record Selected", "Please select a maintenance record to delete");
+                return;
+            }
+
+            String confirmationText = confirmationTextField.getText().trim();
+
+            if (!"DELETE".equalsIgnoreCase(confirmationText)) {
+                showNoDeleteMsg();
+                System.out.println("Deletion cancelled. Text does not match 'DELETE'.");
+                return;
+            }
+
+            int maintenanceId = maintenance_table.getSelectionModel().getSelectedItem().getMaintenanceId();
+            String deleteQuery = "DELETE FROM maintenance WHERE maintenance_RecordID = ?";
+
+            try (Connection connection = DbConnect.getConnect()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                    preparedStatement.setInt(1, maintenanceId);
+                    preparedStatement.executeUpdate();
+                    System.out.println("Maintenance record deleted successfully");
+                }
+                showSuccessAlert("Car Maintenance record deleted successfully");
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showErrorAlert("An error occurred while deleting the maintenance record");
+            }
+            GoCarMaintenanceView();
+            refreshTable();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("An error occurred while trying to delete the maintenance record");
+        }
+    }
+
+    
+
+    public static void applyBlur(Pane pane) {
+        BoxBlur boxBlur = new BoxBlur();
+        boxBlur.setWidth(5);
+        boxBlur.setHeight(5);
+        boxBlur.setIterations(3);
+
+        pane.setEffect(boxBlur);
+    }
+
+    public static void removeBlur(Pane pane) {
+        pane.setEffect(null);
+    }
+
+    
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    public static boolean isDeleteText(TextField textField) {
+        String text = textField.getText().trim();
+        return "DELETE".equalsIgnoreCase(text);
+    }
+
+    public void showNoDeleteMsg () {
+        deleteText.setVisible(true);
+    }
+
     public void configureDatePickers(){
         
     StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
@@ -190,7 +301,7 @@ public class Car_Maintenance {
         maintenance selectedMaintenance = maintenance_table.getSelectionModel().getSelectedItem();
         int maintenanceId = selectedMaintenance.getMaintenanceId();
 
-        String updateQuery = "UPDATE maintenance SET changeOil = ?, changeBelt = ? WHERE maintenance_RecordID = ?";
+        String updateQuery = "UPDATE maintenance SET maintenance_ChangeOil = ?, maintenance_ChangeBelt = ? WHERE maintenance_RecordID = ?";
 
         try (Connection connection = DbConnect.getConnect()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
@@ -231,13 +342,7 @@ public class Car_Maintenance {
         alert.showAndWait();
     }
 
-    private void showAlert(String title, String content){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
+    
 
     public Callback<TableColumn<maintenance, String>, TableCell<maintenance, String>> createStatusCellFactory() {
         return new Callback<TableColumn<maintenance, String>, TableCell<maintenance, String>>() {
