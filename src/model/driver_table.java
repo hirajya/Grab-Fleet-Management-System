@@ -16,8 +16,11 @@ public class driver_table {
 
     public static void main(String[] args) throws Exception {
         // connect();
-        // insert("B0222300753", 9000, 2500, "2021-10-01", "2021-10-31", false, "Michael Angelo Balubar");
-        // updateStr("B0222300753", "driver_Name", "Rodney Lei");
+        // insert("B0222300753", "09123456789", "09123456789", "Male", "Rodney", "Lei", "Lopez", "1999-12-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "NAC2393", "2022-12-12", 1, 3);
+        insert("B0233303753", "09123456789", "09123456789", "Female", "Jaena", "Lei", "Ara", "1989-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "PAC2393", "2022-11-12", 1, 4);
+        // insert("B0211103753", "09123456789", "09123456789", "Male", "Jaenaru", "Kairu", "Ara", "2001-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "DAC2393", "2022-11-12", 1, 4);
+        // insert("B0111103753", "09123456789", "09123456789", "Male", "Boki", "Kairu", "Shin", "2001-11-12", 123, "Quezon City", "Lopez", "Lopez", "Lopez", "TAC2393", "2022-11-12", 1, 4);
+
         // updateInt("B0222300753", "boundary_InputAmount", 200);
         // delete("B0222300753");
         connect();
@@ -78,7 +81,7 @@ public class driver_table {
         }
     }
 
-    public static void insert(String d_LicenseNum, int d_CNumber, String d_CPersonNum, String d_Sex, String d_FName, String d_MName, String L_Name, String d_Birthdate, int d_HouseNum, String d_City, String d_Street, String d_Block, String d_Brgy, String c_Plate, String d_LicenseExpiry, int a_Id, int q_RecordID) throws ParseException {
+    public static void insert(String d_LicenseNum, String d_CNumber, String d_CPersonNum, String d_Sex, String d_FName, String d_MName, String L_Name, String d_Birthdate, int d_HouseNum, String d_City, String d_Street, String d_Block, String d_Brgy, String c_Plate, String d_LicenseExpiry, int a_Id, int q_RecordID) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -91,11 +94,11 @@ public class driver_table {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO quota (driver_LicenseNum, driver_CNumber, driver_CPersonNum, driver_Sex, driver_FName, driver_MName, driver_LName, driver_Birthdate, driver_HouseNum, driver_City, driver_Street, driver_Block, driver_Brgy, car_Plate, driver_LicenseExpiry, admin_Id, quota_RecordID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO driver (driver_LicenseNum, driver_CNumber, driver_CPersonNum, driver_Sex, driver_FName, driver_MName, driver_LName, driver_Birthdate, driver_HouseNum, driver_City, driver_Street, driver_Block, driver_Brgy, car_Plate, driver_LicenseExpiry, admin_Id, quota_RecordID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setString(1, d_LicenseNum);
-            preparedStatement.setInt(2, d_CNumber);
+            preparedStatement.setString(2, d_CNumber);
             preparedStatement.setString(3, d_CPersonNum);
             preparedStatement.setString(4, d_Sex);
             preparedStatement.setString(5, d_FName);
