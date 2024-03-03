@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -18,7 +19,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.SelectionMode;
@@ -26,6 +30,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -94,6 +99,9 @@ public class Driver_Quota {
     private ObservableList<Driver_Quota_obj> originalData;
 
     @FXML
+    private Text deleteText;
+
+    @FXML
     private Text UDQAmount, UDQLicenseNumber, UDQName;
 
     @FXML
@@ -117,6 +125,18 @@ public class Driver_Quota {
     
     @FXML
     private Button updateButtonInsert;
+
+    @FXML
+    private Pane deletePane;
+
+    @FXML
+    private TextField confirmationTextField;
+
+    @FXML
+    private Button discardButtonDelete, deleteButton;
+
+    @FXML
+    private Button GoDeleteButton1;
 
     public void initialize() {
         setUpColumns();
@@ -155,6 +175,22 @@ public class Driver_Quota {
 
         // Configure date pickers to display dates in the format you desire
         configureDatePickers();
+    }
+
+    private void showErrorAlert(String message) {
+     Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+         alert.showAndWait();
+}
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private void printSelectedRowData(model.object_model.Driver_Quota_obj selectedQuota) {
@@ -197,6 +233,97 @@ public class Driver_Quota {
         UDQStartDate.setConverter(converter);
         UDQDueDate.setConverter(converter);
     }
+
+    @FXML
+    private void deleteDriverQuota() {
+        try {
+            model.object_model.Driver_Quota_obj selectedQuota = quota_table.getSelectionModel().getSelectedItem();
+    
+            if (selectedQuota != null) {
+                // Validate deletion
+                boolean isDeleteConfirmed = isDeleteText(confirmationTextField);
+    
+                if (isDeleteConfirmed) {
+                    int recordID = selectedQuota.getRecordId();
+                    String deleteQuery = "DELETE FROM quota WHERE quota_RecordID = ?";
+    
+                    try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "root", "");
+                         PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+    
+                        deleteStatement.setInt(1, recordID);
+                        int rowsAffected = deleteStatement.executeUpdate();
+    
+                        if (rowsAffected > 0) {
+                            System.out.println("Row deleted successfully.");
+                            refreshTable1();
+                        } else {
+                            System.out.println("Failed to delete row.");
+                        }
+                    }
+                } else {
+                    showNoDeleteMsg();
+                    System.out.println("Deletion cancelled. Text does not match 'DELETE'.");
+                }
+            } else {
+                showErrorAlert("Please select a row to delete.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+
+    public void GoDeleteQuota() {
+        confirmationTextField.clear();
+        deleteText.setVisible(false);
+        try {
+            if (quota_table.getSelectionModel().getSelectedItem() == null) {
+                showAlert("No Selected Data", "Please select a car from the table to delete.");
+                return; // Exit the method if no item is selected
+            }
+            applyBlur(quota_view);
+            deletePane.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Error in GoQuotaView");
+        }
+    }
+
+    
+
+    public void GoDriverQuota() {
+        
+        deletePane.setVisible(false);
+        removeBlur(quota_view);
+        quota_view.setVisible(true);
+    }
+
+    public static void applyBlur(Pane pane) {
+        BoxBlur boxBlur = new BoxBlur();
+        boxBlur.setWidth(5);
+        boxBlur.setHeight(5);
+        boxBlur.setIterations(3);
+
+        pane.setEffect(boxBlur);
+    }
+
+    public static void removeBlur(Pane pane) {
+        pane.setEffect(null);
+    }
+
+    public static boolean isDeleteText(TextField textField) {
+        String text = textField.getText().trim();
+        return "DELETE".equalsIgnoreCase(text);
+    }
+
+    public void showNoDeleteMsg () {
+        deleteText.setVisible(true);
+    }
+
+    
+
+    
+
 
     private void bindSelectedRowData(model.object_model.Driver_Quota_obj selectedQuota) {
         // Bind selected row data to the controls
@@ -305,7 +432,16 @@ public class Driver_Quota {
         statusOptions.setOnAction(event -> filterTableByStatus());
     }
 
-    public void switchToUpdate(){
+    // public void switchToUpdate(){
+    //     quota_view.setVisible(false);
+    //     updateCarQuotaPane.setVisible(true);
+    // }
+
+    public void switchToUpdate() {
+        if (quota_table.getSelectionModel().getSelectedItem() == null) {
+            showErrorAlert("Please select a row to update.");
+            return;
+        }
         quota_view.setVisible(false);
         updateCarQuotaPane.setVisible(true);
     }
