@@ -304,8 +304,8 @@ public class Car_Accounts implements Initializable {
 
 
     }
-
-    private void deleteCarAccounts() {
+    
+    private void deleteCarAccs() {
         try {
             car selectedCar = carTable.getSelectionModel().getSelectedItem();
     
@@ -341,7 +341,6 @@ public class Car_Accounts implements Initializable {
             e.printStackTrace();
         }
     }
-    
 
     public void GoCarView() {
         
