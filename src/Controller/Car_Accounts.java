@@ -191,7 +191,7 @@ public class Car_Accounts implements Initializable {
          setupSeriesComboBox();
            setupKindComboBox();
             setupYearComboBox();
-            setupColorComboBox();
+            // setupColorComboBox();
         setupRegStatusComboBox();
            setupAvailabilityComboBox();
 
@@ -558,7 +558,7 @@ private void showAlert(String title, String content) {
             String selectedSeries = seriesComboBox.getValue();
             String selectedKind = kindComboBox.getValue();
             String selectedYearModel = yearComboBox.getValue();
-            String selectedColor = colorComboBox.getValue();
+            // String selectedColor = colorComboBox.getValue();
             String selectedRegStatus = RegstatusComboBox.getValue();
             String selectedAvailability = AvailabilityComboBox.getValue();
             String searchKeyword = searchTextField.getText();
@@ -577,9 +577,9 @@ private void showAlert(String title, String content) {
                 queryBuilder.append(" AND car_YearModel = ?");
             }
     
-            if (selectedColor != null && !selectedColor.equals("All")) {
-                queryBuilder.append(" AND car_Color = ?");
-            }
+            // if (selectedColor != null && !selectedColor.equals("All")) {
+            //     queryBuilder.append(" AND car_Color = ?");
+            // }
     
             if (selectedRegStatus != null && !selectedRegStatus.equals("All")) {
                 queryBuilder.append(" AND car_RegStatus = ?");
@@ -606,9 +606,9 @@ private void showAlert(String title, String content) {
                 preparedStatement.setString(parameterIndex++, selectedYearModel);
             }
     
-            if (selectedColor != null && !selectedColor.equals("All")) {
-                preparedStatement.setString(parameterIndex++, selectedColor);
-            }
+            // if (selectedColor != null && !selectedColor.equals("All")) {
+            //     preparedStatement.setString(parameterIndex++, selectedColor);
+            // }
     
             if (selectedRegStatus != null && !selectedRegStatus.equals("All")) {
                 preparedStatement.setString(parameterIndex++, selectedRegStatus);
@@ -776,10 +776,10 @@ private void handleSearch(KeyEvent event) {
         yearComboBox.setValue("All");
     }
 
-    private void setupColorComboBox() {
-        colorComboBox.setItems(FXCollections.observableArrayList("All", "Black", "White", "Red", "Blue", "Green", "Yellow", "Orange", "Violet", "Indigo"));
-        colorComboBox.setValue("All");
-    }
+    // private void setupColorComboBox() {
+    //     colorComboBox.setItems(FXCollections.observableArrayList("All", "Black", "White", "Red", "Blue", "Green", "Yellow", "Orange", "Violet", "Indigo"));
+    //     colorComboBox.setValue("All");
+    // }
 
     private void setupRegStatusComboBox() {
         RegstatusComboBox.setItems(FXCollections.observableArrayList("All", "Up to date", "Due Soon", "Expired"));

@@ -24,11 +24,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
 
         try {
-<<<<<<< HEAD
             Parent root = FXMLLoader.load(getClass().getResource("/View/Car_Accounts.fxml"));
-=======
-            Parent root = FXMLLoader.load(getClass().getResource("/View/Driver_Accounts.fxml"));
->>>>>>> DeLuna
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.getIcons().add(new Image("/Images/logo.png"));

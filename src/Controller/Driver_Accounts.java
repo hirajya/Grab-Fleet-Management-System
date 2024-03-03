@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -26,6 +29,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,6 +40,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
@@ -100,6 +105,16 @@ public class Driver_Accounts {
     @FXML
     public TableColumn<model.Driver_Accounts_obj, String> CarPlateColumn;
 
+    @FXML
+    public TextField confirmationTextField;
+
+    @FXML
+    public Text deleteText;
+
+    @FXML
+    private Button deleteButtonGoPush;
+
+
    
     /*String query = null;
     Connection connection = null;
@@ -109,7 +124,7 @@ public class Driver_Accounts {
     private ObservableList<Driver_Accounts_obj> originalData;
 
     public void initialize() { 
-
+        deleteText.setVisible(false);
         setUpColumns();
         
         originalData = FXCollections.observableArrayList(model.driver_table.getDriverData());
@@ -183,7 +198,7 @@ public class Driver_Accounts {
         deleteDriver.setVisible(true);
     }   
 
-    public void hideDeleteDriverPane(ActionEvent event) {
+    public void hideDeleteDriverPane() {
         deleteDriver.setVisible(false);
     }
 
@@ -292,5 +307,69 @@ public class Driver_Accounts {
             stage.show();
 
     }
+
+    public void deleteCarDriver() throws ClassNotFoundException {
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            // Check if the text inside the confirmationTextField is "DELETE"
+            if (isDeleteText(confirmationTextField)) {
+                Driver_Accounts_obj selectedDriver = driver_acc_table.getSelectionModel().getSelectedItem();
+                if (selectedDriver != null) {
+                    String recordID = selectedDriver.getDriver_LicenseNum();
+                    String deleteQuery = "DELETE FROM driver WHERE driver_LicenseNum = ?";
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    connection = DriverManager.getConnection(url, user, password);
+                    try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+                        deleteStatement.setString(1, recordID);
+                        int rowsAffected = deleteStatement.executeUpdate();
+                        if (rowsAffected > 0) {
+                            System.out.println("Row deleted successfully.");
+                            hideDeleteDriverPane();
+                            refreshTable();
+                        } else {
+                            System.out.println("Failed to delete row.");
+                        }
+                    }
+                }
+            } else {
+                showNoDeleteMsg();
+                System.out.println("Deletion cancelled. Text does not match 'DELETE'.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean isDeleteText(TextField textField) {
+        String text = textField.getText().trim();
+        return "DELETE".equalsIgnoreCase(text);
+    }
+
+    public void refreshTable() {
+        // Clear existing data
+        driver_acc_table.getItems().clear();
+
+        // Fetch new data and add it to the table
+        List<Driver_Accounts_obj> updatedData = model.driver_table.getDriverData();
+        originalData.setAll(updatedData);
+
+        // Add the updated data to the table
+        driver_acc_table.getItems().addAll(originalData);
+    }
+
+    public void showNoDeleteMsg () {
+        deleteText.setVisible(true);
+    }
+
+    
+
+
 
 }

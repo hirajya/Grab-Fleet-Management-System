@@ -108,9 +108,8 @@
             </Text>
             <ComboBox fx:id="kindComboBox" layoutX="120.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="90.0" promptText="Kind" />
             <ComboBox fx:id="yearComboBox" layoutX="219.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="109.0" promptText="Year Model" />
-            <ComboBox fx:id="colorComboBox" layoutX="337.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="90.0" promptText="Color" />
-            <ComboBox fx:id="RegstatusComboBox" layoutX="436.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="153.0" promptText="Registration Status" />
-            <ComboBox fx:id="AvailabilityComboBox" layoutX="598.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="109.0" promptText="Availability" />
+            <ComboBox fx:id="RegstatusComboBox" layoutX="338.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="153.0" promptText="Registration Status" />
+            <ComboBox fx:id="AvailabilityComboBox" layoutX="500.0" layoutY="94.0" onAction="#handleFilterChange" prefHeight="25.0" prefWidth="109.0" promptText="Availability" />
             <Button layoutX="247.0" layoutY="22.0" mnemonicParsing="false" onAction="#GoAddCar" opacity="0.0" prefHeight="25.0" prefWidth="109.0" text="Button" />
             <Pane layoutY="7.0" prefHeight="635.0" prefWidth="888.0" style="-fx-background-color: #F6F6F6;" visible="false" />
             <Button layoutX="748.0" layoutY="24.0" mnemonicParsing="false" onAction="#GoUpdateCar" opacity="0.0" text="Button" />
