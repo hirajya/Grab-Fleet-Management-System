@@ -364,14 +364,14 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <Button layoutX="330.0" layoutY="645.0" mnemonicParsing="false" onAction="#GoBackAddCar" opacity="0.68" prefHeight="25.0" prefWidth="80.0" text="Button" />
+            <Button layoutX="330.0" layoutY="645.0" mnemonicParsing="false" onAction="#GoBackAddCar" opacity="0.0" prefHeight="25.0" prefWidth="80.0" text="Button" />
             <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#167efb" height="30.0" layoutX="471.0" layoutY="642.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="162.0" />
             <Text fill="WHITE" layoutX="469.0" layoutY="552.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Car" x="56.0" y="109.0">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <Button layoutX="481.0" layoutY="644.0" mnemonicParsing="false" onAction="#save" opacity="0.69" prefHeight="25.0" prefWidth="143.0" text="Button" />
+            <Button layoutX="481.0" layoutY="644.0" mnemonicParsing="false" onAction="#save" opacity="0.0" prefHeight="25.0" prefWidth="143.0" text="Button" />
             <Text layoutX="13.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
                   <Font name="Arial" size="18.0" />
@@ -384,6 +384,7 @@
             </Text>
             <ChoiceBox fx:id="statusCB" layoutX="145.0" layoutY="538.0" prefWidth="150.0" />
             <ChoiceBox fx:id="availabilityCB" layoutX="448.0" layoutY="538.0" prefWidth="150.0" />
+            <Text fx:id="warningMsg4" layoutX="524.0" layoutY="590.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Plate Number is already taken." visible="false" wrappingWidth="380.068359375" />
          </children>
       </Pane>
       <Pane fx:id="updateCarPane" layoutX="209.0" layoutY="78.0" prefHeight="720.0" prefWidth="915.0" style="-fx-background-color: #F6F6F6;" visible="false">
@@ -511,6 +512,7 @@
                </font>
             </Text>
             <Button layoutX="645.0" layoutY="636.0" mnemonicParsing="false" onAction="#updateCarAccounts" opacity="0.0" prefHeight="25.0" prefWidth="90.0" text="UPDATE" />
+            <Text fx:id="warningMsg" layoutX="574.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Plate Number is already taken." visible="false" wrappingWidth="209.068359375" />
          </children>
       </Pane>
       <ImageView fitHeight="19.0" fitWidth="19.0" layoutY="-8.0" x="24.0" y="160.0">
@@ -629,5 +631,6 @@
             </Text>
          </children>
       </Pane>
+      <Text fx:id="warningMsg3" layoutX="676.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Plate Number is already taken." visible="false" wrappingWidth="380.068359375" />
    </children>
 </Pane>

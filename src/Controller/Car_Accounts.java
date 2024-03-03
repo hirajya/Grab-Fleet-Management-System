@@ -181,6 +181,9 @@ public class Car_Accounts implements Initializable {
     @FXML
     private ChoiceBox<String> statusCB, availabilityCB;
 
+    @FXML
+    private Text warningMsg, warningMsg3, warningMsg4;
+
 
     String query = null;
     Connection connection = null;
@@ -290,6 +293,8 @@ public class Car_Accounts implements Initializable {
         String newColor = updateColor.getText();
         LocalDate newReg = updateCarReg.getValue();
         LocalDate newRegExpiry = updateCarRegExpiry.getValue();
+
+        
     
         String carPlate = carTable.getSelectionModel().getSelectedItem().getCar_Plate();
     
@@ -326,7 +331,24 @@ public class Car_Accounts implements Initializable {
         refreshTable();
     }
     
+    public boolean isCarPlateExists(String carPlate) throws SQLException {
+        String checkCarPlateQuery = "SELECT COUNT(*) FROM car WHERE car_Plate = ?";
+        
+        try (PreparedStatement preparedStatement = connection.prepareStatement(checkCarPlateQuery)) {
+            preparedStatement.setString(1, carPlate);
     
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0; // If count is greater than 0, the car plate exists
+                }
+            }
+        }
+    
+        return false; // Return false in case of an error or if no records are found
+    }
+    
+
     
     public void deleteCarAccs() {
         try {
@@ -452,6 +474,13 @@ public class Car_Accounts implements Initializable {
                 int amortizationPayment = Integer.parseInt(addAmortizationPayment.getText());
                 String status = statusCB.getValue();
                 String availability = availabilityCB.getValue();
+
+                if (isCarPlateExists(plate)) {
+                    // warningMsg3.setVisible(true);
+                    warningMsg4.setVisible(true);
+                    System.out.println("Car plate already exists.");
+                    return;
+                }
     
                 try (Connection connection = DbConnect.getConnect()) {
                     // Insert into car table
@@ -765,6 +794,7 @@ private void handleSearch(KeyEvent event) {
             stage.show();
 
     }
+    
 
     public void GoToC_Maintenance(ActionEvent event) throws IOException {
 
