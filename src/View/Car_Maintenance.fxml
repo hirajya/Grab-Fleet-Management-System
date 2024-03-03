@@ -156,7 +156,7 @@
                </font>
             </Text>
             <Button layoutX="742.0" layoutY="23.0" mnemonicParsing="false" onAction="#GoToM_Update" prefHeight="25.0" prefWidth="68.0" style="-fx-background-color: transparent;" />
-            <Button fx:id="deleteBtn" layoutX="825.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" style="-fx-background-color: transparent;" />
+            <Button fx:id="deleteBtn" layoutX="825.0" layoutY="22.0" mnemonicParsing="false" onAction="#deleteRow" prefHeight="25.0" prefWidth="68.0" style="-fx-background-color: transparent;" />
          </children>
       </Pane>
    </children>

@@ -240,7 +240,7 @@ public class Car_Maintenance {
     public void GoToM_Update(ActionEvent event) throws IOException {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/View/Car_Maintenance Update.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/View/Car_Maintenance_Update.fxml"));
 
         Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -277,10 +277,15 @@ public class Car_Maintenance {
         // Here's an example using JDBC:
         
         // 1. Create a connection to the database
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "username", "password");
-        
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+
         // 2. Create a prepared statement to delete the maintenance record
-        String sql = "DELETE FROM maintenance WHERE maintenanceId = ?";
+        connection = DriverManager.getConnection(url, user, password);
+        String sql = "DELETE FROM maintenance WHERE maintenance_RecordID = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, maintenance.getMaintenanceId());
         
