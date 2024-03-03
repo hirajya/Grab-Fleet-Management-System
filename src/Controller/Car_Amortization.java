@@ -115,6 +115,12 @@ public class Car_Amortization implements Initializable {
     @FXML
     private Pane deletePane;
 
+    @FXML
+    private Button deleteButton, discardButtonDelete;
+
+    @FXML
+    private Button deleteButtonGo;
+
     private ToggleGroup statusToggleGroup = new ToggleGroup();
 
     String query = null;
@@ -127,7 +133,8 @@ public class Car_Amortization implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-       applyBlur(deletePane);
+    //    applyBlur(deletePane);
+        // applyBlur(carAmortizationTablePane);
        loadDate();
        setupFilterComboBox();
 
@@ -155,6 +162,7 @@ public class Car_Amortization implements Initializable {
         
     }
 
+
     private void printSelectedRowData(amortization selectedAmortization) {
         System.out.println("Selected Row Data:");
         System.out.println("Record ID: " + selectedAmortization.getAmortization_RecordID());
@@ -169,6 +177,27 @@ public class Car_Amortization implements Initializable {
     public void GoCarAmortization() {
         updateCarAmortizationPane.setVisible(false);
         carAmortizationTablePane.setVisible(true);
+    }
+
+    public void GoCarAmortization2() {
+        
+        deletePane.setVisible(false);
+        removeBlur(carAmortizationTablePane);
+        carAmortizationTablePane.setVisible(true);
+    }
+
+    public void GoDeleteCarAmortization() {
+        try {
+            if (amortizationTable.getSelectionModel().getSelectedItem() == null) {
+                showAlert("No Selected Data", "Please select a car from the table to delete.");
+                return; // Exit the method if no item is selected
+            }
+            applyBlur(carAmortizationTablePane);
+            deletePane.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Error in GoDeleteCar");
+        }
     }
 
     public void updateDetails() {
@@ -203,6 +232,10 @@ public class Car_Amortization implements Initializable {
         boxBlur.setIterations(3);
 
         pane.setEffect(boxBlur);
+    }
+
+    public static void removeBlur(Pane pane) {
+        pane.setEffect(null);
     }
 
     private void showErrorAlert(String message) {
