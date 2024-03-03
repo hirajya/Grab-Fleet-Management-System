@@ -25,6 +25,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -34,6 +35,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
@@ -163,6 +165,18 @@ public class Car_Accounts implements Initializable {
     @FXML
     private Button backButtonCarAcc;
 
+    @FXML
+    private Button deleteButton, discardButtonDelete;
+
+    @FXML
+    private Text deleteText;
+
+    @FXML
+    private TextField confirmationTextField;
+
+    @FXML
+    private Pane deletePane;
+
     String query = null;
     Connection connection = null;
     PreparedStatement preparedStatement = null;
@@ -291,29 +305,89 @@ public class Car_Accounts implements Initializable {
 
     }
 
-    public void deleteCar(ActionEvent event){
+    private void deleteCarAccounts() {
         try {
-            if (carTable.getSelectionModel().getSelectedItem() == null || carTable.getSelectionModel().getSelectedItem().getCar_Plate() == null) {
+            car selectedCar = carTable.getSelectionModel().getSelectedItem();
+    
+            if (selectedCar != null) {
+                String confirmationText = confirmationTextField.getText().trim();
+    
+                if (!"DELETE".equalsIgnoreCase(confirmationText)) {
+                    showNoDeleteMsg();
+                    System.out.println("Deletion cancelled. Text does not match 'DELETE'.");
+                    return;
+                }
+    
+                String carPlateRecord = selectedCar.getCar_Plate();
+                String deleteQuery = "DELETE FROM quota WHERE car_Plate = ?";
+    
+                try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "root", "");
+                     PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+    
+                    deleteStatement.setString(1, carPlateRecord);
+                    int rowsAffected = deleteStatement.executeUpdate();
+    
+                    if (rowsAffected > 0) {
+                        System.out.println("Row deleted successfully.");
+                        
+                    } else {
+                        System.out.println("Failed to delete row.");
+                    }
+                }
+            } else {
+                showErrorAlert("Please select a row to delete.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+
+    public void GoCarView() {
+        
+        deletePane.setVisible(false);
+        removeBlur(carAccPane);
+        carAccPane.setVisible(true);
+    }
+
+    public static void applyBlur(Pane pane) {
+        BoxBlur boxBlur = new BoxBlur();
+        boxBlur.setWidth(5);
+        boxBlur.setHeight(5);
+        boxBlur.setIterations(3);
+
+        pane.setEffect(boxBlur);
+    }
+
+    public static void removeBlur(Pane pane) {
+        pane.setEffect(null);
+    }
+
+    public static boolean isDeleteText(TextField textField) {
+        String text = textField.getText().trim();
+        return "DELETE".equalsIgnoreCase(text);
+    }
+
+    public void showNoDeleteMsg () {
+        deleteText.setVisible(true);
+    }
+
+    public void GoDeleteCarAcc() {
+        confirmationTextField.clear();
+        deleteText.setVisible(false);
+        try {
+            if (carTable.getSelectionModel().getSelectedItem() == null) {
                 showAlert("No Selected Data", "Please select a car from the table to delete.");
                 return; // Exit the method if no item is selected
             }
-        
-            String carPlate = carTable.getSelectionModel().getSelectedItem().getCar_Plate();
-            String deleteCarQuery = "DELETE FROM car WHERE car_Plate = ?";
-            try (Connection connection = DbConnect.getConnect()) {
-                try (PreparedStatement preparedStatement = connection.prepareStatement(deleteCarQuery)) {
-                    preparedStatement.setString(1, carPlate);
-                    preparedStatement.executeUpdate();
-                }
-                showSuccessAlert("Car deleted successfully");
-            }
-            GoCarAccounts();
-            refreshTable();
-        } catch (SQLException e) {
+            applyBlur(carAccPane);
+            deletePane.setVisible(true);
+        } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Error deleting car");
+            showErrorAlert("Error in GoQuotaView");
         }
     }
+
 
     public void discardUpdate(ActionEvent event) {
         // Clear all text fields
