@@ -5,7 +5,13 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.ResourceBundle;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javafx.scene.control.TextField;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -47,6 +54,15 @@ import javafx.util.Callback;
 public class Car_Amortization implements Initializable {
 
     @FXML
+    private DatePicker endDatePicker;
+
+    @FXML
+    private DatePicker monthlyDueDatePicker;
+
+    @FXML
+    private TextField paymentTextField;
+
+    @FXML
     private Button backButtonCarAmortization;
 
     @FXML
@@ -65,6 +81,9 @@ public class Car_Amortization implements Initializable {
     private TableColumn<amortization, String> CarPlateColumn;
     @FXML
     private TableColumn<amortization, String> StatusColumn;
+
+    @FXML
+    private Button updateCarAmorButton;
 
     @FXML
     private ComboBox<String> filterComboBox;
@@ -105,8 +124,12 @@ public class Car_Amortization implements Initializable {
             if (newSelection != null) {
                 // Handle the selected row, you can print the data or perform any other action
                 printSelectedRowData(newSelection);
+                bindSelectedRowData(newSelection);
             }
         });
+
+        // Configure date pickers to display dates in the format you desire
+        configureDatePickers();
     }
 
     private void printSelectedRowData(amortization selectedAmortization) {
@@ -154,6 +177,74 @@ public class Car_Amortization implements Initializable {
         StatusColumn.setCellFactory(createStatusCellFactory());
 
 
+    }
+
+    private void configureDatePickers() {
+        // Configure StringConverter to format dates in the desired way
+        StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
+            final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            @Override
+            public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                } else {
+                    return null;
+                }
+            }
+        };
+
+        endDatePicker.setConverter(converter);
+        monthlyDueDatePicker.setConverter(converter);
+    }
+
+    private void bindSelectedRowData(amortization selectedAmortization) {
+        // Bind selected row data to the controls
+        endDatePicker.setValue(selectedAmortization.getAmortization_EDate().toLocalDate());
+        monthlyDueDatePicker.setValue(selectedAmortization.getAmortization_DDate().toLocalDate());
+        paymentTextField.setText(String.valueOf(selectedAmortization.getAmortization_Payment()));
+    }
+
+    @FXML
+    private void updateCarAmortization() {
+        // Retrieve values from controls
+        LocalDate newEndDate = endDatePicker.getValue();
+        LocalDate newMonthlyDueDate = monthlyDueDatePicker.getValue();
+        int newPayment = Integer.parseInt(paymentTextField.getText());
+
+        // Perform the update in the database using the selected row's RecordID
+        int recordID = amortizationTable.getSelectionModel().getSelectedItem().getAmortization_RecordID();
+
+        // Your update SQL query goes here
+        String updateQuery = "UPDATE amortization SET amortization_EDate = ?, amortization_DDate = ?, amortization_Payment = ? WHERE amortization_RecordID = ?";
+        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+            updateStatement.setDate(1, Date.valueOf(newEndDate));
+            updateStatement.setDate(2, Date.valueOf(newMonthlyDueDate));
+            updateStatement.setInt(3, newPayment);
+            updateStatement.setInt(4, recordID);
+
+            // Execute the update
+            int rowsAffected = updateStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Row updated successfully.");
+                // Refresh the table to reflect the changes
+                refreshTable();
+            } else {
+                System.out.println("Failed to update row.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        GoCarAmortization();
     }
 
     private Callback<TableColumn<amortization, String>, TableCell<amortization, String>> createStatusCellFactory() {
@@ -229,6 +320,7 @@ public class Car_Amortization implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
     @FXML
