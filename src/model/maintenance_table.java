@@ -186,29 +186,27 @@ try {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
-    
+
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-    
+
         String carSeries = "";
-    
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, password);
-    
-            // Modify the SQL query to include a WHERE clause for status
-            String sqlQuery = "SELECT * FROM car WHERE car_Plate = ?";
+
+            // Modify the SQL query to include a WHERE clause for car_Plate
+            String sqlQuery = "SELECT car_Series FROM car WHERE car_Plate = ?";
             preparedStatement = connection.prepareStatement(sqlQuery);
             preparedStatement.setString(1, carPlate);
-    
+
             resultSet = preparedStatement.executeQuery();
-    
+
             // Check if there is any result
             if (resultSet.next()) {
-                String cSeries = resultSet.getString("car_Series");
-                //String dFName = resultSet.getString("driver_FName");
-                carSeries = cSeries;
+                carSeries = resultSet.getString("car_Series");
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -221,7 +219,7 @@ try {
                 e.printStackTrace();
             }
         }
-    
+
         return carSeries;
     }
     
