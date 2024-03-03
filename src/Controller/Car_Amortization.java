@@ -121,6 +121,12 @@ public class Car_Amortization implements Initializable {
     @FXML
     private Button deleteButtonGo;
 
+    @FXML
+    private TextField confirmationTextField;
+
+    @FXML
+    private Text deleteText;
+
     private ToggleGroup statusToggleGroup = new ToggleGroup();
 
     String query = null;
@@ -187,6 +193,8 @@ public class Car_Amortization implements Initializable {
     }
 
     public void GoDeleteCarAmortization() {
+        confirmationTextField.clear();
+        deleteText.setVisible(false);
         try {
             if (amortizationTable.getSelectionModel().getSelectedItem() == null) {
                 showAlert("No Selected Data", "Please select a car from the table to delete.");
@@ -206,6 +214,44 @@ public class Car_Amortization implements Initializable {
             UCarPlate.setText(selectedAmortization.getCar_Plate());
             UStartDate.setText(selectedAmortization.getAmortization_SDate().toString());
         }
+    }
+
+    public void deleteCarAmortization() {
+        try {
+            // Check if the text inside the confirmationTextField is "DELETE"
+            if (isDeleteText(confirmationTextField)) {
+                amortization selectedAmortization = amortizationTable.getSelectionModel().getSelectedItem();
+                if (selectedAmortization != null) {
+                    int recordID = selectedAmortization.getAmortization_RecordID();
+                    String deleteQuery = "DELETE FROM amortization WHERE amortization_RecordID = ?";
+                    try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+                        deleteStatement.setInt(1, recordID);
+                        int rowsAffected = deleteStatement.executeUpdate();
+                        if (rowsAffected > 0) {
+                            System.out.println("Row deleted successfully.");
+                            GoCarAmortization2();
+                            refreshTable();
+                        } else {
+                            System.out.println("Failed to delete row.");
+                        }
+                    }
+                }
+            } else {
+                showNoDeleteMsg();
+                System.out.println("Deletion cancelled. Text does not match 'DELETE'.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean isDeleteText(TextField textField) {
+        String text = textField.getText().trim();
+        return "DELETE".equalsIgnoreCase(text);
+    }
+
+    public void showNoDeleteMsg () {
+        deleteText.setVisible(true);
     }
 
     public void GoUpdateCarAmortization() {
