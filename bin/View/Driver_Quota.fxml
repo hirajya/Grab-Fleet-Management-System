@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Driver_Quota">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Driver_Quota">
    <children>
       <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grabwheels">
          <font>
@@ -71,17 +71,6 @@
             <Text layoutX="18.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter by:">
                <font>
                   <Font name="Arial Bold" size="15.0" />
-               </font>
-            </Text>
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#167efb" height="30.0" layoutX="254.0" layoutY="20.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="131.0" />
-            <ImageView fitHeight="11.0" fitWidth="11.0" layoutX="266.0" layoutY="29.0">
-               <image>
-                  <Image url="@../Images/add.png" />
-               </image>
-            </ImageView>
-            <Text fill="WHITE" layoutX="231.0" layoutY="-70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Quota" x="56.0" y="109.0">
-               <font>
-                  <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
             <TableView fx:id="quota_table" layoutX="18.0" layoutY="150.0" prefHeight="530.0" prefWidth="867.0">
