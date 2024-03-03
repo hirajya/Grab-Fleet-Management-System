@@ -32,6 +32,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -111,6 +112,9 @@ public class Car_Amortization implements Initializable {
     @FXML
     private Text UCarPlate, UStartDate;
 
+    @FXML
+    private Pane deletePane;
+
     private ToggleGroup statusToggleGroup = new ToggleGroup();
 
     String query = null;
@@ -123,6 +127,7 @@ public class Car_Amortization implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+       applyBlur(deletePane);
        loadDate();
        setupFilterComboBox();
 
@@ -189,6 +194,15 @@ public class Car_Amortization implements Initializable {
             e.printStackTrace();
             showErrorAlert("Error in GoUpdateCar");
         }   
+    }
+
+    public static void applyBlur(Pane pane) {
+        BoxBlur boxBlur = new BoxBlur();
+        boxBlur.setWidth(5);
+        boxBlur.setHeight(5);
+        boxBlur.setIterations(3);
+
+        pane.setEffect(boxBlur);
     }
 
     private void showErrorAlert(String message) {

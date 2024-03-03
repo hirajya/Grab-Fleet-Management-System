@@ -18,6 +18,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -155,6 +157,22 @@ public class Driver_Quota {
 
         // Configure date pickers to display dates in the format you desire
         configureDatePickers();
+    }
+
+    private void showErrorAlert(String message) {
+     Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+         alert.showAndWait();
+}
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private void printSelectedRowData(model.object_model.Driver_Quota_obj selectedQuota) {
@@ -305,7 +323,16 @@ public class Driver_Quota {
         statusOptions.setOnAction(event -> filterTableByStatus());
     }
 
-    public void switchToUpdate(){
+    // public void switchToUpdate(){
+    //     quota_view.setVisible(false);
+    //     updateCarQuotaPane.setVisible(true);
+    // }
+
+    public void switchToUpdate() {
+        if (quota_table.getSelectionModel().getSelectedItem() == null) {
+            showErrorAlert("Please select a row to update.");
+            return;
+        }
         quota_view.setVisible(false);
         updateCarQuotaPane.setVisible(true);
     }

@@ -158,7 +158,7 @@
       <Button layoutX="48.0" layoutY="191.0" mnemonicParsing="false" onAction="#GoToC_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="96.0" text="Button" />
       <Button layoutX="18.0" layoutY="102.0" mnemonicParsing="false" onAction="#GoToHome" opacity="0.0" prefHeight="25.0" prefWidth="120.0" text="Button" />
       <Button layoutX="16.0" layoutY="310.0" mnemonicParsing="false" onAction="#GoToD_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="113.0" text="Button" />
-      <Pane layoutX="199.0" layoutY="81.0" prefHeight="720.0" prefWidth="926.0" style="-fx-background-color: F6F6F6;" visible="false" />
+      <Pane fx:id="deletePane" layoutX="199.0" layoutY="81.0" opacity="0.8" prefHeight="720.0" prefWidth="926.0" style="-fx-background-color: #000000;" />
       <Pane fx:id="updateCarAmortizationPane" layoutX="199.0" layoutY="81.0" prefHeight="720.0" prefWidth="926.0" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0000000d" height="87.0" layoutX="-2.0" layoutY="1.0" stroke="WHITE" strokeType="INSIDE" width="932.0" />

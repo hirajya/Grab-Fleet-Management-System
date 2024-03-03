@@ -24,7 +24,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/View/Driver_Quota.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/View/Car_Amortization.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.getIcons().add(new Image("/Images/logo.png"));
