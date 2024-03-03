@@ -128,6 +128,12 @@ public class Driver_Accounts {
     @FXML
     private Pane updateDriver;
 
+    @FXML
+    private TextField quotaAmount;
+
+    @FXML
+    private DatePicker datePicker1, datePicker2, datePicker3, datePicker4, datePicker5, datePicker6;
+
 
    
     /*String query = null;
@@ -272,13 +278,12 @@ public class Driver_Accounts {
 
         } 
     }
-
     @FXML
     private void addDriverProfile() {
         // Retrieve values from controls
-        LocalDate newBirthDate = DABirthDate.getValue();
+        LocalDate newBirthDate = datePicker1.getValue();
         String newLicenseNumber = DALicenseNumber.getText();
-        LocalDate newLicenseExpiry = DALicenseExpiry.getValue();
+        LocalDate newLicenseExpiry = datePicker2.getValue();
         String newFirstName = DAFirstName.getText();
         String newMiddleName = DAMiddleName.getText();
         String newLastName = DALastName.getText();
@@ -290,51 +295,74 @@ public class Driver_Accounts {
         String newBrgy = DABarangay.getText();
         String newCity = DACity.getText();
         String newCarPlate = DACarPlate.getText();
-
+        LocalDate newStartDate = datePicker3.getValue();
+        LocalDate newEndDate = datePicker4.getValue();
+        int newQuotaAmount = Integer.parseInt(quotaAmount.getText());
+    
         // Perform the insert into the database
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
-
+    
         try (Connection connection = DriverManager.getConnection(url, user, password)) {
-            String insertQuery = "INSERT INTO driver (driver_Birthdate, driver_LicenseNum, driver_LicenseExpiry, "
+            // Insert into the driver table
+            String insertDriverQuery = "INSERT INTO driver (driver_Birthdate, driver_LicenseNum, driver_LicenseExpiry, "
                     + "driver_FName, driver_MName, driver_LName, driver_CNumber, driver_CPersonNum, driver_HouseNum, "
                     + "driver_Block, driver_Street, driver_Brgy, driver_City, car_Plate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-            try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
-                insertStatement.setDate(1, Date.valueOf(newBirthDate));
-                insertStatement.setString(2, newLicenseNumber);
-                insertStatement.setDate(3, Date.valueOf(newLicenseExpiry));
-                insertStatement.setString(4, newFirstName);
-                insertStatement.setString(5, newMiddleName);
-                insertStatement.setString(6, newLastName);
-                insertStatement.setString(7, newContactNumber);
-                insertStatement.setString(8, newContactPersonNumber);
-                insertStatement.setString(9, newHouseNumber);
-                insertStatement.setString(10, newBlock);
-                insertStatement.setString(11, newStreet);
-                insertStatement.setString(12, newBrgy);
-                insertStatement.setString(13, newCity);
-                insertStatement.setString(14, newCarPlate);
-
-                // Execute the insert
-                int rowsAffected = insertStatement.executeUpdate();
-                if (rowsAffected > 0) {
-                    System.out.println("Row inserted successfully.");
-                    // Refresh the table to reflect the changes
+    
+            try (PreparedStatement insertDriverStatement = connection.prepareStatement(insertDriverQuery)) {
+                insertDriverStatement.setDate(1, Date.valueOf(newBirthDate));
+                insertDriverStatement.setString(2, newLicenseNumber);
+                insertDriverStatement.setDate(3, Date.valueOf(newLicenseExpiry));
+                insertDriverStatement.setString(4, newFirstName);
+                insertDriverStatement.setString(5, newMiddleName);
+                insertDriverStatement.setString(6, newLastName);
+                insertDriverStatement.setString(7, newContactNumber);
+                insertDriverStatement.setString(8, newContactPersonNumber);
+                insertDriverStatement.setString(9, newHouseNumber);
+                insertDriverStatement.setString(10, newBlock);
+                insertDriverStatement.setString(11, newStreet);
+                insertDriverStatement.setString(12, newBrgy);
+                insertDriverStatement.setString(13, newCity);
+                insertDriverStatement.setString(14, newCarPlate);
+    
+                // Execute the insert into driver table
+                int rowsAffectedDriver = insertDriverStatement.executeUpdate();
+                if (rowsAffectedDriver > 0) {
+                    System.out.println("Driver row inserted successfully.");
+                    // Refresh the driver table to reflect the changes
                     refreshTable();
                 } else {
-                    System.out.println("Failed to insert row.");
+                    System.out.println("Failed to insert driver row.");
+                }
+            }
+    
+            // Insert into the quota table
+            String insertQuotaQuery = "INSERT INTO quota (quota_Amount, quota_SDate, quota_DDate, driver_LicenseNum) VALUES (?, ?, ?, ?)";
+    
+            try (PreparedStatement insertQuotaStatement = connection.prepareStatement(insertQuotaQuery)) {
+                insertQuotaStatement.setInt(1, newQuotaAmount);
+                insertQuotaStatement.setDate(2, Date.valueOf(newStartDate));
+                insertQuotaStatement.setDate(3, Date.valueOf(newEndDate));
+                insertQuotaStatement.setString(4, newLicenseNumber);
+
+                // Execute the insert into quota table
+                int rowsAffectedQuota = insertQuotaStatement.executeUpdate();
+                if (rowsAffectedQuota > 0) {
+                    System.out.println("Quota row inserted successfully.");
+                    // Refresh the quota table to reflect the changes (if needed)
+                } else {
+                    System.out.println("Failed to insert quota row.");
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    
         // Clear input fields after successful insertion
         clearAddDriverFields();
     }
-
+    
     private void clearAddDriverFields() {
         DALicenseNumber.clear();
         DALicenseExpiry.setValue(null);
@@ -370,6 +398,7 @@ public class Driver_Accounts {
         String newBrgy = DABarangay.getText();
         String newCity = DACity.getText();
         String newCarPlate = DACarPlate.getText();
+
     
         // Perform the update in the database using the selected row's LicenseNumber
         Driver_Accounts_obj selectedDriver = driver_acc_table.getSelectionModel().getSelectedItem();
@@ -467,10 +496,6 @@ public class Driver_Accounts {
             updateDriver.setVisible(false);
         }
     }
-
-
-    @FXML
-    private DatePicker datePicker1, datePicker2, datePicker3, datePicker4, datePicker5, datePicker6;
 
     //public void initialize() {
         

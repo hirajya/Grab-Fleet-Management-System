@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Driver_Accounts">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Driver_Accounts">
    <children>
       <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GrabWheels">
          <font>
@@ -204,25 +204,25 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="281.0" layoutY="129.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
+            <TextArea fx:id="DAFirstName" layoutX="281.0" layoutY="129.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <Text layoutX="155.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Middle Name:">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="281.0" layoutY="175.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
+            <TextArea fx:id="DAMiddleName" layoutX="281.0" layoutY="175.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <Text layoutX="156.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="282.0" layoutY="219.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
+            <TextArea fx:id="DALastName" layoutX="282.0" layoutY="219.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <Text layoutX="156.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="License Number:">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="282.0" layoutY="263.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
+            <TextArea fx:id="DALicenseNumber" layoutX="282.0" layoutY="263.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <Text layoutX="156.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="License Expiry:">
                <font>
                   <Font name="Arial" size="14.0" />
@@ -234,43 +234,43 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="282.0" layoutY="355.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
+            <TextArea fx:id="DAContactNumber" layoutX="282.0" layoutY="355.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <Text layoutX="156.0" layoutY="410.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Person Number:" wrappingWidth="102.73388671874994">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="282.0" layoutY="400.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
+            <TextArea fx:id="DAContactPersonNumber" layoutX="282.0" layoutY="400.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <Text layoutX="156.0" layoutY="458.0" strokeType="OUTSIDE" strokeWidth="0.0" text="House Number:" wrappingWidth="102.73388671874994">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="282.0" layoutY="443.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="154.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
+            <TextArea fx:id="DAHouseNumber" layoutX="282.0" layoutY="443.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="154.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <Text layoutX="450.0" layoutY="459.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Block:" wrappingWidth="57.206542968750114">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="497.0" layoutY="443.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="164.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
+            <TextArea fx:id="DABlock" layoutX="497.0" layoutY="443.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="164.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <Text layoutX="156.0" layoutY="496.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Barangay:" wrappingWidth="102.73388671874994">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="282.0" layoutY="481.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="154.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
+            <TextArea fx:id="DABarangay" layoutX="282.0" layoutY="481.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="154.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <Text layoutX="450.0" layoutY="497.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Street:" wrappingWidth="57.206542968750114">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="497.0" layoutY="481.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="164.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
+            <TextArea fx:id="DAStreet" layoutX="497.0" layoutY="481.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="164.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <Text layoutX="156.0" layoutY="533.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City:" wrappingWidth="102.73388671874994">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="282.0" layoutY="518.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="208.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
+            <TextArea fx:id="DACity" layoutX="282.0" layoutY="518.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="208.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <Text layoutX="503.0" layoutY="534.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sex:" wrappingWidth="57.206542968750114">
                <font>
                   <Font name="Arial" size="14.0" />
@@ -288,7 +288,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="282.0" layoutY="602.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
+            <TextArea fx:id="DACarPlate" layoutX="282.0" layoutY="602.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <Text layoutX="289.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Required Field">
                <font>
                   <Font name="Arial" size="9.0" />
@@ -386,7 +386,6 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Text>
-            <TextArea layoutX="282.0" layoutY="219.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="378.0" style="-fx-background-color: D9D9D9; -fx-border-color: D9D9D9; -fx-background-radius: 5; -fx-border-radius: 5;" />
             <DatePicker fx:id="datePicker3" layoutX="281.0" layoutY="129.0" prefHeight="25.0" prefWidth="378.0" style="-fx-background-color: D9D9D9;" />
             <Text layoutX="289.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Required Field">
                <font>
@@ -417,8 +416,9 @@
                   <Font name="Arial Bold" size="12.0" />
                </font>
             </Text>
-            <Button layoutX="470.0" layoutY="276.0" mnemonicParsing="false" opacity="0.23" prefHeight="30.0" prefWidth="189.0" text="Button" />
+            <Button layoutX="470.0" layoutY="276.0" mnemonicParsing="false" onAction="#addDriverProfile" opacity="0.23" prefHeight="30.0" prefWidth="189.0" text="Button" />
             <Button layoutX="278.0" layoutY="276.0" mnemonicParsing="false" onAction="#hideAddDriverPane" opacity="0.23" prefHeight="30.0" prefWidth="189.0" text="Button" />
+            <TextField fx:id="quotaAmount" layoutX="282.0" layoutY="220.0" prefHeight="25.0" prefWidth="378.0" />
          </children>
       </Pane>
       <Pane fx:id="updateDriver" layoutX="210.0" layoutY="80.0" prefHeight="720.0" prefWidth="913.0" style="-fx-background-color: F6F6F6;" visible="false">
