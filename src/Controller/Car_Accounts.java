@@ -17,7 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-public class Car_Accounts {
+public class Car_Accounts{
 
 
     public void GoToHome(ActionEvent event) throws IOException {

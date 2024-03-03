@@ -134,7 +134,7 @@ public class Driver_Accounts {
     }
 
     private void setDatePickerFormat(DatePicker datePicker) {
-        datePicker.setConverter(new StringConverter<LocalDate>() {
+            datePicker.setConverter(new StringConverter<LocalDate>() {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
             @Override

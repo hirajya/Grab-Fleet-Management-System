@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "maintenance_table",
+      "request": "launch",
+      "mainClass": "model.maintenance_table",
+      "projectName": "Grab-Fleet-Management-System_87cfe0bc"
+    },
+    {
+      "type": "java",
       "name": "quota_table",
       "request": "launch",
       "mainClass": "model.quota_table",

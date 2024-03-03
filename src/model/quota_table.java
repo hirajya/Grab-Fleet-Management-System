@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -525,5 +526,132 @@ public class quota_table {
         }
 
         return totalPaidQuota;
+    }
+
+    public static int getTotalUnpaidQuota() {
+        int totalUnpaidQuota = 0;
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Establish connection
+            connection = DriverManager.getConnection(url, user, password);
+
+            // Query to retrieve total paid quota amount for the current month
+            String sqlQuery = "SELECT COUNT(quota_RecordID) AS total_unpaid FROM quota " +
+                              "WHERE quota_Status = 'Unpaid'";
+            
+            preparedStatement = connection.prepareStatement(sqlQuery);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalUnpaidQuota = resultSet.getInt("total_unpaid");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close connections and resources
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return totalUnpaidQuota;
+    }
+
+
+    public static Map<Integer, Integer[]> getQuotaDataByWeeks() {
+        Map<Integer, Integer[]> quotaDataByWeeks = new HashMap<>();
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            
+            connection = DriverManager.getConnection(url, user, password);
+
+            LocalDate currentDate = LocalDate.now();
+            int currentMonth = currentDate.getMonthValue();
+            int currentYear = currentDate.getYear();
+
+            LocalDate firstDayOfMonth = LocalDate.of(currentYear, currentMonth, 1);
+            LocalDate lastDayOfMonth = firstDayOfMonth.plusMonths(1).minusDays(1);
+
+            LocalDate startDate = firstDayOfMonth;
+            LocalDate endDate = firstDayOfMonth.plusDays(6);
+
+            for (int week = 1; week <= 4; week++) {
+        
+                String paidQuery = "SELECT SUM(quota_InputAmount) AS total_paid FROM quota " +
+                                   "WHERE (quota_DDate BETWEEN ? AND ?) " +
+                                   "AND MONTH(quota_DDate) = ? AND YEAR(quota_DDate) = ? " +
+                                   "AND quota_Status = 'Paid'";
+                
+                preparedStatement = connection.prepareStatement(paidQuery);
+                preparedStatement.setDate(1, Date.valueOf(startDate));
+                preparedStatement.setDate(2, Date.valueOf(endDate));
+                preparedStatement.setInt(3, currentMonth);
+                preparedStatement.setInt(4, currentYear);
+
+                resultSet = preparedStatement.executeQuery();
+
+                int totalPaidQuota = 0;
+                if (resultSet.next()) {
+                    totalPaidQuota = resultSet.getInt("total_paid");
+                }
+
+                String unpaidQuery = "SELECT SUM(quota_InputAmount) AS total_unpaid FROM quota " +
+                                     "WHERE (quota_DDate BETWEEN ? AND ?) " +
+                                     "AND MONTH(quota_DDate) = ? AND YEAR(quota_DDate) = ? " +
+                                     "AND quota_Status = 'Unpaid'";
+                
+                preparedStatement = connection.prepareStatement(unpaidQuery);
+                preparedStatement.setDate(1, Date.valueOf(startDate));
+                preparedStatement.setDate(2, Date.valueOf(endDate));
+                preparedStatement.setInt(3, currentMonth);
+                preparedStatement.setInt(4, currentYear);
+
+                resultSet = preparedStatement.executeQuery();
+
+                int totalUnpaidQuota = 0;
+                if (resultSet.next()) {
+                    totalUnpaidQuota = resultSet.getInt("total_unpaid");
+                }
+
+                Integer[] quotaAmounts = {totalPaidQuota, totalUnpaidQuota};
+                quotaDataByWeeks.put(week, quotaAmounts);
+
+                startDate = endDate.plusDays(1);
+                endDate = startDate.plusDays(6);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return quotaDataByWeeks;
     }
 }

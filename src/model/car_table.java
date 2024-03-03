@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,10 +17,11 @@ public class car_table {
 
     public static void main(String[] args) throws Exception {
         // connect();
-        // insert("BAC5522", "375365253", "2675593", "2024-02-08", "2024-02-01", "Innova 2.8 E", "MPV", 2022, "Silver", "2022-02-01", "2022-02-01", 1);
+        insert("BAC5522", "123456789", "BMW 3 Series", "Sedan", 2020, "Black", "123456789", "2022-12-31", "2022-12-31", "Registered", "Available");
+        insert("BAC5523", "123456789", "Innova", "MPV", 2021, "White", "123456789", "2022-12-31", "2022-12-31", "Expired", "Unavailable");
         // updateStr("BAC5522", "car_Series", "BMW 3 Series");
         // updateInt("BAC5522", "admin_Id", 2);
-        delete("BAC5522");
+        //delete("BAC5522");
         connect();
     }
 
@@ -68,7 +70,7 @@ public class car_table {
         }
     }
 
-    public static void insert(String c_Plate, String c_CRNum, String c_ORNum, String c_RegExpiry, String c_Registration, String c_Series, String c_Kind, int c_YearModel, String c_Color) throws ParseException {
+    public static void insert(String c_Plate, String c_CRNum, String c_Series, String c_Kind, int c_YearModel, String c_Color, String c_ORNum, String c_RegExpiry, String c_Registration, String c_Regstatus, String c_Availability) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
         String user = "root";
         String password = "";
@@ -81,18 +83,21 @@ public class car_table {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String sqlQuery = "INSERT INTO car (car_Plate, car_CRNum, car_ORNum, car_RegExpiry, car_Registration, car_Series, car_Kind, car_YearModel, car_Color) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO car (car_Plate, car_CRNum, car_Series, car_Kind, car_YearModel, car_Color, car_ORNum, car_RegExpiry, car_Registration, car_RegStatus, car_Availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
             preparedStatement = connection.prepareStatement(sqlQuery);
 
             preparedStatement.setString(1, c_Plate);
             preparedStatement.setString(2, c_CRNum);
-            preparedStatement.setString(3, c_ORNum);
-            preparedStatement.setString(4, c_RegExpiry);
-            preparedStatement.setString(5, c_Registration);
-            preparedStatement.setString(6, c_Series);
-            preparedStatement.setString(7, c_Kind);
-            preparedStatement.setInt(8, c_YearModel);
-            preparedStatement.setString(9, c_Color);
+            preparedStatement.setString(3, c_Series);
+            preparedStatement.setString(4, c_Kind);
+            preparedStatement.setInt(5, c_YearModel);
+            preparedStatement.setString(6, c_Color);
+            preparedStatement.setString(7, c_ORNum);
+            preparedStatement.setTimestamp(8, new java.sql.Timestamp(dateFormat.parse(c_RegExpiry).getTime()));
+            preparedStatement.setTimestamp(9, new java.sql.Timestamp(dateFormat.parse(c_Registration).getTime()));
+            preparedStatement.setString(10, c_Regstatus);
+            preparedStatement.setString(11, c_Availability);
+
 
             int rows = preparedStatement.executeUpdate();
 
@@ -269,13 +274,154 @@ public class car_table {
 
         try (Connection connection = DriverManager.getConnection(url, user, password);
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) AS total FROM " + tableName)) {
+             ResultSet resultSet = statement.executeQuery("SELECT COUNT(DISTINCT car_Plate) AS total FROM " + tableName)) {
 
             if (resultSet.next()) {
                 count = resultSet.getInt("total");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return count;
+    }
+
+    public static String searchCarAvailability(String plateNumber) {
+        String availability = "No car found"; // Default value
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            String sqlQuery = "SELECT car_Availability FROM car WHERE car_Plate = ?";
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1, plateNumber);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                availability = resultSet.getString("car_Availability");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return availability;
+    }
+
+    public static int countAvailableCars() {
+        int count = 0;
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            String sqlQuery = "SELECT COUNT(*) AS total FROM " + tableName + " WHERE car_Availability = 'Available'";
+
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return count;
+    }
+
+    public static int countTotalFleet() {
+        int count = 0;
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            String sqlQuery = "SELECT COUNT(*) AS total FROM " + tableName + " WHERE car_Availability = 'Unavailable'";
+
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return count;
+    }
+
+    public static int countExpiredCars() {
+        int count = 0;
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            String sqlQuery = "SELECT COUNT(*) AS total FROM " + tableName + " WHERE car_RegStatus = 'Expired'";
+
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return count;
     }

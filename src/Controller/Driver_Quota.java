@@ -39,6 +39,11 @@ import javafx.util.Callback;
 
 public class Driver_Quota {
 
+    
+
+    @FXML
+    public Circle notificationCircle;
+
     @FXML
     private TableView<model.object_model.Driver_Quota_obj> quota_table;
 
@@ -72,7 +77,10 @@ public class Driver_Quota {
     @FXML
     private ComboBox<String> statusOptions;
 
+    
+
     public void initialize() {
+
         setUpColumns();
         setUpComboBox();
         ObservableList<String> statusOptionsList = FXCollections.observableArrayList("All", "Paid", "Unpaid");
