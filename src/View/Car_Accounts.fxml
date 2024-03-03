@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Car_Accounts">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Car_Accounts">
    <children>
       <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GrabWheels">
          <font>
@@ -249,7 +249,7 @@
             <Button fx:id="backButtonCarAcc" layoutX="302.0" layoutY="554.0" mnemonicParsing="false" onAction="#GoCarAcc" opacity="0.0" prefHeight="30.0" prefWidth="105.0" text="Discard" />
          </children>
       </Pane>
-      <Pane fx:id="addCarPane2" layoutX="209.0" layoutY="74.0" prefHeight="720.0" prefWidth="915.0" style="-fx-background-color: #F6F6F6;" visible="false">
+      <Pane fx:id="addCarPane2" layoutX="209.0" layoutY="74.0" prefHeight="720.0" prefWidth="915.0" style="-fx-background-color: #F6F6F6;">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0000000d" height="87.0" layoutY="7.0" stroke="WHITE" strokeType="INSIDE" width="915.0" />
             <Rectangle arcHeight="18.0" arcWidth="18.0" fill="WHITE" height="30.0" layoutX="-988.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" width="56.0" x="1008.0" y="20.0" />
@@ -371,7 +371,7 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <Button layoutX="643.0" layoutY="585.0" mnemonicParsing="false" onAction="#save" text="Button" />
+            <Button layoutX="597.0" layoutY="585.0" mnemonicParsing="false" onAction="#save" opacity="0.0" prefHeight="25.0" prefWidth="143.0" text="Button" />
          </children>
       </Pane>
       <Pane fx:id="updateCarPane" layoutX="209.0" layoutY="78.0" prefHeight="648.0" prefWidth="915.0" style="-fx-background-color: #F6F6F6;" visible="false">
