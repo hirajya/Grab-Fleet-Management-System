@@ -42,7 +42,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Callback;
 
-class Car_Maintenance {
+public class Car_Maintenance {
 
     @FXML
     private TableView<model.maintenance> maintenance_table;
@@ -76,6 +76,8 @@ class Car_Maintenance {
     @FXML
     private TextField searchTextField;
 
+
+
     public void initialize() {
         setUpColumns();
         setUpComboBox();
@@ -102,7 +104,7 @@ class Car_Maintenance {
          });
     }
 
-    private void setUpColumns() {
+    public void setUpColumns() {
         System.err.println("Car Maintenance Controller Initialized"); // Debug statement
         MaintenanceIDcolumn.setCellValueFactory(new PropertyValueFactory<>("maintenanceId"));
         CarSeriesColumn.setCellValueFactory(new PropertyValueFactory<>("carSeries"));
@@ -113,7 +115,7 @@ class Car_Maintenance {
         StatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
-    private Callback<TableColumn<maintenance, String>, TableCell<maintenance, String>> createStatusCellFactory() {
+    public Callback<TableColumn<maintenance, String>, TableCell<maintenance, String>> createStatusCellFactory() {
         return new Callback<TableColumn<maintenance, String>, TableCell<maintenance, String>>() {
             @Override
             public TableCell<maintenance, String> call(TableColumn<maintenance, String> param) {
@@ -133,7 +135,7 @@ class Car_Maintenance {
                             if ("Overdue".equals(item)) {
                                 circle.setFill(Color.web("#FB1616")); // Set to #FB1616 for Red
                             } if ("Due Soon".equals(item)) {
-                                    circle.setFill(Color.web("#FFFF00")); // Set to for yellow
+                                    circle.setFill(Color.web("#FFFF00")); // Set for yellow
                             } else {
                                 circle.setFill(Color.web("#FBC916")); // Set to #FBC916 for Green
                             }
@@ -146,14 +148,14 @@ class Car_Maintenance {
         };
     }
 
-    private void setUpComboBox() {
+    public void setUpComboBox() {
         ObservableList<String> statusOptionsList = FXCollections.observableArrayList("All", "Due Soon", "Up to Date", "Overdue");
         statusOptions.setItems(statusOptionsList);
         statusOptions.setValue("All");  // Default value
         statusOptions.setOnAction(event -> filterTableByStatus());
     }
 
-    private void filterTableByStatus() {
+    public void filterTableByStatus() {
         String selectedStatus = statusOptions.getValue();
         String searchKeyword = searchTextField.getText().toLowerCase();
 
@@ -174,12 +176,12 @@ class Car_Maintenance {
     }
 
     @FXML
-    private void refreshTable() {
+    public void refreshTable() {
         filterTableByStatus();
     }
 
     @FXML
-    private void handleSearch(KeyEvent event) {
+    public void handleSearch(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             filterTableByStatus();
         }
@@ -203,6 +205,17 @@ class Car_Maintenance {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/View/Car_Accounts.fxml"));
+
+        Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+    }
+
+    public void GoToC_Amortization(ActionEvent event) throws IOException {
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/View/Car_Amortization.fxml"));
 
         Scene scene = new Scene(root);
             stage.setScene(scene);

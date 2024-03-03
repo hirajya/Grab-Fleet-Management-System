@@ -142,7 +142,7 @@
                   <TableColumn fx:id="MaintenanceIDcolumn" prefWidth="99.0" text="Maintenance ID" />
                   <TableColumn fx:id="CarSeriesColumn" prefWidth="105.0" text="Car Series" />
                   <TableColumn fx:id="CarPlateColumn" prefWidth="127.66668701171875" text="Car Plate" />
-                  <TableColumn fx:id="LicenseColumn" minWidth="5.599945068359375" prefWidth="163.33331298828125" text="License Number" />
+                  <TableColumn fx:id="LicenseNumberColumn" minWidth="5.599945068359375" prefWidth="163.33331298828125" text="License Number" />
                   <TableColumn fx:id="ChangeOilColumn" minWidth="0.0" prefWidth="140.66668701171875" text="Change Oil" />
                   <TableColumn fx:id="ChangeBeltColumn" minWidth="0.0" prefWidth="133.33331298828125" text="Change Belt" />
                   <TableColumn fx:id="StatusColumn" minWidth="0.0" prefWidth="110.0" text="Status" />

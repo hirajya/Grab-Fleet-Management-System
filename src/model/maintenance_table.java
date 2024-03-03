@@ -57,8 +57,8 @@ public class maintenance_table {
             while (resultSet.next()) {
                 // Extract data from the result set
                 int maintenanceId = resultSet.getInt("maintenance_ID");
-                String carPlate = resultSet.getString("maintenance_CarPlate");
-                String licenseNumber = resultSet.getString("maintenance_LicenseNum");
+                String carPlate = resultSet.getString("car_Plate");
+                String licenseNumber = resultSet.getString("driver_LicenseNum");
                 String changeOil = resultSet.getString("maintenance_ChangeOil");
                 String changeBelt = resultSet.getString("maintenance_ChangeBelt");
 
@@ -147,8 +147,8 @@ try {
             while (resultSet.next()) {
                 // Extract data from the result set
                 int maintenanceId = resultSet.getInt("maintenance_ID");
-                String carPlate = resultSet.getString("maintenance_CarPlate");
-                String licenseNumber = resultSet.getString("maintenance_LicenseNum");
+                String carPlate = resultSet.getString("car_Plate");
+                String licenseNumber = resultSet.getString("driver_LicenseNum");
                 String changeOil = resultSet.getString("maintenance_ChangeOil");
                 String changeBelt = resultSet.getString("maintenance_ChangeBelt");
 
@@ -249,8 +249,8 @@ try {
 
             while(resultSet.next()){
                 System.out.println(resultSet.getInt("maintenance_ID"));
-                System.out.println(resultSet.getString("maintenance_CarPlate"));
-                System.out.println(resultSet.getString("maintenance_LicenseNum"));
+                System.out.println(resultSet.getString("car_Plate"));
+                System.out.println(resultSet.getString("driver_LicenseNum"));
                 System.out.println(resultSet.getString("maintenance_ChangeOil"));
                 System.out.println(resultSet.getString("maintenance_ChangeBelt"));
                 System.out.println(resultSet.getString("maintenance_Status"));
