@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -22,12 +23,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.object_model.Driver_Quota_obj;
@@ -75,10 +78,32 @@ public class Driver_Quota {
     @FXML
     private ComboBox<String> statusOptions;
 
+    @FXML
+    private Button back2ViewButton;
+
     private ObservableList<Driver_Quota_obj> originalData;
 
     @FXML
+    private Text UDQAmount, UDQLicenseNumber;
+
+    @FXML
+    private TextField UDQPaidAmount;
+
+    @FXML
+    private DatePicker UDQStartDate, UDQDueDate;
+
+
+    @FXML
     private TextField searchTextField;
+
+    @FXML
+    private Button updateButton;
+
+    @FXML
+    private Pane quota_view;
+
+    @FXML
+    private Pane updateCarQuotaPane;
 
     public void initialize() {
         setUpColumns();
@@ -155,6 +180,17 @@ public class Driver_Quota {
         statusOptions.setItems(statusOptionsList);
         statusOptions.setValue("All");  // Default value
         statusOptions.setOnAction(event -> filterTableByStatus());
+    }
+
+    public void switchToUpdate(){
+        quota_view.setVisible(false);
+        updateCarQuotaPane.setVisible(true);
+    }
+
+    public void switchToView() {
+        quota_view.setVisible(true);
+        updateCarQuotaPane.setVisible(false);
+
     }
 
     private void filterTableByStatus() {
