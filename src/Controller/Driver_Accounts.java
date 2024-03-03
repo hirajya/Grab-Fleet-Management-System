@@ -125,12 +125,12 @@ public class Driver_Accounts {
     private DatePicker datePicker1, datePicker2, datePicker3, datePicker4, datePicker5, datePicker6;
 
     public void initialize() {
-        setDatePickerFormat(datePicker1);
-        setDatePickerFormat(datePicker2);
-        setDatePickerFormat(datePicker3);
-        setDatePickerFormat(datePicker4);
-        setDatePickerFormat(datePicker5);
-        setDatePickerFormat(datePicker6);
+        // setDatePickerFormat(datePicker1);
+        // setDatePickerFormat(datePicker2);
+        // setDatePickerFormat(datePicker3);
+        // setDatePickerFormat(datePicker4);
+        // setDatePickerFormat(datePicker5);
+        // setDatePickerFormat(datePicker6);
     }
 
     private void setDatePickerFormat(DatePicker datePicker) {
