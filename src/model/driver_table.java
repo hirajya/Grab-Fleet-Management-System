@@ -56,21 +56,21 @@ public class driver_table {
             while (resultSet.next()) {
                 String driver_LicenseNum = resultSet.getString("driver_LicenseNum");
                 Date driver_LicenseExpiry = resultSet.getDate("driver_LicenseExpiry");
+                String driver_CPersonNum = resultSet.getString("driver_CPersonNum");
+                String driver_CNumber = resultSet.getString("driver_CNumber");
+                String driver_HouseNum = resultSet.getString("driver_HouseNum");
+                String driver_Block = resultSet.getString("driver_Block");
+                String driver_Brgy = resultSet.getString("driver_Brgy");
+                String driver_Street = resultSet.getString("driver_Street");
+                String driver_City = resultSet.getString("driver_City");
+                String driver_Sex = resultSet.getString("driver_Sex");
+                Date driver_Birthdate = resultSet.getDate("driver_Birthdate");
                 String driver_FName = resultSet.getString("driver_FName");
                 String driver_MName = resultSet.getString("driver_MName");
                 String driver_LName = resultSet.getString("driver_LName");
-                String driver_CNumber = resultSet.getString("driver_CNumber");
-                String driver_CPersonNum = resultSet.getString("driver_CPersonNum");
-                String driver_Sex = resultSet.getString("driver_Sex");
-                Date driver_Birthdate = resultSet.getDate("driver_Birthdate");
-                String driver_HouseNum = resultSet.getString("driver_HouseNum");
-                String driver_Street = resultSet.getString("driver_Street");
-                String driver_Block = resultSet.getString("driver_Block");
-                String driver_Brgy = resultSet.getString("driver_Brgy");
-                String driver_City = resultSet.getString("driver_City");
                 String car_Plate = resultSet.getString("car_Plate");
 
-                Driver_Accounts_obj driverObj = new Driver_Accounts_obj(driver_LicenseNum, driver_LicenseExpiry, driver_FName, driver_MName, driver_LName, driver_CNumber, driver_CPersonNum, driver_Sex, driver_Birthdate, driver_HouseNum, driver_Street, driver_Block, driver_Brgy, driver_City, car_Plate);
+                Driver_Accounts_obj driverObj = new Driver_Accounts_obj(driver_LicenseNum, driver_LicenseExpiry, driver_CPersonNum, driver_CNumber, driver_HouseNum, driver_Block, driver_Brgy, driver_Street, driver_City, driver_Sex, driver_Birthdate, driver_FName, driver_MName, driver_LName, car_Plate);
                 driverList.add(driverObj);
             }
         } catch (ClassNotFoundException | SQLException e) {

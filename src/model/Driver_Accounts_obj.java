@@ -19,23 +19,27 @@ public class Driver_Accounts_obj {
     private String driver_City;
     private String car_Plate;
 
-    public Driver_Accounts_obj(String driver_LicenseNum, Date driver_LicenseExpiry, String driver_CNumber, String driver_CPersonNum, String driver_Sex, String driver_FName, String driver_MName, String driver_LName, Date driver_Birthdate, String driver_HouseNum, String driver_Street, String driver_Block, String driver_Brgy, String driver_City, String car_Plate) {
+    public Driver_Accounts_obj(String driver_LicenseNum, Date driver_LicenseExpiry, String driver_CPersonNum, String driver_CNumber, String driver_HouseNum, String driver_Block, String driver_Brgy, String driver_Street, String driver_City, String driver_Sex, Date driver_Birthdate, String driver_FName, String driver_MName, String driver__LName, String car_Plate) {
         this.driver_LicenseNum = driver_LicenseNum;
         this.driver_LicenseExpiry = driver_LicenseExpiry;
-        this.driver_FName = driver_FName;
-        this.driver_MName = driver_MName;
-        this.driver_LName = driver_LName;
         this.driver_CNumber = driver_CNumber;
         this.driver_CPersonNum = driver_CPersonNum;
-        this.driver_Sex = driver_Sex;
-        this.driver_Birthdate = driver_Birthdate;
+        this.driver_CNumber = driver_CNumber;
         this.driver_HouseNum = driver_HouseNum;
         this.driver_Street = driver_Street;
         this.driver_Block = driver_Block;
         this.driver_Brgy = driver_Brgy;
-        this.driver_City = driver_City; 
+        this.driver_City = driver_City;
+        this.driver_Sex = driver_Sex;
+        this.driver_Birthdate = driver_Birthdate;
+        this.driver_FName = driver_FName;
+        this.driver_MName = driver_MName;
+        this.driver_LName = driver__LName;
         this.car_Plate = car_Plate;
+        
+
     }
+
 
     public String getDriver_LicenseNum() {
         return driver_LicenseNum;

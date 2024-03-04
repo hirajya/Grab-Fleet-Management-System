@@ -146,6 +146,13 @@ public class Driver_Accounts {
     @FXML
     private DatePicker addBirthDate,addLicenseNumExpiry;
 
+    @FXML 
+    private DatePicker datePicker3, datePicker4;
+
+    @FXML
+    private TextArea quotaAmount;
+
+
     
     
 
@@ -189,7 +196,7 @@ public class Driver_Accounts {
                 String mName = addMName.getText();
                 String lName = addLName.getText();
                 String licenseNum = addLicenseNum.getText();
-                String licenseExpiry = addLicenseNumExpiry.getValue().toString();
+                LocalDate licenseExpiry = addLicenseNumExpiry.getValue();
                 String contactNum = addContactNum.getText();
                 String cPersonNum = addCPersonNum.getText();
                 String houseNum = addHouseNum.getText();
@@ -198,47 +205,62 @@ public class Driver_Accounts {
                 String brgy = addBrgy.getText();
                 String city = addCity.getText();
                 String sex = addSex.getText();
-                String birthDate = addBirthDate.getValue().toString();
+                LocalDate birthDate = addBirthDate.getValue();
                 String carPlate = addCarPlate.getText();
+                LocalDate qStart = datePicker3.getValue();
+                LocalDate qEnd = datePicker4.getValue();
+                int qAmount = Integer.parseInt(quotaAmount.getText());
     
                 try (Connection connection = DbConnect.getConnect()) {
                     // Insert into car table
-                    String driverInsertQuery = "INSERT INTO driver (driver_LicenseNum, driver_LicenseExpiry, driver_CPersonNum, driver_CNumber, driver_HouseNum, driver_Block, driver_Brgy, driver_Street, driver_City, driver_Sex, driver_Birthdate, driver_FName, driver_MName, driver_LName, car_Plate) VALUES (?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String driverInsertQuery = "INSERT INTO driver (driver_FName, driver_MName, driver_LName, driver_LicenseNum, driver_LicenseExpiry, driver_CNumber, driver_CPersonNum, driver_HouseNum, driver_Brgy, driver_Street, driver_Block, driver_Sex, driver_City, driver_Birthdate, car_Plate) VALUES (?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
                     try (PreparedStatement driverStatement = connection.prepareStatement(driverInsertQuery)) {
-                        driverStatement.setString(1, licenseNum);
-                        driverStatement.setString(2, licenseExpiry);
-                        driverStatement.setString(3, cPersonNum);
-                        driverStatement.setString(4, contactNum);
-                        driverStatement.setString(5, houseNum);
-                        driverStatement.setString(6, block);
-                        driverStatement.setString(7, brgy);
-                        driverStatement.setString(8, street);
-                        driverStatement.setString(9, city);
-                        driverStatement.setString(10, brgy);
-                        driverStatement.setString(11, city);
-                        driverStatement.setString(12, sex);
-                        driverStatement.setString(13, birthDate);
-                        driverStatement.setString(14, fName);
-                        driverStatement.setString(15, mName);
-                        driverStatement.setString(16, lName);
-                        driverStatement.setString(17, carPlate);
-                        
-
-                        driverStatement.executeUpdate();
+                        driverStatement.setString(1, fName);
+                        driverStatement.setString(2, mName);
+                        driverStatement.setString(3, lName);
+                        driverStatement.setString(4, licenseNum);
+                        driverStatement.setDate(5, java.sql.Date.valueOf(licenseExpiry));
+                        driverStatement.setString(6, contactNum);
+                        driverStatement.setString(7, cPersonNum);
+                        driverStatement.setString(8, houseNum); // Corrected index
+                        driverStatement.setString(9, block);
+                        driverStatement.setString(10, street);
+                        driverStatement.setString(11, brgy);
+                        driverStatement.setString(12, city);
+                        driverStatement.setString(13, sex);
+                        driverStatement.setDate(14, java.sql.Date.valueOf(birthDate));
+                        driverStatement.setString(15, carPlate);
+    
+                        int rowsAffected = driverStatement.executeUpdate();
+                        if (rowsAffected > 0) {
+                            // Insert into the quota table
+                            String quotaInsertQuery = "INSERT INTO quota (quota_Amount, quota_SDate, quota_DDate, driver_LicenseNum) VALUES (?, ?, ?, ?)";
+    
+                            try (PreparedStatement quotaStatement = connection.prepareStatement(quotaInsertQuery)) {
+                                quotaStatement.setInt(1, qAmount);
+                                quotaStatement.setDate(2, java.sql.Date.valueOf(qStart));
+                                quotaStatement.setDate(3, java.sql.Date.valueOf(qEnd));
+                                quotaStatement.setString(4, licenseNum);
+    
+                                quotaStatement.executeUpdate();
+                            }
+    
+                            showSuccessAlert("Data inserted successfully");
+                        } else {
+                            showErrorAlert("Failed to insert data into the driver table.");
+                        }
                     }
-                    showSuccessAlert("Data inserted successfully");
                 }
             } else {
                 showErrorAlert("Invalid data. Please check your input.");
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NumberFormatException e) {
             e.printStackTrace();
             showErrorAlert("Error inserting data", e);
         }
     }
-
-    private void showErrorAlert(String message, SQLException e) {
+    private void showErrorAlert(String message, Exception e) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
