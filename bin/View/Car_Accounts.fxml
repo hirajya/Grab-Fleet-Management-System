@@ -249,7 +249,7 @@
             <Button fx:id="backButtonCarAcc" layoutX="302.0" layoutY="554.0" mnemonicParsing="false" onAction="#GoCarAcc" opacity="0.0" prefHeight="30.0" prefWidth="105.0" text="Discard" />
          </children>
       </Pane>
-      <Pane fx:id="addCarPane2" layoutX="209.0" layoutY="74.0" prefHeight="720.0" prefWidth="915.0" style="-fx-background-color: #F6F6F6;">
+      <Pane fx:id="addCarPane2" layoutX="209.0" layoutY="74.0" prefHeight="720.0" prefWidth="915.0" style="-fx-background-color: #F6F6F6;" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0000000d" height="87.0" layoutY="7.0" stroke="WHITE" strokeType="INSIDE" width="915.0" />
             <Rectangle arcHeight="18.0" arcWidth="18.0" fill="WHITE" height="30.0" layoutX="-988.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" width="56.0" x="1008.0" y="20.0" />
