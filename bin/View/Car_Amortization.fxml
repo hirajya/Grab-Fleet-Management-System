@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Car_Amortization">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Car_Amortization">
    <children>
       <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GrabWheels">
          <font>
@@ -47,13 +48,13 @@
                   <Image url="@../Images/search.png" />
                </image>
             </ImageView>
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fbc916" height="30.0" layoutX="682.0" layoutY="21.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="74.0" />
-            <Text fill="WHITE" layoutX="647.0" layoutY="-68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update" x="56.0" y="109.0">
+            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fbc916" height="30.0" layoutX="739.0" layoutY="21.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="74.0" />
+            <Text fill="WHITE" layoutX="704.0" layoutY="-68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update" x="56.0" y="109.0">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <ImageView fitHeight="11.0" fitWidth="11.0" layoutX="689.0" layoutY="30.0">
+            <ImageView fitHeight="11.0" fitWidth="11.0" layoutX="746.0" layoutY="30.0">
                <image>
                   <Image url="@../Images/update.png" />
                </image>
@@ -74,25 +75,28 @@
                   <TableColumn fx:id="StatusColumn" prefWidth="125.5999755859375" text="Status" />
               </columns>
             </TableView>
-            <ComboBox fx:id="filterComboBox" layoutX="19.0" layoutY="94.0" onAction="#handleFilterChange" prefWidth="150.0" />
+            <ComboBox fx:id="filterComboBox" layoutX="19.0" layoutY="94.0" onAction="#handleFilterChange" prefWidth="150.0">
+               <effect>
+                  <ColorAdjust contrast="0.07" />
+               </effect></ComboBox>
             <Text layoutX="-36.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort by:" x="56.0" y="109.0">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <Button fx:id="updateCarAmortizationButton" layoutX="679.0" layoutY="24.0" mnemonicParsing="false" onAction="#GoUpdateCarAmortization" opacity="0.0" prefHeight="25.0" prefWidth="80.0" text="Button" />
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fb1616" height="30.0" layoutX="767.0" layoutY="22.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="74.0" />
-            <Text fill="WHITE" layoutX="734.0" layoutY="-67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete" x="56.0" y="109.0">
+            <Button fx:id="updateCarAmortizationButton" layoutX="736.0" layoutY="24.0" mnemonicParsing="false" onAction="#GoUpdateCarAmortization" opacity="0.0" prefHeight="25.0" prefWidth="80.0" text="Button" />
+            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fb1616" height="30.0" layoutX="824.0" layoutY="22.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="74.0" />
+            <Text fill="WHITE" layoutX="791.0" layoutY="-67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete" x="56.0" y="109.0">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <ImageView fitHeight="11.0" fitWidth="11.0" layoutX="777.0" layoutY="31.0">
+            <ImageView fitHeight="11.0" fitWidth="11.0" layoutX="834.0" layoutY="31.0">
                <image>
                   <Image url="@../Images/delete.png" />
                </image>
             </ImageView>
-            <Button fx:id="deleteButtonGo" layoutX="764.0" layoutY="25.0" mnemonicParsing="false" onAction="#GoDeleteCarAmortization" opacity="0.0" prefHeight="25.0" prefWidth="80.0" text="Button" />
+            <Button fx:id="deleteButtonGo" layoutX="821.0" layoutY="25.0" mnemonicParsing="false" onAction="#GoDeleteCarAmortization" opacity="0.0" prefHeight="25.0" prefWidth="80.0" text="Button" />
          </children></Pane>
       <ImageView fitHeight="19.0" fitWidth="19.0" layoutY="-8.0" x="24.0" y="160.0">
          <image>
@@ -130,7 +134,6 @@
             <Image url="@../Images/notif1.png" />
          </image>
       </ImageView>
-      <Circle fill="#64e338" layoutX="1046.0" layoutY="24.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
       <Rectangle arcHeight="18.0" arcWidth="18.0" fill="#f6f6f6" height="41.0" layoutX="55.0" stroke="#f6f6f6" strokeType="INSIDE" width="41.0" x="1008.0" y="20.0" />
       <ImageView fitHeight="19.0" fitWidth="19.0" layoutX="54.0" layoutY="-2.0" x="1021.0" y="33.0">
          <image>
@@ -196,7 +199,7 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <Rectangle arcHeight="20.0" arcWidth="20.0" fill="RED" height="27.0" layoutX="494.0" layoutY="412.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
+            <Rectangle arcHeight="20.0" arcWidth="20.0" fill="RED" height="27.0" layoutX="494.0" layoutY="412.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="150.0" />
             <Text fill="WHITE" layoutX="549.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete" wrappingWidth="85.5517578125">
                <font>
                   <Font name="Arial Bold" size="14.0" />
@@ -253,40 +256,31 @@
             </Text>
             <Text layoutX="11.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Car Plate:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font>
             </Text>
             <Text layoutX="11.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font>
             </Text>
             <Text layoutX="11.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End Date:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font>
             </Text>
             <Text layoutX="11.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font>
             </Text>
             <Text layoutX="11.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monthly Due Date:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font>
             </Text>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="418.0" layoutY="446.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/Rectangle%2060.png" />
-               </image>
-            </ImageView>
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fbc916" height="30.0" layoutX="632.0" layoutY="445.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="189.0" />
-            <Text layoutX="498.0" layoutY="465.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></Text>
-            <Text fill="WHITE" layoutX="707.0" layoutY="465.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update">
+            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fbc916" height="30.0" layoutX="567.0" layoutY="445.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="255.0" />
+            <Text fill="WHITE" layoutX="674.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Text>
@@ -300,19 +294,32 @@
                   <Font name="Arial" size="18.0" />
                </font>
             </Text>
-            <Button fx:id="backButtonCarAmortization" layoutX="420.0" layoutY="448.0" mnemonicParsing="false" onAction="#GoCarAmortization" opacity="0.0" prefHeight="25.0" prefWidth="200.0" text="Button" />
             <TextField fx:id="paymentTextField" layoutX="290.0" layoutY="325.0" prefHeight="25.0" prefWidth="531.0" />
             <DatePicker fx:id="monthlyDueDatePicker" layoutX="290.0" layoutY="375.0" prefHeight="25.0" prefWidth="531.0" />
             <DatePicker fx:id="endDatePicker" layoutX="290.0" layoutY="275.0" prefHeight="25.0" prefWidth="531.0" />
-            <Button fx:id="updateCarAmorButton" layoutX="632.0" layoutY="448.0" mnemonicParsing="false" onAction="#updateCarAmortization" opacity="0.0" prefHeight="25.0" prefWidth="189.0" text="Button" />
             <Text layoutX="394.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font>
             </Text>
-            <RadioButton fx:id="paidRadioButton" layoutX="556.0" layoutY="179.0" mnemonicParsing="false" text="Paid" />
-            <RadioButton fx:id="unpaidRadioButton" layoutX="667.0" layoutY="179.0" mnemonicParsing="false" text="Unpaid" />
+            <RadioButton fx:id="paidRadioButton" layoutX="556.0" layoutY="176.0" mnemonicParsing="false" text="Paid">
+               <font>
+                  <Font size="15.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="unpaidRadioButton" layoutX="667.0" layoutY="176.0" mnemonicParsing="false" text="Unpaid" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font></RadioButton>
+            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="WHITE" height="30.0" layoutX="290.0" layoutY="445.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="255.0" />
+            <Text layoutX="391.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard">
+               <font>
+                  <Font name="Arial Bold" size="12.0" />
+               </font></Text>
+            <Button fx:id="backButtonCarAmortization" layoutX="291.0" layoutY="448.0" mnemonicParsing="false" onAction="#GoCarAmortization" opacity="0.0" prefHeight="25.0" prefWidth="255.0" text="Button" />
+            <Button fx:id="updateCarAmorButton" layoutX="567.0" layoutY="447.0" mnemonicParsing="false" onAction="#updateCarAmortization" opacity="0.0" prefHeight="25.0" prefWidth="255.0" text="Button" />
          </children>
       </Pane>
+      <Button layoutX="1017.0" layoutY="26.0" mnemonicParsing="false" onAction="#GoToNotif" opacity="0.0" prefHeight="25.0" prefWidth="21.0" text="Button" />
+      <Button layoutX="1072.0" layoutY="27.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="21.0" text="Button" />
    </children>
 </Pane>
