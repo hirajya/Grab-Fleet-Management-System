@@ -177,6 +177,9 @@ public class Car_Accounts implements Initializable {
     @FXML
     private Pane deletePane;
 
+    @FXML
+    private TextField AddStatus2, AddAvailability2;
+
     String query = null;
     Connection connection = null;
     PreparedStatement preparedStatement = null;
@@ -341,6 +344,7 @@ public class Car_Accounts implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        refreshTable();
     }
 
     public void GoCarView() {
@@ -427,10 +431,13 @@ public class Car_Accounts implements Initializable {
                 String amortizationEDate = addAmortizationEDate.getValue().toString();
                 String amortizationDDate = addAmortizationDDate.getValue().toString();
                 int amortizationPayment = Integer.parseInt(addAmortizationPayment.getText());
+                String status = AddStatus2.getText();
+                String availability = AddAvailability2.getText();
+
     
                 try (Connection connection = DbConnect.getConnect()) {
                     // Insert into car table
-                    String carInsertQuery = "INSERT INTO car (car_Plate, car_CRNum, car_Series, car_Kind, car_YearModel, car_Color, car_ORNum, car_RegExpiry, car_Registration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String carInsertQuery = "INSERT INTO car (car_Plate, car_CRNum, car_Series, car_Kind, car_YearModel, car_Color, car_ORNum, car_RegExpiry, car_Registration, car_RegStatus, car_Availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
                     try (PreparedStatement carStatement = connection.prepareStatement(carInsertQuery)) {
                         carStatement.setString(1, plate);
@@ -442,6 +449,8 @@ public class Car_Accounts implements Initializable {
                         carStatement.setString(7, ORNum);
                         carStatement.setDate(8, java.sql.Date.valueOf(regExpiry));
                         carStatement.setDate(9, java.sql.Date.valueOf(registration));
+                        carStatement.setString(10, status);
+                        carStatement.setString(11, availability);
     
                         carStatement.executeUpdate();
                     }
@@ -468,6 +477,8 @@ public class Car_Accounts implements Initializable {
     
                     }
                     showSuccessAlert("Data inserted successfully");
+                    GoCarAccounts();
+                    refreshTable();
     
                 }
     
@@ -480,6 +491,7 @@ public class Car_Accounts implements Initializable {
         }
         GoCarAccounts();
         refreshTable();
+        carTable.setItems(carList);
     }
     
     private boolean isValidData() {

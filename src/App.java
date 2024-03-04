@@ -22,7 +22,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/View/Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/View/Car_Accounts.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
