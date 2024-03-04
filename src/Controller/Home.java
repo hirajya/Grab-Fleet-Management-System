@@ -261,8 +261,6 @@ public class Home {
     public void GoToNotif(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Notification.fxml"));
         Parent root = loader.load();
-    
-        Notification notificationController = loader.getController();
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);

@@ -73,7 +73,7 @@
                                     <ColorAdjust brightness="0.58" />
                                  </effect>
                               </ImageView>
-                              <Button layoutX="748.0" layoutY="26.0" mnemonicParsing="false" onAction="#removePane1" prefHeight="41.0" prefWidth="28.0" text="Button" />
+                              <Button layoutX="748.0" layoutY="26.0" mnemonicParsing="false" onAction="#removePane1" opacity="0.0" prefHeight="41.0" prefWidth="28.0" text="Button" />
                            </children>
                         </Pane>
                         <Pane fx:id="pane2" prefHeight="106.0" prefWidth="827.0" visible="false">
@@ -110,7 +110,7 @@
                                     <ColorAdjust brightness="0.58" />
                                  </effect>
                               </ImageView>
-                              <Button layoutX="750.0" layoutY="37.0" mnemonicParsing="false" onAction="#removePane2" prefHeight="32.0" prefWidth="28.0" text="Button" />
+                              <Button layoutX="750.0" layoutY="37.0" mnemonicParsing="false" onAction="#removePane2" opacity="0.0" prefHeight="32.0" prefWidth="28.0" text="Button" />
                            </children>
                         </Pane>
                         <Pane fx:id="pane3" prefHeight="98.0" prefWidth="827.0" visible="false">
@@ -147,7 +147,7 @@
                                     <ColorAdjust brightness="0.58" />
                                  </effect>
                               </ImageView>
-                              <Button layoutX="748.0" layoutY="31.0" mnemonicParsing="false" onAction="#removePane3" prefHeight="32.0" prefWidth="28.0" text="Button" />
+                              <Button layoutX="748.0" layoutY="31.0" mnemonicParsing="false" onAction="#removePane3" opacity="0.0" prefHeight="32.0" prefWidth="28.0" text="Button" />
                            </children>
                         </Pane>
                         <Pane fx:id="pane4" prefHeight="106.0" prefWidth="827.0" visible="false">
@@ -184,7 +184,7 @@
                                     <ColorAdjust brightness="0.58" />
                                  </effect>
                               </ImageView>
-                              <Button layoutX="749.0" layoutY="30.0" mnemonicParsing="false" onAction="#removePane4" prefHeight="32.0" prefWidth="28.0" text="Button" />
+                              <Button layoutX="749.0" layoutY="30.0" mnemonicParsing="false" onAction="#removePane4" opacity="0.0" prefHeight="32.0" prefWidth="28.0" text="Button" />
                            </children>
                         </Pane>
                      </children>
@@ -265,8 +265,8 @@
             <Image url="@../Images/person.png" />
          </image>
       </ImageView>
-      <Button fx:id="gotoCar_Acc" layoutX="154.0" layoutY="150.0" mnemonicParsing="false" onAction="#GoToC_Accounts" prefHeight="25.0" prefWidth="28.0" text="Button" />
-      <Button fx:id="gotoCar_Acc1" layoutX="154.0" layoutY="204.0" mnemonicParsing="false" onAction="#GoToD_Accounts" prefHeight="25.0" prefWidth="28.0" text="Button" />
-      <Button layoutX="154.0" layoutY="102.0" mnemonicParsing="false" onAction="#GoToHome" prefHeight="25.0" prefWidth="28.0" text="Button" />
+      <Button fx:id="gotoCar_Acc" layoutX="24.0" layoutY="150.0" mnemonicParsing="false" onAction="#GoToC_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="126.0" text="Button" />
+      <Button fx:id="gotoCar_Acc1" layoutX="21.0" layoutY="204.0" mnemonicParsing="false" onAction="#GoToD_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="105.0" text="Button" />
+      <Button layoutX="25.0" layoutY="102.0" mnemonicParsing="false" onAction="#GoToHome" opacity="0.0" prefHeight="25.0" prefWidth="105.0" text="Button" />
    </children>
 </Pane>

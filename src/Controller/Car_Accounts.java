@@ -761,6 +761,27 @@ private void handleSearch(KeyEvent event) {
 
     }
 
+    public void GoToNotif(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Notification.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void GoToAdmin(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Notification.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
     private void setupSeriesComboBox() {
         seriesComboBox.setItems(FXCollections.observableArrayList("All", "Crosswind", "Adventure","Innova","Mirage","Vios","Avanza","Stargazer"));
         seriesComboBox.setValue("All");
@@ -768,7 +789,7 @@ private void handleSearch(KeyEvent event) {
 
     private void setupKindComboBox() {
         kindComboBox.setItems(FXCollections.observableArrayList("All", "MPV", "Sedan"));
-        kindComboBox.setValue("All");
+        kindComboBox.setValue("Kind");
     }
 
     private void setupYearComboBox() {

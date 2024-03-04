@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -15,9 +16,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Driver_Quota">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Driver_Quota">
    <children>
-      <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grabwheels">
+      <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GrabWheels">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
@@ -88,8 +89,11 @@
                   <TableColumn fx:id="col_Status" prefWidth="92.666748046875" text="Status" />
               </columns>
             </TableView>
-            <ComboBox fx:id="statusOptions" layoutX="18.0" layoutY="101.0" prefWidth="150.0" promptText="Status" />
-            <Button fx:id="GoDeleteButton1" layoutX="806.0" layoutY="24.0" mnemonicParsing="false" onAction="#GoDeleteQuota" prefHeight="25.0" prefWidth="74.0" text="Button" />
+            <ComboBox fx:id="statusOptions" layoutX="18.0" layoutY="101.0" prefWidth="150.0" promptText="Status">
+               <effect>
+                  <ColorAdjust contrast="0.07" />
+               </effect></ComboBox>
+            <Button fx:id="GoDeleteButton1" layoutX="806.0" layoutY="24.0" mnemonicParsing="false" onAction="#GoDeleteQuota" opacity="0.0" prefHeight="25.0" prefWidth="74.0" text="Button" />
          </children></Pane>
       <ImageView fitHeight="19.0" fitWidth="19.0" layoutY="-8.0" x="24.0" y="160.0">
          <image>
@@ -179,43 +183,27 @@
             </Text>
             <Text layoutX="11.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font>
             </Text>
             <Text layoutX="11.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Paid Amount:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font>
             </Text>
             <Text layoutX="11.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font>
             </Text>
             <Text layoutX="11.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due Date:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font>
             </Text>
             <Text layoutX="11.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="License Number:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="18.0" />
-               </font>
-            </Text>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="418.0" layoutY="446.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/Rectangle%2060.png" />
-               </image>
-            </ImageView>
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fbc916" height="30.0" layoutX="632.0" layoutY="445.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="189.0" />
-            <Text layoutX="498.0" layoutY="465.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="707.0" layoutY="465.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update">
-               <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="Arial" size="18.0" />
                </font>
             </Text>
             <Text fx:id="UDQAmount" layoutX="290.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
@@ -223,9 +211,7 @@
                   <Font name="Arial" size="18.0" />
                </font>
             </Text>
-            <Button fx:id="backButtonCarAmortization" layoutX="420.0" layoutY="448.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="200.0" text="Button" />
             <DatePicker fx:id="UDQStartDate" layoutX="290.0" layoutY="275.0" prefHeight="25.0" prefWidth="531.0" />
-            <Button fx:id="updateCarAmorButton" layoutX="632.0" layoutY="448.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="189.0" text="Button" />
             <Text fx:id="UDQLicenseNumber" layoutX="290.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
                <font>
                   <Font name="Arial" size="18.0" />
@@ -233,10 +219,9 @@
             </Text>
             <DatePicker fx:id="UDQDueDate" layoutX="290.0" layoutY="325.0" prefHeight="25.0" prefWidth="531.0" />
             <TextField fx:id="UDQPaidAmount" layoutX="290.0" layoutY="225.0" prefHeight="25.0" prefWidth="531.0" />
-            <Button fx:id="back2ViewButton" layoutX="417.0" layoutY="448.0" mnemonicParsing="false" onAction="#switchToView" opacity="0.0" prefHeight="25.0" prefWidth="200.0" text="Button" />
             <Text layoutX="11.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
                <font>
-                  <Font name="Arial Bold" size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font>
             </Text>
             <Text fx:id="UDQName" layoutX="290.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
@@ -244,7 +229,20 @@
                   <Font name="Arial" size="18.0" />
                </font>
             </Text>
-            <Button fx:id="updateButtonInsert" layoutX="632.0" layoutY="448.0" mnemonicParsing="false" onAction="#updateDriverQuota" opacity="0.0" prefHeight="25.0" prefWidth="189.0" text="Button" />
+            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#fbc916" height="30.0" layoutX="572.0" layoutY="428.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="255.0" />
+            <Text fill="WHITE" layoutX="679.0" layoutY="447.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="WHITE" height="30.0" layoutX="295.0" layoutY="428.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="255.0" />
+            <Text layoutX="396.0" layoutY="447.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard">
+               <font>
+                  <Font name="Arial Bold" size="12.0" />
+               </font>
+            </Text>
+            <Button fx:id="back2ViewButton" layoutX="296.0" layoutY="431.0" mnemonicParsing="false" onAction="#switchToView" opacity="0.0" prefHeight="25.0" prefWidth="252.0" text="Button" />
+            <Button fx:id="updateButtonInsert" layoutX="575.0" layoutY="431.0" mnemonicParsing="false" onAction="#updateDriverQuota" opacity="0.0" prefHeight="25.0" prefWidth="254.0" text="Button" />
          </children>
       </Pane>
       <Pane fx:id="deletePane" layoutX="209.0" layoutY="91.0" opacity="0.8" prefHeight="720.0" prefWidth="926.0" style="-fx-background-color: #000000;" visible="false">
@@ -273,7 +271,7 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <Rectangle arcHeight="20.0" arcWidth="20.0" fill="RED" height="27.0" layoutX="494.0" layoutY="412.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
+            <Rectangle arcHeight="20.0" arcWidth="20.0" fill="RED" height="27.0" layoutX="494.0" layoutY="412.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="150.0" />
             <Text fill="WHITE" layoutX="549.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete" wrappingWidth="85.5517578125">
                <font>
                   <Font name="Arial Bold" size="14.0" />
@@ -288,5 +286,7 @@
             </Text>
          </children>
       </Pane>
+      <Button layoutX="1018.0" layoutY="27.0" mnemonicParsing="false" onAction="#GoToNotif" opacity="0.0" prefHeight="25.0" prefWidth="21.0" text="Button" />
+      <Button layoutX="1073.0" layoutY="28.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="21.0" text="Button" />
    </children>
 </Pane>

@@ -18,7 +18,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1124.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Home">
    <children>
-      <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grabwheels">
+      <Text layoutX="70.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GrabWheels">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
@@ -321,7 +321,7 @@
                   <TableColumn fx:id="balanceColumn" minWidth="15.0" prefWidth="120.80001831054688" text="Balance" />
               </columns>
             </TableView>
-            <Button layoutX="794.0" layoutY="548.0" mnemonicParsing="false" onAction="#searchCar" opacity="0.37" prefHeight="35.0" prefWidth="95.0" text="Button" />
+            <Button layoutX="794.0" layoutY="548.0" mnemonicParsing="false" onAction="#searchCar" opacity="0.0" prefHeight="35.0" prefWidth="95.0" text="Button" />
             <Text fx:id="liveClock" fill="#167efb" layoutX="483.0" layoutY="681.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                <font>
                   <Font name="Arial Bold" size="20.0" />
@@ -391,8 +391,8 @@
             <Image url="@../Images/person.png" />
          </image>
       </ImageView>
-      <Button fx:id="gotoCar_Acc" layoutX="154.0" layoutY="150.0" mnemonicParsing="false" onAction="#GoToC_Accounts" prefHeight="25.0" prefWidth="28.0" text="Button" />
-      <Button fx:id="gotoCar_Acc1" layoutX="154.0" layoutY="204.0" mnemonicParsing="false" onAction="#GoToD_Accounts" prefHeight="25.0" prefWidth="28.0" text="Button" />
-      <Button layoutX="1002.0" layoutY="23.0" minWidth="53.0" mnemonicParsing="false" onAction="#GoToNotif" opacity="0.21" prefHeight="35.0" prefWidth="53.0" text="Button" />
+      <Button fx:id="gotoCar_Acc" layoutX="19.0" layoutY="149.0" mnemonicParsing="false" onAction="#GoToC_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="125.0" text="Button" />
+      <Button fx:id="gotoCar_Acc1" layoutX="17.0" layoutY="204.0" mnemonicParsing="false" onAction="#GoToD_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="113.0" text="Button" />
+      <Button layoutX="1002.0" layoutY="23.0" minWidth="53.0" mnemonicParsing="false" onAction="#GoToNotif" opacity="0.0" prefHeight="35.0" prefWidth="53.0" text="Button" />
    </children>
 </Pane>
