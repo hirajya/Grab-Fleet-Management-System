@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 public class amortization_table {
@@ -69,6 +70,7 @@ public class amortization_table {
             }
         }
     }
+    
 
     public static void insert(String a_SDate, String a_DDate, String a_EDate, int a_Payment, String c_Plate, String a_Status) throws ParseException {
         String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
@@ -260,4 +262,174 @@ public class amortization_table {
             }
         }
     }
-}
+
+    public static int getTotalUnPaidAmortizationForCurrentMonth() {
+        int totalPaidAmortization = 0;
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager.getConnection(url, user, password);
+
+                Calendar calendar = Calendar.getInstance();
+                int currentMonth = calendar.get(Calendar.MONTH) + 1;
+                int currentYear = calendar.get(Calendar.YEAR);
+
+                String sqlQuery = "SELECT SUM(amortization_Payment) AS total_paid FROM " + tableName + 
+                                " WHERE MONTH(amortization_DDate) = ? AND YEAR(amortization_DDate) = ? " +
+                                " AND amortization_Status = 'Unpaid'";
+                preparedStatement = connection.prepareStatement(sqlQuery);
+                preparedStatement.setInt(1, currentMonth);
+                preparedStatement.setInt(2, currentYear);
+                resultSet = preparedStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    totalPaidAmortization = resultSet.getInt("total_paid");
+                }
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (resultSet != null) resultSet.close();
+                    if (preparedStatement != null) preparedStatement.close();
+                    if (connection != null) connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return totalPaidAmortization;
+        }
+
+        public static int getCarCount() {
+            int carCount = 0;
+    
+            String url = "jdbc:mysql:/`1/localhost:3306/grab-fleet-database";
+            String user = "root";
+            String password = "";
+    
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+            ResultSet resultSet = null;
+    
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager.getConnection(url, user, password);
+                
+                String sqlQuery = "SELECT COUNT(DISTINCT car_Plate) AS car_count FROM " + tableName;
+                preparedStatement = connection.prepareStatement(sqlQuery);
+                resultSet = preparedStatement.executeQuery();
+    
+                if (resultSet.next()) {
+                    carCount = resultSet.getInt("car_count");
+                }
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (resultSet != null) resultSet.close();
+                    if (preparedStatement != null) preparedStatement.close();
+                    if (connection != null) connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }    
+
+            return carCount;
+        }
+
+        public static int getTotalUnPaidCarForCurrentMonth() {
+            int totalUnpaidCar = 0;
+    
+            String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+            String user = "root";
+            String password = "";
+    
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+            ResultSet resultSet = null;
+    
+            try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    connection = DriverManager.getConnection(url, user, password);
+    
+                    Calendar calendar = Calendar.getInstance();
+                    int currentMonth = calendar.get(Calendar.MONTH) + 1;
+                    int currentYear = calendar.get(Calendar.YEAR);
+    
+                    String sqlQuery = "SELECT COUNT(car_Plate) AS total_unpaid FROM " + tableName + 
+                                    " WHERE MONTH(amortization_DDate) = ? AND YEAR(amortization_DDate) = ? " +
+                                    " AND amortization_Status = 'Unpaid'";
+                    preparedStatement = connection.prepareStatement(sqlQuery);
+                    preparedStatement.setInt(1, currentMonth);
+                    preparedStatement.setInt(2, currentYear);
+                    resultSet = preparedStatement.executeQuery();
+    
+                    if (resultSet.next()) {
+                        totalUnpaidCar = resultSet.getInt("total_unpaid");
+                    }
+                } catch (ClassNotFoundException | SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (resultSet != null) resultSet.close();
+                        if (preparedStatement != null) preparedStatement.close();
+                        if (connection != null) connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+    
+                return totalUnpaidCar;
+            }
+
+
+        public static int getTotalUnPaidCar() {
+            int totalUnpaidCar = 0;
+        
+                String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+                String user = "root";
+                String password = "";
+        
+                Connection connection = null;
+                PreparedStatement preparedStatement = null;
+                ResultSet resultSet = null;
+        
+                try {
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        connection = DriverManager.getConnection(url, user, password);
+        
+                        Calendar calendar = Calendar.getInstance();
+                        int currentMonth = calendar.get(Calendar.MONTH) + 1;
+                        int currentYear = calendar.get(Calendar.YEAR);
+        
+                        String sqlQuery = "SELECT COUNT(car_Plate) AS total_unpaid FROM " + tableName + 
+                                         " WHERE amortization_Status = 'Unpaid'";
+                        preparedStatement = connection.prepareStatement(sqlQuery);
+                        resultSet = preparedStatement.executeQuery();
+        
+                        if (resultSet.next()) {
+                            totalUnpaidCar = resultSet.getInt("total_unpaid");
+                        }
+                    } catch (ClassNotFoundException | SQLException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (resultSet != null) resultSet.close();
+                            if (preparedStatement != null) preparedStatement.close();
+                            if (connection != null) connection.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+        
+                    return totalUnpaidCar;
+                }
+    }
