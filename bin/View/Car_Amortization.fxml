@@ -173,7 +173,7 @@
       <Button layoutX="48.0" layoutY="191.0" mnemonicParsing="false" onAction="#GoToC_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="96.0" text="Button" />
       <Button layoutX="18.0" layoutY="102.0" mnemonicParsing="false" onAction="#GoToHome" opacity="0.0" prefHeight="25.0" prefWidth="120.0" text="Button" />
       <Button layoutX="16.0" layoutY="310.0" mnemonicParsing="false" onAction="#GoToD_Accounts" opacity="0.0" prefHeight="25.0" prefWidth="113.0" text="Button" />
-      <Pane fx:id="deletePane" layoutX="199.0" layoutY="81.0" opacity="0.8" prefHeight="720.0" prefWidth="926.0" style="-fx-background-color: #000000;" visible="false">
+      <Pane fx:id="deletePane" layoutX="199.0" layoutY="81.0" opacity="0.8" prefHeight="720.0" prefWidth="926.0" style="-fx-background-color: #000000;">
          <children>
             <Rectangle arcHeight="50.0" arcWidth="50.0" fill="WHITE" height="232.0" layoutX="304.0" layoutY="225.0" stroke="BLACK" strokeType="INSIDE" width="367.0" />
             <Text layoutX="325.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm Deletion">
