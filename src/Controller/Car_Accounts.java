@@ -260,12 +260,12 @@ public class Car_Accounts implements Initializable {
         
     }
 
-    public void updateCarAccounts(ActionEvent event){
-
+    public void updateCarAccounts(ActionEvent event) {
         if (carTable.getSelectionModel().getSelectedItem().getCar_Plate() == null) {
             showAlert("No Selected Data", "Please select a car from the table to update.");
             return; // Exit the method if no item is selected
         }
+    
         String newPlate = updateCarPlate.getText();
         String newCRNum = updateCRNum.getText();
         String newORNum = updateORNum.getText();
@@ -275,9 +275,9 @@ public class Car_Accounts implements Initializable {
         String newColor = updateColor.getText();
         LocalDate newReg = updateCarReg.getValue();
         LocalDate newRegExpiry = updateCarRegExpiry.getValue();
-
+    
         String carPlate = carTable.getSelectionModel().getSelectedItem().getCar_Plate();
-
+    
         String updateCarQuery = "UPDATE car SET car_Plate = ?, car_CRNum = ?, car_ORNum = ?, car_Series = ?, car_Kind = ?, car_YearModel = ?, car_Color = ?, car_Registration = ?, car_RegExpiry = ? WHERE car_Plate = ?";
         try (Connection connection = DbConnect.getConnect()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateCarQuery)) {
@@ -293,17 +293,25 @@ public class Car_Accounts implements Initializable {
                 preparedStatement.setString(10, carPlate);
                 preparedStatement.executeUpdate();
             }
+    
+            // Update maintenance table with the new car information
+            String updateMaintenanceQuery = "UPDATE maintenance SET car_Plate = ? WHERE car_Plate = ?";
+            try (PreparedStatement maintenanceStatement = connection.prepareStatement(updateMaintenanceQuery)) {
+                maintenanceStatement.setString(1, newPlate);
+                maintenanceStatement.setString(2, carPlate);
+                maintenanceStatement.executeUpdate();
+            }
+    
             showSuccessAlert("Car updated successfully");
         } catch (SQLException e) {
             e.printStackTrace();
             showErrorAlert("Error updating car");
         }
+    
         GoCarAccounts();
         refreshTable();
-
-
-
     }
+    
     
     public void deleteCarAccs() {
         try {
