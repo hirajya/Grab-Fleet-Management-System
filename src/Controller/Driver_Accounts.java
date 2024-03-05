@@ -156,7 +156,7 @@ public class Driver_Accounts {
     private TextArea quotaAmount;
 
     @FXML
-    private TextArea updateLicenseNum, updateFName, updateMName, updateLName, updateContactNum, updateCPersonNum, updateHouseNum, updateBlock, updateStreet, updateBrgy, updateCity, updateSex, updateCarPlate;
+    private TextArea updateLicenseNum, updateFName, updateMName, updateLName, updateCNumber, updateCPersonNum, updateHouseNum, updateBlock, updateStreet, updateBrgy, updateCity, updateSex, updateCarPlate;
 
     @FXML
     private DatePicker updateBirthdate, updateLicenseExpiry;
@@ -251,7 +251,7 @@ public class Driver_Accounts {
         updateFName.setText(selectedDriver.getDriver_FName());
         updateMName.setText(selectedDriver.getDriver_MName());
         updateLName.setText(selectedDriver.getDriver_LName());
-        updateContactNum.setText(selectedDriver.getDriver_CNumber());
+        updateCNumber.setText(selectedDriver.getDriver_CNumber());
         updateCPersonNum.setText(selectedDriver.getDriver_CPersonNum());
         updateHouseNum.setText(String.valueOf(selectedDriver.getDriver_HouseNum()));
         updateBlock.setText(selectedDriver.getDriver_Block());
