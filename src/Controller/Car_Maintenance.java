@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -95,6 +96,8 @@ public class Car_Maintenance {
 
     @FXML 
     private DatePicker updateChangeOil, updateChangeBelt;
+
+    private static String tableName = "maintenance";
 
     String query = null;
     Connection connection = null;
@@ -452,6 +455,62 @@ public class Car_Maintenance {
             e.printStackTrace();
             showErrorAlert("An error occurred while trying to delete the maintenance record");
         }
+    }
+    public static int countOverdueCars() {
+        int count = 0;
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) AS total FROM " + tableName + " WHERE maintenance_MStatus = 'Overdue'")) {
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public static int countDueSoonCars() {
+        int count = 0;
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) AS total FROM " + tableName + " WHERE maintenance_MStatus = 'Due Soon'")) {
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public static int countUpToDateCars() {
+        int count = 0;
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) AS total FROM " + tableName + " WHERE maintenance_MStatus = 'Up to date'")) {
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 
 

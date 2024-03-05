@@ -6,11 +6,14 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -137,6 +140,8 @@ public class Driver_Quota {
 
     @FXML
     private Button GoDeleteButton1;
+
+
 
     public void initialize() {
         setUpColumns();
@@ -540,6 +545,225 @@ public class Driver_Quota {
             stage.setScene(scene);
             stage.show();
 
+    }
+
+     public static List<String[]> getDriversWithBalance() {
+        List<String[]> driversWithBalance = new ArrayList<>();
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, user, password);
+
+            String sqlQuery = "SELECT CONCAT(driver.driver_FName, ' ', driver.driver_LName) AS full_name, driver.driver_CNumber, quota.quota_Balance FROM driver INNER JOIN quota ON driver.driver_LicenseNum = quota.driver_LicenseNum WHERE quota.quota_Balance > 0";
+            preparedStatement = connection.prepareStatement(sqlQuery);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String[] driverInfo = new String[3];
+                driverInfo[0] = resultSet.getString("full_name");
+                driverInfo[1] = resultSet.getString("driver_CNumber");
+                driverInfo[2] = resultSet.getString("quota_Balance");
+                driversWithBalance.add(driverInfo);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return driversWithBalance;
+    }
+
+    public static int getTotalPaidQuotaForCurrentMonth() {
+        int totalPaidQuota = 0;
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Establish connection
+            connection = DriverManager.getConnection(url, user, password);
+
+            // Get current month and year
+            LocalDate currentDate = LocalDate.now();
+            int currentMonth = currentDate.getMonthValue();
+            int currentYear = currentDate.getYear();
+
+            // Query to retrieve total paid quota amount for the current month
+            String sqlQuery = "SELECT SUM(quota_InputAmount) AS total_paid FROM quota " +
+                              "WHERE MONTH(quota_DDate) = ? AND YEAR(quota_DDate) = ? " +
+                              "AND quota_Status = 'Paid'";
+            
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(1, currentMonth);
+            preparedStatement.setInt(2, currentYear);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalPaidQuota = resultSet.getInt("total_paid");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close connections and resources
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return totalPaidQuota;
+    }
+
+    public static int getTotalUnpaidQuota() {
+        int totalUnpaidQuota = 0;
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Establish connection
+            connection = DriverManager.getConnection(url, user, password);
+
+            // Query to retrieve total paid quota amount for the current month
+            String sqlQuery = "SELECT COUNT(quota_RecordID) AS total_unpaid FROM quota " +
+                              "WHERE quota_Status = 'Unpaid'";
+            
+            preparedStatement = connection.prepareStatement(sqlQuery);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalUnpaidQuota = resultSet.getInt("total_unpaid");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close connections and resources
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return totalUnpaidQuota;
+    }
+
+
+    public static Map<Integer, Integer[]> getQuotaDataByWeeks() {
+        Map<Integer, Integer[]> quotaDataByWeeks = new HashMap<>();
+
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            
+            connection = DriverManager.getConnection(url, user, password);
+
+            LocalDate currentDate = LocalDate.now();
+            int currentMonth = currentDate.getMonthValue();
+            int currentYear = currentDate.getYear();
+
+            LocalDate firstDayOfMonth = LocalDate.of(currentYear, currentMonth, 1);
+            LocalDate lastDayOfMonth = firstDayOfMonth.plusMonths(1).minusDays(1);
+
+            LocalDate startDate = firstDayOfMonth;
+            LocalDate endDate = firstDayOfMonth.plusDays(6);
+
+            for (int week = 1; week <= 4; week++) {
+        
+                String paidQuery = "SELECT SUM(quota_InputAmount) AS total_paid FROM quota " +
+                                   "WHERE (quota_DDate BETWEEN ? AND ?) " +
+                                   "AND MONTH(quota_DDate) = ? AND YEAR(quota_DDate) = ? " +
+                                   "AND quota_Status = 'Paid'";
+                
+                preparedStatement = connection.prepareStatement(paidQuery);
+                preparedStatement.setDate(1, Date.valueOf(startDate));
+                preparedStatement.setDate(2, Date.valueOf(endDate));
+                preparedStatement.setInt(3, currentMonth);
+                preparedStatement.setInt(4, currentYear);
+
+                resultSet = preparedStatement.executeQuery();
+
+                int totalPaidQuota = 0;
+                if (resultSet.next()) {
+                    totalPaidQuota = resultSet.getInt("total_paid");
+                }
+
+                String unpaidQuery = "SELECT SUM(quota_InputAmount) AS total_unpaid FROM quota " +
+                                     "WHERE (quota_DDate BETWEEN ? AND ?) " +
+                                     "AND MONTH(quota_DDate) = ? AND YEAR(quota_DDate) = ? " +
+                                     "AND quota_Status = 'Unpaid'";
+                
+                preparedStatement = connection.prepareStatement(unpaidQuery);
+                preparedStatement.setDate(1, Date.valueOf(startDate));
+                preparedStatement.setDate(2, Date.valueOf(endDate));
+                preparedStatement.setInt(3, currentMonth);
+                preparedStatement.setInt(4, currentYear);
+
+                resultSet = preparedStatement.executeQuery();
+
+                int totalUnpaidQuota = 0;
+                if (resultSet.next()) {
+                    totalUnpaidQuota = resultSet.getInt("total_unpaid");
+                }
+
+                Integer[] quotaAmounts = {totalPaidQuota, totalUnpaidQuota};
+                quotaDataByWeeks.put(week, quotaAmounts);
+
+                startDate = endDate.plusDays(1);
+                endDate = startDate.plusDays(6);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return quotaDataByWeeks;
     }
 
 }

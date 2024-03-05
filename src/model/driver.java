@@ -19,7 +19,7 @@ public class driver {
     private String driver_City;
     private String car_Plate;
 
-    public driver(String driver_LicenseNum, Date driver_LicenseExpiry, String driver_CPersonNum, String driver_CNumber, int driver_HouseNum, String driver_Block, String driver_Brgy, String driver_Street, String driver_City, String driver_Sex, Date driver_Birthdate, String driver_FName, String driver_MName, String driver__LName, String car_Plate) {
+    public driver(String driver_LicenseNum, String driver_CNumber, String driver_CPersonNum, String driver_Sex, String driver_FName, String driver_MName, String driver_LName, Date driver_Birthdate, int driver_HouseNum, String driver_City, String driver_Street, String driver_Block, String driver_Brgy, String car_Plate, Date driver_LicenseExpiry) {
         this.driver_LicenseNum = driver_LicenseNum;
         this.driver_LicenseExpiry = driver_LicenseExpiry;
         this.driver_CNumber = driver_CNumber;
@@ -34,7 +34,7 @@ public class driver {
         this.driver_Birthdate = driver_Birthdate;
         this.driver_FName = driver_FName;
         this.driver_MName = driver_MName;
-        this.driver_LName = driver__LName;
+        this.driver_LName = driver_LName;
         this.car_Plate = car_Plate;
         
 
@@ -160,4 +160,6 @@ public class driver {
     public void setCar_Plate(String car_Plate) {
         this.car_Plate = car_Plate;
     }
+
+    
 }

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -161,6 +163,8 @@ public class Driver_Accounts {
 
     @FXML
     private TextField searchTextField;
+    
+    private static String tableName = "driver";
 
 
     String query = null;
@@ -171,7 +175,7 @@ public class Driver_Accounts {
 
     ObservableList<driver> driverList = FXCollections.observableArrayList();
 
-    public void initialize(URL arg0, ResourceBundle arg1) { 
+    public void initialize() { 
         loadDate();
 
         driverTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -186,6 +190,28 @@ public class Driver_Accounts {
 
 
     }
+    @FXML
+    public void loadDate() {
+        connection = DbConnect.getConnect();
+        refreshTable();
+        licenseNumColumn.setCellValueFactory(new PropertyValueFactory<>("driver_LicenseNum"));
+        CNumColumn.setCellValueFactory(new PropertyValueFactory<>("driver_CNumber"));
+        CPersonNumColumn.setCellValueFactory(new PropertyValueFactory<>("driver_CPersonNum"));
+        SexColumn.setCellValueFactory(new PropertyValueFactory<>("driver_Sex"));
+        FNameColumn.setCellValueFactory(new PropertyValueFactory<>("driver_FName"));
+        MNameColumn.setCellValueFactory(new PropertyValueFactory<>("driver_MName"));
+        LNameColumn.setCellValueFactory(new PropertyValueFactory<>("driver_LName"));
+        BDateColumn.setCellValueFactory(new PropertyValueFactory<>("driver_Birthdate"));
+        HouseNumColumn.setCellValueFactory(new PropertyValueFactory<>("driver_HouseNum"));
+        CityColumn.setCellValueFactory(new PropertyValueFactory<>("driver_City"));
+        StreetColumn.setCellValueFactory(new PropertyValueFactory<>("driver_Street"));
+        BlockColumn.setCellValueFactory(new PropertyValueFactory<>("driver_Block"));
+        BrgyColumn.setCellValueFactory(new PropertyValueFactory<>("driver_Brgy"));
+        CarPlateColumn.setCellValueFactory(new PropertyValueFactory<>("car_Plate"));
+        licenseNumExpiryColumn.setCellValueFactory(new PropertyValueFactory<>("driver_LicenseExpiry"));
+        
+        }
+
 
     private void printSelectedRowData(driver selectedDriver){
         System.out.println("Selected row data: " + selectedDriver.getDriver_LicenseNum());
@@ -386,63 +412,54 @@ public class Driver_Accounts {
 
 
     //display sa table
-    public void loadDate() {
-        connection = DbConnect.getConnect();
-        refreshTable();
-            licenseNumColumn.setCellValueFactory(new PropertyValueFactory<>("driver_LicenseNum"));
-            licenseNumExpiryColumn.setCellValueFactory(new PropertyValueFactory<>("driver_LicenseExpiry"));
-            FNameColumn.setCellValueFactory(new PropertyValueFactory<>("driver_FName"));
-            MNameColumn.setCellValueFactory(new PropertyValueFactory<>("driver_MName"));
-            LNameColumn.setCellValueFactory(new PropertyValueFactory<>("driver_LName"));
-            CNumColumn.setCellValueFactory(new PropertyValueFactory<>("driver_CNumber"));
-            CPersonNumColumn.setCellValueFactory(new PropertyValueFactory<>("driver_CPersonNum"));
-            SexColumn.setCellValueFactory(new PropertyValueFactory<>("driver_Sex"));
-            BDateColumn.setCellValueFactory(new PropertyValueFactory<>("driver_Birthdate"));
-            HouseNumColumn.setCellValueFactory(new PropertyValueFactory<>("driver_HouseNum"));
-            StreetColumn.setCellValueFactory(new PropertyValueFactory<>("driver_Street"));
-            BrgyColumn.setCellValueFactory(new PropertyValueFactory<>("driver_Brgy"));
-            CityColumn.setCellValueFactory(new PropertyValueFactory<>("driver_City"));
-            CarPlateColumn.setCellValueFactory(new PropertyValueFactory<>("car_Plate"));
-        }
-
     @FXML
-    public void refreshTable(){
+    public void refreshTable() {
         try {
             driverList.clear();
-
-            String searchKeyword = searchTextField.getText();
-
-
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, "%" + searchKeyword + "%");
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                driverList.add(new driver(
-                    resultSet.getString("driver_LicenseNum"),
-                    resultSet.getDate("driver_LicenseExpiry"),
-                    resultSet.getString("driver_CNumber"),
-                    resultSet.getString("driver_CPersonNum"),
-                    resultSet.getInt("driver_HouseNum"),
-                    resultSet.getString("driver_Block"),
-                    resultSet.getString("driver_Street"),
-                    resultSet.getString("driver_Brgy"),
-                    resultSet.getString("driver_City"),
-                    resultSet.getString("driver_Sex"),
-                    resultSet.getDate("driver_Birthdate"),
-                    resultSet.getString("driver_FName"),
-                    resultSet.getString("driver_MName"),
-                    resultSet.getString("driver_LName"),
-                    resultSet.getString("car_Plate")
-                ));
-            }
+    
+            // Check if searchTextField is not null before using it
+            if (searchTextField != null) {
+                String searchKeyword = searchTextField.getText();
+    
+                // Modify your SQL query to search by driver_FName
+                String query = "SELECT * FROM driver WHERE driver_FName LIKE ?";
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, "%" + searchKeyword + "%");
+                resultSet = preparedStatement.executeQuery();
+    
+                while (resultSet.next()) {
+                    driverList.add(new driver(
+                            resultSet.getString("driver_LicenseNum"),
+                            resultSet.getString("driver_CNumber"),
+                            resultSet.getString("driver_CPersonNum"),
+                            resultSet.getString("driver_Sex"),
+                            resultSet.getString("driver_FName"),
+                            resultSet.getString("driver_MName"),
+                            resultSet.getString("driver_LName"),
+                            resultSet.getDate("driver_Birthdate"),
+                            resultSet.getInt("driver_HouseNum"),
+                            resultSet.getString("driver_City"),
+                            resultSet.getString("driver_Street"),
+                            resultSet.getString("driver_Block"),
+                            resultSet.getString("driver_Brgy"),
+                            resultSet.getString("car_Plate"),
+                            resultSet.getDate("driver_LicenseExpiry")
+                    ));
+                }
+    
                 driverTable.setItems(driverList);
-
+    
+            } else {
+                // Handle the case when searchTextField is null
+                System.out.println("searchTextField is null.");
+            }
+    
         } catch (SQLException e) {
             e.printStackTrace();
-           
-        } 
+        }
     }
+    
+    
 
     @FXML
     private void handleSearch(KeyEvent event) {
@@ -618,5 +635,22 @@ public class Driver_Accounts {
             stage.show();
 
     }
+       public static int countDrivers() {
+        int count = 0;
+        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
+        String user = "root";
+        String password = "";
 
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) AS total FROM " + tableName)) {
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 }
