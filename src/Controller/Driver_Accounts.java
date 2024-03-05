@@ -271,7 +271,7 @@ public class Driver_Accounts {
                 String newFName = updateFName.getText();
                 String newMName = updateMName.getText();
                 String newLName = updateLName.getText();
-                String newContactNum = updateContactNum.getText();
+                String newContactNum = updateCNumber.getText();
                 String newcPersonNum = updateCPersonNum.getText();
                 int newHouseNum = Integer.parseInt(updateHouseNum.getText());
                 String newBlock = updateBlock.getText();
@@ -326,7 +326,7 @@ public class Driver_Accounts {
         updateFName.clear();
         updateMName.clear();
         updateLName.clear();
-        updateContactNum.clear();
+        updateCNumber.clear();
         updateCPersonNum.clear();
         updateHouseNum.clear();
         updateBlock.clear();
