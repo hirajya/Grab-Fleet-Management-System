@@ -110,7 +110,9 @@ public class Car_Maintenance {
 
     public void initialize() {
         loadDate();
+
        setupFilterComboBox();
+       
 
         maintenance_table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -193,7 +195,7 @@ public class Car_Maintenance {
         maintenance selectedMaintenance = maintenance_table.getSelectionModel().getSelectedItem();
         int maintenanceId = selectedMaintenance.getMaintenanceId();
 
-        String updateQuery = "UPDATE maintenance SET changeOil = ?, changeBelt = ? WHERE maintenance_RecordID = ?";
+        String updateQuery = "UPDATE maintenance SET maintenance_changeOil = ?, maintenance_changeBelt = ? WHERE maintenance_RecordID = ?";
 
         try (Connection connection = DbConnect.getConnect()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
@@ -290,63 +292,72 @@ public class Car_Maintenance {
 
  
    @FXML
-   public void refreshTable() {
-       try {
-           maintenanceList.clear();
-   
-           String selectedFilter = statusOptions.getValue();
-           String searchKeyword = searchTextField.getText();
-   
-           if (selectedFilter == null) {
-               selectedFilter = "All";
-               statusOptions.setValue(selectedFilter);
-           }
-   
-           // Modify the query to join the maintenance table with the car table
-           String query = "SELECT m.*, c.car_Series FROM maintenance m JOIN car c ON m.car_Plate = c.car_Plate WHERE m.car_Plate LIKE ?";
-   
-           if (!selectedFilter.equals("All")) {
-               query += " AND m.status = ?";
-           }
-   
-           preparedStatement = connection.prepareStatement(query);
-           preparedStatement.setString(1, "%" + searchKeyword + "%");
-   
-           if (!selectedFilter.equals("All")) {
-               preparedStatement.setString(2, selectedFilter);
-           }
-   
-           resultSet = preparedStatement.executeQuery();
-   
-           while (resultSet.next()) {
-               maintenanceList.add(new maintenance(
-                       resultSet.getInt("maintenance_RecordID"),
-                       resultSet.getString("car_Series"),
-                       resultSet.getString("car_Plate"),
-                       resultSet.getString("driver_LicenseNum"),
-                       resultSet.getString("maintenance_ChangeOil"),
-                       resultSet.getString("maintenance_ChangeBelt"),
-                       resultSet.getString("maintenance_MStatus")
-               ));
-           }
-   
-           maintenance_table.setItems(maintenanceList);
-   
-       } catch (SQLException e) {
-           e.printStackTrace();
-       } finally {
-           try {
-               if (resultSet != null) {
-                   resultSet.close();
-               }
-               if (preparedStatement != null) {
-                   preparedStatement.close();
-               }
-           } catch (SQLException ex) {
-               ex.printStackTrace();
-           }
-       }
-   }
+public void refreshTable() {
+    try {
+        maintenanceList.clear();
+
+        String selectedFilter = statusOptions.getValue();
+        String searchKeyword = searchTextField.getText();
+
+        if (selectedFilter == null) {
+            selectedFilter = "All";
+            statusOptions.setValue(selectedFilter);
+        }
+
+        // First query to retrieve car_Plate
+        String carPlateQuery = "SELECT m.*, c.car_Series, c.car_Plate " +
+                               "FROM maintenance m " +
+                               "JOIN car c ON m.car_Plate = c.car_Plate " +
+                               "WHERE m.car_Plate LIKE ?";
+
+        preparedStatement = connection.prepareStatement(carPlateQuery);
+        preparedStatement.setString(1, "%" + searchKeyword + "%");
+
+        resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            String carPlate = resultSet.getString("car_Plate");
+
+            // Second query to retrieve driver_LicenseNum
+            String licenseNumQuery = "SELECT driver_LicenseNum FROM driver WHERE car_Plate = ?";
+            preparedStatement = connection.prepareStatement(licenseNumQuery);
+            preparedStatement.setString(1, carPlate);
+
+            ResultSet driverResultSet = preparedStatement.executeQuery();
+
+            if (driverResultSet.next()) {
+                maintenanceList.add(new maintenance(
+                        resultSet.getInt("maintenance_RecordID"),
+                        resultSet.getString("car_Series"),
+                        carPlate,
+                        driverResultSet.getString("driver_LicenseNum"),
+                        resultSet.getString("maintenance_ChangeOil"),
+                        resultSet.getString("maintenance_ChangeBelt"),
+                        resultSet.getString("maintenance_MStatus")
+                ));
+            }
+        }
+
+        maintenance_table.setItems(maintenanceList);
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+
+
+
    
 
                             

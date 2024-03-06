@@ -464,13 +464,17 @@ public class Car_Accounts implements Initializable {
                     }
     
                     // Insert into maintenance table
-                    String maintenanceInsertQuery = "INSERT INTO maintenance (maintenance_ChangeOil, maintenance_ChangeBelt, car_Plate) VALUES (?, ?, ?)";
-                    try (PreparedStatement maintenanceStatement = connection.prepareStatement(maintenanceInsertQuery)) {
-                        maintenanceStatement.setDate(1, java.sql.Date.valueOf(changeOil));
-                        maintenanceStatement.setDate(2, java.sql.Date.valueOf(changeBelt));
-                        maintenanceStatement.setString(3, plate);
-                        maintenanceStatement.executeUpdate();
-                    }
+                    String maintenanceInsertQuery = "INSERT INTO maintenance (maintenance_ChangeOil, maintenance_ChangeBelt, car_Plate, driver_LicenseNum) " +
+                    "VALUES (?, ?, ?, (SELECT driver_LicenseNum FROM driver WHERE car_Plate = ? LIMIT 1))";
+            
+            try (PreparedStatement maintenanceStatement = connection.prepareStatement(maintenanceInsertQuery)) {
+                maintenanceStatement.setDate(1, java.sql.Date.valueOf(changeOil));
+                maintenanceStatement.setDate(2, java.sql.Date.valueOf(changeBelt));
+                maintenanceStatement.setString(3, plate);
+                maintenanceStatement.setString(4, plate);  // Bind car_Plate again for the subquery
+                maintenanceStatement.executeUpdate();
+            }
+            
     
                     // Insert into amortization table
                     String amortizationInsertQuery = "INSERT INTO amortization (amortization_SDate, amortization_DDate, amortization_EDate, amortization_Payment, car_Plate) " +
