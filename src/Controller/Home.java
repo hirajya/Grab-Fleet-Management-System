@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.Notification;
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -39,7 +41,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.amortization_table;
 import model.car_table;
-import model.driver_database;
+import model.driver;
 import model.maintenance_table;
 import model.quota_table;
 import javafx.scene.Node;
@@ -109,41 +111,41 @@ public class Home {
 
         quotaMonth.setText(monthName.toUpperCase());
 
-        int totaldriver = driver_database.countDrivers();
+        int totaldriver = Driver_Accounts.countDrivers();
         totalDrivers.setText(Integer.toString(totaldriver));
 
-        int totalcar = car_table.countCars();
+        int totalcar = Car_Accounts.countCars();
         totalCars.setText(Integer.toString(totalcar));
 
-        int totalOverdue = maintenance_table.countOverdueCars();
+        int totalOverdue = Car_Maintenance.countOverdueCars();
         maintenanceOverdue.setText(Integer.toString(totalOverdue));   
         
-        int totalDueSoon = maintenance_table.countDueSoonCars();
+        int totalDueSoon = Car_Maintenance.countDueSoonCars();
         maintenanceDueSoon.setText(Integer.toString(totalDueSoon));  
 
-        int totalUpToDate = maintenance_table.countUpToDateCars();
+        int totalUpToDate = Car_Maintenance.countUpToDateCars();
         maintenanceUpToDate.setText(Integer.toString(totalUpToDate));  
 
-        int totalPaidQuota = quota_table.getTotalPaidQuotaForCurrentMonth();
+        int totalPaidQuota = Driver_Quota.getTotalPaidQuotaForCurrentMonth();
         totalPaidQuotaText.setText(String.valueOf(totalPaidQuota));
 
-        int totalPaidAmount = amortization_table.getTotalUnPaidAmortizationForCurrentMonth();
+        int totalPaidAmount = Car_Amortization.getTotalUnPaidAmortizationForCurrentMonth();
         totalPaidAmortization.setText(Integer.toString(totalPaidAmount));
 
-        int carCount = amortization_table.getTotalUnPaidCarForCurrentMonth();
+        int carCount = Car_Amortization.getTotalUnPaidCarForCurrentMonth();
         carCountAmortization.setText(Integer.toString(carCount) + " Cars");
 
-        int availableCarCount = car_table.countAvailableCars();
+        int availableCarCount = Car_Accounts.countAvailableCars();
         carAvailability.setText(Integer.toString(availableCarCount));
 
-        int unavailableCarCount = car_table.countTotalFleet();
+        int unavailableCarCount = Car_Accounts.countTotalFleet();
         carTotalFleet.setText(Integer.toString(unavailableCarCount));
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         contactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
         balanceColumn.setCellValueFactory(new PropertyValueFactory<>("balance"));
 
-        List<String[]> driversWithBalance = quota_table.getDriversWithBalance();
+        List<String[]> driversWithBalance = Driver_Quota.getDriversWithBalance();
 
         for (String[] driverInfo : driversWithBalance) {
             driverTableView.getItems().add(new DriverInfo(driverInfo[0], driverInfo[1], driverInfo[2]));
@@ -167,7 +169,7 @@ public class Home {
         yAxis.setLabel("Amount");
 
 
-        Map<Integer, Integer[]> quotaDataByWeeks = quota_table.getQuotaDataByWeeks();
+        Map<Integer, Integer[]> quotaDataByWeeks = Driver_Quota.getQuotaDataByWeeks();
 
         XYChart.Series<String, Number> paidSeries = new XYChart.Series<>();
         paidSeries.setName("Paid");
@@ -207,7 +209,7 @@ public class Home {
     @FXML
     public void searchCar(ActionEvent event) {
         String plateNumber = searchCarPlate.getText();
-        String availability = car_table.searchCarAvailability(plateNumber);
+        String availability = Car_Accounts.searchCarAvailability(plateNumber);
         carAvailabilityText.setText(availability);
     }
 
