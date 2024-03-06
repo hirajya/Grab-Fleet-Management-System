@@ -425,7 +425,7 @@ public class Car_Amortization implements Initializable {
                 @Override
                 public TableCell<amortization, String> call(TableColumn<amortization, String> param) {
                     return new TableCell<amortization, String>() {
-                        final Circle circle = new Circle(8);
+                        final Circle circle = new Circle(4);
 
                         @Override
                         protected void updateItem(String item, boolean empty) {
