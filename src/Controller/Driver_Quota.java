@@ -404,7 +404,7 @@ public class Driver_Quota {
             @Override
             public TableCell<Driver_Quota_obj, String> call(TableColumn<Driver_Quota_obj, String> param) {
                 return new TableCell<Driver_Quota_obj, String>() {
-                    final Circle circle = new Circle(8);
+                    final Circle circle = new Circle(4);
 
                     @Override
                     protected void updateItem(String item, boolean empty) {
@@ -419,7 +419,7 @@ public class Driver_Quota {
                             if ("Unpaid".equals(item)) {
                                 circle.setFill(Color.web("#FB1616")); // Set to #FB1616 for Red
                             } else {
-                                circle.setFill(Color.web("#FBC916")); // Set to #FBC916 for Green
+                                circle.setFill(Color.web("#64E338")); // Set to #FBC916 for Green
                             }
                             setGraphic(circle);
                         }
