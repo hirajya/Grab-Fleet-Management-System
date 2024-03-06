@@ -1,73 +1,121 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "java",
-            "name": "App",
-            "request": "launch",
-            "mainClass": "App",
-            "projectName": "Grab-Fleet-Management-System_e1908bcb",
-            "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
-
-        },
-        {
-            "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "App",
-            "request": "launch",
-            "mainClass": "App",
-            "projectName": "Grab-Fleet-Management-System_be3f6580",
-            "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
-        },
-        {
-            "type": "java",
-            "name": "admin_table",
-            "request": "launch",
-            "mainClass": "model.admin_table",
-            "projectName": "Grab-Fleet-Management-System_be3f6580"
-        },
-        {
-            "type": "java",
-            "name": "amortization_table",
-            "request": "launch",
-            "mainClass": "model.amortization_table",
-            "projectName": "Grab-Fleet-Management-System_be3f6580"
-        },
-        {
-            "type": "java",
-            "name": "car_table",
-            "request": "launch",
-            "mainClass": "model.car_table",
-            "projectName": "Grab-Fleet-Management-System_be3f6580"
-        },
-        {
-            "type": "java",
-            "name": "driver_table",
-            "request": "launch",
-            "mainClass": "model.driver_table",
-            "projectName": "Grab-Fleet-Management-System_be3f6580"
-        },
-        {
-            "type": "java",
-            "name": "maintenance_table",
-            "request": "launch",
-            "mainClass": "model.maintenance_table",
-            "projectName": "Grab-Fleet-Management-System_be3f6580"
-        },
-        {
-            "type": "java",
-            "name": "quota_table",
-            "request": "launch",
-            "mainClass": "model.quota_table",
-            "projectName": "Grab-Fleet-Management-System_be3f6580"
-        }
-    ]
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "maintenance_table",
+      "request": "launch",
+<<<<<<< Updated upstream
+      "mainClass": "model.maintenance_table",
+=======
+      "mainClass": "App",
+>>>>>>> Stashed changes
+      "projectName": "Grab-Fleet-Management-System_87cfe0bc"
+    },
+    {
+      "type": "java",
+<<<<<<< Updated upstream
+      "name": "quota_table",
+      "request": "launch",
+      "mainClass": "model.quota_table",
+      "projectName": "Grab-Fleet-Management-System_87cfe0bc"
+    },
+    {
+      "type": "java",
+      "name": "car_table",
+      "request": "launch",
+      "mainClass": "model.car_table",
+      "projectName": "Grab-Fleet-Management-System_87cfe0bc"
+    },
+    {
+      "type": "java",
+      "name": "driver_database",
+      "request": "launch",
+      "mainClass": "model.driver_database",
+      "projectName": "Grab-Fleet-Management-System_87cfe0bc"
+    },
+    {
+      "type": "java",
+      "name": "amortization_table",
+      "request": "launch",
+      "mainClass": "model.amortization_table",
+      "projectName": "Grab-Fleet-Management-System_87cfe0bc"
+    },
+    {
+      "type": "java",
+      "name": "amortization_table",
+      "request": "launch",
+      "mainClass": "model.amortization_table",
+      "projectName": "Grab-Fleet-Management-System_e1908bcb"
+    },
+    {
+      "type": "java",
+      "name": "driver_table",
+      "request": "launch",
+      "mainClass": "model.driver_table",
+      "projectName": "Grab-Fleet-Management-System_e1908bcb"
+    },
+    {
+      "type": "java",
+      "name": "admin_table",
+      "request": "launch",
+      "mainClass": "model.admin_table",
+      "projectName": "Grab-Fleet-Management-System_e1908bcb"
+=======
+      "name": "App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "Grab Fleet Management System_59852446",
+      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
+>>>>>>> Stashed changes
+    },
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "Grab-Fleet-Management-System_e1908bcb",
+      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "Grab-Fleet-Management-System_87cfe0bc"
+    },
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "Grab-Fleet-Management-System_c2aa4f85",
+      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "Grab Fleet Management System_59852446",
+      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "Current File",
+      "request": "launch",
+      "mainClass": "${file}"
+    },
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "Grab Fleet System_93c69e1b",
+      "vmArgs": "--module-path C:/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.media --add-modules=javafx.controls,javafx.fxml"
+    }
+  ]
 }

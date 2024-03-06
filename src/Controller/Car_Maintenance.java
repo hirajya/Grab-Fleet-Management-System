@@ -424,6 +424,16 @@ public void refreshTable() {
 
     }
 
+    public void GoToNotif(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Notification.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public void GoUpdateMaintenance(){
         try{
             if (maintenance_table.getSelectionModel().getSelectedItem() == null){
@@ -524,7 +534,7 @@ public void refreshTable() {
         return count;
     }
 
-
+    
     
 }
    

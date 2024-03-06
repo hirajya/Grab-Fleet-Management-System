@@ -358,13 +358,13 @@
             <DatePicker fx:id="addAmortizationEDate" layoutX="292.0" layoutY="412.0" prefHeight="25.0" prefWidth="450.0" />
             <DatePicker fx:id="addAmortizationDDate" layoutX="292.0" layoutY="450.0" prefHeight="25.0" prefWidth="450.0" />
             <TextField fx:id="addAmortizationPayment" layoutX="292.0" layoutY="490.0" prefHeight="25.0" prefWidth="450.0" />
-            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#167efb" height="30.0" layoutX="292.0" layoutY="530.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="119.0" />
-            <Text fill="WHITE" layoutX="268.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Previous" x="56.0" y="109.0">
+            <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#167efb" height="30.0" layoutX="439.0" layoutY="582.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="119.0" />
+            <Text fill="WHITE" layoutX="415.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Previous" x="56.0" y="109.0">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Text>
-            <Button layoutX="311.0" layoutY="533.0" mnemonicParsing="false" onAction="#GoBackAddCar" opacity="0.0" prefHeight="25.0" prefWidth="80.0" text="Button" />
+            <Button layoutX="459.0" layoutY="585.0" mnemonicParsing="false" onAction="#GoBackAddCar" opacity="0.0" prefHeight="25.0" prefWidth="80.0" text="Button" />
             <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#167efb" height="30.0" layoutX="588.0" layoutY="582.0" stroke="#f6f6f6" strokeType="INSIDE" strokeWidth="0.0" width="162.0" />
             <Text fill="WHITE" layoutX="586.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Car" x="56.0" y="109.0">
                <font>
@@ -372,6 +372,18 @@
                </font>
             </Text>
             <Button layoutX="597.0" layoutY="585.0" mnemonicParsing="false" onAction="#save" opacity="0.0" prefHeight="25.0" prefWidth="143.0" text="Button" />
+            <Text layoutX="13.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="13.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Availability:" wrappingWidth="401.9999694824219" x="56.0" y="109.0">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </Text>
+            <TextField fx:id="AddStatus2" layoutX="189.0" layoutY="530.0" />
+            <TextField fx:id="AddAvailability2" layoutX="189.0" layoutY="570.0" />
          </children>
       </Pane>
       <Pane fx:id="updateCarPane" layoutX="209.0" layoutY="78.0" prefHeight="648.0" prefWidth="915.0" style="-fx-background-color: #F6F6F6;" visible="false">
