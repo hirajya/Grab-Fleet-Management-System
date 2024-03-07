@@ -7,8 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.Notification;
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -41,7 +39,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.amortization_table;
 import model.car_table;
-import model.driver;
+import model.driver_database;
 import model.maintenance_table;
 import model.quota_table;
 import javafx.scene.Node;
@@ -145,7 +143,7 @@ public class Home {
         contactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
         balanceColumn.setCellValueFactory(new PropertyValueFactory<>("balance"));
 
-        List<String[]> driversWithBalance = Driver_Quota.getDriversWithBalance();
+        List<String[]> driversWithBalance = quota_table.getDriversWithBalance();
 
         for (String[] driverInfo : driversWithBalance) {
             driverTableView.getItems().add(new DriverInfo(driverInfo[0], driverInfo[1], driverInfo[2]));
@@ -169,7 +167,7 @@ public class Home {
         yAxis.setLabel("Amount");
 
 
-        Map<Integer, Integer[]> quotaDataByWeeks = Driver_Quota.getQuotaDataByWeeks();
+        Map<Integer, Integer[]> quotaDataByWeeks = quota_table.getQuotaDataByWeeks();
 
         XYChart.Series<String, Number> paidSeries = new XYChart.Series<>();
         paidSeries.setName("Paid");
@@ -209,7 +207,7 @@ public class Home {
     @FXML
     public void searchCar(ActionEvent event) {
         String plateNumber = searchCarPlate.getText();
-        String availability = Car_Accounts.searchCarAvailability(plateNumber);
+        String availability = car_table.searchCarAvailability(plateNumber);
         carAvailabilityText.setText(availability);
     }
 

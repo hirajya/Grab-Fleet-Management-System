@@ -387,15 +387,19 @@ public class Driver_Accounts {
                     driverStatement.executeUpdate();
                 }
 
-                String quotaInsertQuery = "INSERT INTO quota (quota_Amount, quota_SDate, quota_DDate, driver_LicenseNum) VALUES (?, ?, ?, ?)";
+                String quotaInsertQuery = "INSERT INTO quota (quota_Amount, quota_SDate, quota_DDate, driver_LicenseNum, quota_Balance) VALUES (?, ?, ?, ?, ?)";
                 try (PreparedStatement quotaStatement = connection.prepareStatement(quotaInsertQuery)){
                     quotaStatement.setInt(1, qAmount);
                     quotaStatement.setDate(2, java.sql.Date.valueOf(qStart));
                     quotaStatement.setDate(3, java.sql.Date.valueOf(qEnd));
                     quotaStatement.setString(4, licenseNum);
 
+                    int qBalance = qAmount - 0;
+                    quotaStatement.setInt(5, qBalance);
+
                     quotaStatement.executeUpdate();
                 }
+
                 showSuccessAlert("Driver added successfully");
             } 
         } else {

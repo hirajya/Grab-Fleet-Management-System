@@ -343,29 +343,27 @@ public class Driver_Quota {
     @FXML
     private void updateDriverQuota() {
         // Retrieve values from controls
-        LocalDate newEndDate = UDQStartDate.getValue();
+        LocalDate newStartDate = UDQStartDate.getValue();
         LocalDate newMonthlyDueDate = UDQDueDate.getValue();
         double newPayment = Double.parseDouble(UDQPaidAmount.getText());
-
+    
         // Perform the update in the database using the selected row's RecordID
         int recordID = quota_table.getSelectionModel().getSelectedItem().getRecordId();
         System.out.println("TANGINA ITO ID");
         System.out.println(recordID);
-
+    
         // Replace "your_driver_quota_table" with the actual name of your driver quota table
-        String updateQuery = "UPDATE quota SET quota_DDate = ?, quota_DDate = ?, quota_InputAmount = ?, "
-                + "quota_Balance = (quota_InputAmount - ?), quota_Status = CASE WHEN (quota_InputAmount - ?) = 0 THEN 'Paid' ELSE 'Unpaid' END "
+        String updateQuery = "UPDATE quota SET quota_SDate = ?, quota_DDate = ?, quota_InputAmount = ?, "
+                + "quota_Balance = (quota_Amount - quota_InputAmount), quota_Status = CASE WHEN quota_Balance = 0 THEN 'Paid' ELSE 'Unpaid' END "
                 + "WHERE quota_RecordID = ?";
-
+    
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "root", "");
-            PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-            updateStatement.setDate(1, Date.valueOf(newEndDate));
+             PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+            updateStatement.setDate(1, Date.valueOf(newStartDate));
             updateStatement.setDate(2, Date.valueOf(newMonthlyDueDate));
             updateStatement.setDouble(3, newPayment);
-            updateStatement.setDouble(4, newPayment);
-            updateStatement.setDouble(5, newPayment);
-            updateStatement.setInt(6, recordID);
-
+            updateStatement.setInt(4, recordID);
+    
             // Execute the update
             int rowsAffected = updateStatement.executeUpdate();
             if (rowsAffected > 0) {
@@ -381,7 +379,7 @@ public class Driver_Quota {
         refreshTable1();
         switchToView();
     }
-
+    
 
 
     private void setUpColumns() {
@@ -456,8 +454,6 @@ public class Driver_Quota {
         updateCarQuotaPane.setVisible(false);
 
     }
-
-    
 
     private void filterTableByStatus() {
         String selectedStatus = statusOptions.getValue();
@@ -546,49 +542,10 @@ public class Driver_Quota {
             stage.show();
 
     }
+    
 
-     public static List<String[]> getDriversWithBalance() {
-        List<String[]> driversWithBalance = new ArrayList<>();
-
-        String url = "jdbc:mysql://localhost:3306/grab-fleet-database";
-        String user = "root";
-        String password = "";
-
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, user, password);
-
-            String sqlQuery = "SELECT CONCAT(driver.driver_FName, ' ', driver.driver_LName) AS full_name, driver.driver_CNumber, quota.quota_Balance FROM driver INNER JOIN quota ON driver.driver_LicenseNum = quota.driver_LicenseNum WHERE quota.quota_Balance > 0";
-            preparedStatement = connection.prepareStatement(sqlQuery);
-
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                String[] driverInfo = new String[3];
-                driverInfo[0] = resultSet.getString("full_name");
-                driverInfo[1] = resultSet.getString("driver_CNumber");
-                driverInfo[2] = resultSet.getString("quota_Balance");
-                driversWithBalance.add(driverInfo);
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) resultSet.close();
-                if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return driversWithBalance;
-    }
-
+    
+    
     public static int getTotalPaidQuotaForCurrentMonth() {
         int totalPaidQuota = 0;
 
@@ -765,6 +722,8 @@ public class Driver_Quota {
         }
         return quotaDataByWeeks;
     }
+
+    
 
 }
 
