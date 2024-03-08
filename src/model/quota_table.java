@@ -616,7 +616,7 @@ public class quota_table {
                     totalPaidQuota = resultSet.getInt("total_paid");
                 }
 
-                String unpaidQuery = "SELECT SUM(quota_InputAmount) AS total_unpaid FROM quota " +
+                String unpaidQuery = "SELECT SUM(quota_Balance) AS total_unpaid FROM quota " +
                                      "WHERE (quota_DDate BETWEEN ? AND ?) " +
                                      "AND MONTH(quota_DDate) = ? AND YEAR(quota_DDate) = ? " +
                                      "AND quota_Status = 'Unpaid'";
