@@ -289,6 +289,8 @@ public class Driver_Quota {
             }
             applyBlur(quota_view);
             deletePane.setVisible(true);
+            switchToView();
+
         } catch (Exception e) {
             e.printStackTrace();
             showErrorAlert("Error in GoQuotaView");
