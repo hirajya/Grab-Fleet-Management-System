@@ -334,6 +334,50 @@ public class Car_Accounts implements Initializable {
     }
     
     
+    // public void deleteCarAccs() {
+    //     try {
+    //         car selectedCar = carTable.getSelectionModel().getSelectedItem();
+    
+    //         if (selectedCar != null) {
+    //             String confirmationText = confirmationTextField.getText().trim();
+    
+    //             if (!"DELETE".equalsIgnoreCase(confirmationText)) {
+    //                 showNoDeleteMsg();
+    //                 System.out.println("Deletion cancelled. Text does not match 'DELETE'.");
+    //                 return;
+    //             }
+    
+    //             String carPlateRecord = selectedCar.getCar_Plate();
+    //             String deleteQuery = "DELETE FROM car WHERE car_Plate = ?";
+    //             String deleteAmortizationQuery = "DELETE FROM amortization WHERE car_Plate = ?";
+                
+    
+    //             try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "root", "");
+    //                  PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
+    //                  PreparedStatement deleteAmoPreparedStatement = connection.prepareStatement(deleteAmortizationQuery)) {
+    
+    //                 deleteStatement.setString(1, carPlateRecord);
+    //                 int rowsAffected = deleteStatement.executeUpdate();
+
+    //                 deleteAmortizationQuery.setString(1, carPlateRecord);
+    //                 int rowsAffected2 = deleteAmoPreparedStatement.executeUpdate();
+    
+    //                 if (rowsAffected > 0) {
+    //                     System.out.println("Row deleted successfully.");
+    //                     GoCarView();
+    //                     refreshTable();
+    //                 } else {
+    //                     System.out.println("Failed to delete row.");
+    //                 }
+    //             }
+    //         } else {
+    //             showErrorAlert("Please select a row to delete.");
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
+
     public void deleteCarAccs() {
         try {
             car selectedCar = carTable.getSelectionModel().getSelectedItem();
@@ -349,12 +393,24 @@ public class Car_Accounts implements Initializable {
     
                 String carPlateRecord = selectedCar.getCar_Plate();
                 String deleteQuery = "DELETE FROM car WHERE car_Plate = ?";
+                String deleteAmortizationQuery = "DELETE FROM amortization WHERE car_Plate = ?";
+                String deleteMaintenanceQuery = "DELETE FROM maintenance WHERE car_Plate = ?";
     
                 try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "root", "");
-                     PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+                     PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
+                     PreparedStatement deleteAmoPreparedStatement = connection.prepareStatement(deleteAmortizationQuery);
+                     PreparedStatement deleteMaintenancPreparedStatement = connection.prepareStatement(deleteMaintenanceQuery)) {
     
+                    // Delete from car table
                     deleteStatement.setString(1, carPlateRecord);
                     int rowsAffected = deleteStatement.executeUpdate();
+    
+                    // Delete from amortization table
+                    deleteAmoPreparedStatement.setString(1, carPlateRecord);
+                    int rowsAffected2 = deleteAmoPreparedStatement.executeUpdate();
+
+                    deleteMaintenancPreparedStatement.setString(1, carPlateRecord);
+                    
     
                     if (rowsAffected > 0) {
                         System.out.println("Row deleted successfully.");
@@ -371,6 +427,7 @@ public class Car_Accounts implements Initializable {
             e.printStackTrace();
         }
     }
+    
 
     public void GoCarView() {
         

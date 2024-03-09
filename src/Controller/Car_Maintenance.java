@@ -294,7 +294,7 @@ public class Car_Maintenance {
 
  
    @FXML
-public void refreshTable() {
+   public void refreshTable() {
     try {
         maintenanceList.clear();
 
@@ -306,7 +306,7 @@ public void refreshTable() {
             statusOptions.setValue(selectedFilter);
         }
 
-        // First query to retrieve car_Plate
+        // Query to retrieve car_Plate without driver_LicenseNum
         String carPlateQuery = "SELECT m.*, c.car_Series, c.car_Plate " +
                                "FROM maintenance m " +
                                "JOIN car c ON m.car_Plate = c.car_Plate " +
@@ -320,24 +320,16 @@ public void refreshTable() {
         while (resultSet.next()) {
             String carPlate = resultSet.getString("car_Plate");
 
-            // Second query to retrieve driver_LicenseNum
-            String licenseNumQuery = "SELECT driver_LicenseNum FROM driver WHERE car_Plate = ?";
-            preparedStatement = connection.prepareStatement(licenseNumQuery);
-            preparedStatement.setString(1, carPlate);
+            // Remove the code associated with driver_LicenseNum
 
-            ResultSet driverResultSet = preparedStatement.executeQuery();
-
-            if (driverResultSet.next()) {
-                maintenanceList.add(new maintenance(
-                        resultSet.getInt("maintenance_RecordID"),
-                        resultSet.getString("car_Series"),
-                        carPlate,
-                        driverResultSet.getString("driver_LicenseNum"),
-                        resultSet.getString("maintenance_ChangeOil"),
-                        resultSet.getString("maintenance_ChangeBelt"),
-                        resultSet.getString("maintenance_MStatus")
-                ));
-            }
+            maintenanceList.add(new maintenance(
+                    resultSet.getInt("maintenance_RecordID"),
+                    resultSet.getString("car_Series"),
+                    carPlate,
+                    resultSet.getString("maintenance_ChangeOil"),
+                    resultSet.getString("maintenance_ChangeBelt"),
+                    resultSet.getString("maintenance_MStatus")
+            ));
         }
 
         maintenance_table.setItems(maintenanceList);
@@ -357,6 +349,7 @@ public void refreshTable() {
         }
     }
 }
+
 
 
 

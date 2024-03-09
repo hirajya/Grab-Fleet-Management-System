@@ -9,11 +9,10 @@ public class maintenance {
     String changeBelt;
     String status;
 
-    public maintenance(int maintenanceId, String carSeries, String carPlate, String licenseNumber, String changeOil, String changeBelt, String status) {
+    public maintenance(int maintenanceId, String carSeries, String carPlate,  String changeOil, String changeBelt, String status) {
         this.maintenanceId = maintenanceId;
         this.carSeries = carSeries;
         this.carPlate = carPlate;
-        this.licenseNumber = licenseNumber;
         this.changeOil = changeOil;
         this.changeBelt = changeBelt;
         this.status = status;
