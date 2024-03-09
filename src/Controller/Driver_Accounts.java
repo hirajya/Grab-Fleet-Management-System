@@ -34,6 +34,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -44,6 +45,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
@@ -53,6 +55,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import model.DbConnect;
 import model.amortization;
+import model.car;
 import model.driver;
 import model.driver_table;
 import model.object_model.Driver_Quota_obj;
@@ -163,6 +166,15 @@ public class Driver_Accounts {
 
     @FXML
     private TextField searchTextField;
+
+    @FXML
+    private TextArea confirmationTextField;
+
+    @FXML
+    private Text deleteText;
+
+    @FXML
+    private Pane driverAccPane;
     
     private static String tableName = "driver";
 
@@ -309,6 +321,8 @@ public class Driver_Accounts {
 
                     }
                     showSuccessAlert("Driver updated successfully");
+                    GoDriverAcc();
+                    refreshTable();
                 } catch (SQLException e) {
                     e.printStackTrace();
                     showErrorAlert("Error updating driver");
@@ -317,9 +331,72 @@ public class Driver_Accounts {
             refreshTable();
         }
 
-    public void deleteDriver(ActionEvent event) {
-        
+  public void deleteDriverAccount(ActionEvent event) {
+        try {
+        driver selectedDriver = driverTable.getSelectionModel().getSelectedItem();
+    
+            if (selectedDriver != null) {
+                String confirmationText = confirmationTextField.getText().trim();
+    
+                if (!"DELETE".equalsIgnoreCase(confirmationText)) {
+                    showNoDeleteMsg();
+                    System.out.println("Deletion cancelled. Text does not match 'DELETE'.");
+                    return;
+                }
+    
+                String LicenseRecord = selectedDriver.getDriver_LicenseNum();
+                String deleteQuery = "DELETE FROM driver WHERE driver_LicenseNum = ?";
+    
+                try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "root", "");
+                     PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+    
+                    deleteStatement.setString(1, LicenseRecord);
+                    int rowsAffected = deleteStatement.executeUpdate();
+    
+                    if (rowsAffected > 0) {
+                        System.out.println("Row deleted successfully.");
+                        GoDriverView();
+                        refreshTable();
+                    } else {
+                        System.out.println("Failed to delete row.");
+                    }
+                }
+            } else {
+                showErrorAlert("Please select a row to delete.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
+
+    public void GoDriverView() {
+        
+        deleteDriver.setVisible(false);
+        removeBlur(driverAccPane);
+        driverAccPane.setVisible(true);
+    }
+
+    public static void applyBlur(Pane pane) {
+        BoxBlur boxBlur = new BoxBlur();
+        boxBlur.setWidth(5);
+        boxBlur.setHeight(5);
+        boxBlur.setIterations(3);
+
+        pane.setEffect(boxBlur);
+    }
+
+    public static void removeBlur(Pane pane) {
+        pane.setEffect(null);
+    }
+
+    public static boolean isDeleteText(TextField textField) {
+        String text = textField.getText().trim();
+        return "DELETE".equalsIgnoreCase(text);
+    }
+
+    public void showNoDeleteMsg () {
+        deleteText.setVisible(true);
+    }
 
     public void discardUpdate(ActionEvent event){
         updateLicenseNum.clear();
@@ -401,6 +478,9 @@ public class Driver_Accounts {
                 }
 
                 showSuccessAlert("Driver added successfully");
+                GoDriverAccounts();
+                refreshTable();
+
             } 
         } else {
                 showErrorAlert("Invalid data. Please check your input.");
@@ -410,6 +490,15 @@ public class Driver_Accounts {
         showErrorAlert("Error adding driver", e);
     }
 }
+
+    public void GoDriverAccounts(){
+        addDriver2.setVisible(false);
+        addDriver.setVisible(false);
+    }
+
+    public void GoDriverAcc() {
+        updateDriver.setVisible(false);
+    }
     
 
 
@@ -484,10 +573,7 @@ public class Driver_Accounts {
 
     private boolean isValidData() {
         if (addFName.getText().isEmpty() || addMName.getText().isEmpty() || addLName.getText().isEmpty() ||
-                addLicenseNum.getText().isEmpty() || addLicenseNumExpiry.getValue() == null || addContactNum.getText().isEmpty() ||
-                addCPersonNum.getText().isEmpty() || addHouseNum.getText().isEmpty() || addBlock.getText().isEmpty() ||
-                addStreet.getText().isEmpty() || addBrgy.getText().isEmpty() || addCity.getText().isEmpty() ||
-                addSex.getText().isEmpty() || addBirthDate.getValue() == null || addCarPlate.getText().isEmpty()) {
+                addLicenseNum.getText().isEmpty() || addContactNum.getText().isEmpty() || addCity.getText().isEmpty() || addCarPlate.getText().isEmpty()) {
             return false;
         }
         return true;
@@ -509,13 +595,13 @@ public class Driver_Accounts {
              alert.showAndWait();
 }
 
-    /*private void showAlert(String title, String content) {
+    private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(content);
              alert.showAndWait();
-}       */
+}     
         
     @FXML
     public Pane addDriver, addDriver2, updateDriver, deleteDriver;
@@ -529,8 +615,19 @@ public class Driver_Accounts {
     }    
 
     public void showUpdateDriverPane(ActionEvent event) {
-        updateDriver.setVisible(true);
-    }    
+        try {
+            if (driverTable.getSelectionModel().getSelectedItem() == null) {
+                showAlert("No Selected Data", "Please select a car from the table to update.");
+                return; // Exit the method if no item is selected
+            }
+    
+            updateDriver.setVisible(true);
+           
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Error in GoUpdateCar");
+        }
+    }
 
     public void showDeleteDriverPane(ActionEvent event) {
         deleteDriver.setVisible(true);
@@ -538,6 +635,7 @@ public class Driver_Accounts {
 
     public void hideDeleteDriverPane(ActionEvent event) {
         deleteDriver.setVisible(false);
+        driverAccPane.setVisible(true);
     }
 
      public void hideAddDriverPane(ActionEvent event) {
@@ -638,6 +736,15 @@ public class Driver_Accounts {
             stage.setScene(scene);
             stage.show();
 
+    }
+
+    public void GoToNotif(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/View/Notification.fxml"));
+
+        Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
     }
        public static int countDrivers() {
         int count = 0;

@@ -182,7 +182,7 @@
                </font>
             </Text>
             <Line endX="309.0" layoutX="325.0" layoutY="282.0" startX="4.0" strokeWidth="2.0" />
-            <Text layoutX="328.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Deleting this will remove all of the quota information from the database. This action cannot be undone." wrappingWidth="307.0000000000001">
+            <Text layoutX="328.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Deleting this will remove all of the amortization information from the database. This action cannot be undone." wrappingWidth="307.0000000000001">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>

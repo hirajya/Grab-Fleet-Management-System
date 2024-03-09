@@ -34,10 +34,10 @@
          </font>
       </Text>
       <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#f1f8fe" height="25.0" layoutX="50.0" layoutY="225.0" stroke="#f1f8fe" strokeType="INSIDE" width="120.0" />
-      <Pane layoutX="211.0" layoutY="80.0" prefHeight="720.0" prefWidth="913.0" style="-fx-background-color: F6F6F6;">
+      <Pane fx:id="driverAccPane" layoutX="211.0" layoutY="80.0" prefHeight="720.0" prefWidth="913.0" style="-fx-background-color: F6F6F6;">
          <children>
             <Rectangle arcHeight="18.0" arcWidth="18.0" fill="WHITE" height="30.0" layoutX="-990.0" stroke="BLACK" strokeType="INSIDE" width="56.0" x="1008.0" y="20.0" />
-            <TextField fx:id="searchTextField" layoutX="43.0" layoutY="20.0" onKeyReleased="#handleSearch" prefHeight="30.0" prefWidth="189.0" promptText="Search by license number" style="-fx-background-color: #FfFfFf; -fx-background-radius: 8; -fx-border-color: #000000; -fx-border-radius: 8;" styleClass="text-field-black" stylesheets="@../CSS/home.css">
+            <TextField fx:id="searchTextField" layoutX="43.0" layoutY="20.0" onKeyReleased="#handleSearch" prefHeight="30.0" prefWidth="189.0" promptText="Search by First Name" style="-fx-background-color: #FfFfFf; -fx-background-radius: 8; -fx-border-color: #000000; -fx-border-radius: 8;" styleClass="text-field-black" stylesheets="@../CSS/home.css">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
@@ -421,7 +421,7 @@
             <Button layoutX="278.0" layoutY="276.0" mnemonicParsing="false" onAction="#hideAddDriverPane" opacity="0.23" prefHeight="30.0" prefWidth="189.0" text="Button" />
          </children>
       </Pane>
-      <Pane fx:id="updateDriver" layoutX="210.0" layoutY="80.0" prefHeight="720.0" prefWidth="913.0" style="-fx-background-color: F6F6F6;" visible="false">
+      <Pane fx:id="updateDriver" layoutX="210.0" layoutY="80.0" onDragDetected="#GoDriverAcc" prefHeight="720.0" prefWidth="913.0" style="-fx-background-color: F6F6F6;" visible="false">
          <children>
             <Text fill="#fbc916" layoutX="-6.0" layoutY="-67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update Driver" x="56.0" y="109.0">
                <font>
@@ -579,7 +579,7 @@
                   <Font name="Arial Bold" size="12.0" />
                </font>
             </Text>
-            <Button layoutX="479.0" layoutY="657.0" mnemonicParsing="false" onAction="#updateDriver" opacity="0.23" prefHeight="30.0" prefWidth="180.0" text="Button" />
+            <Button layoutX="479.0" layoutY="657.0" mnemonicParsing="false" onAction="#updateDriver" opacity="0.0" prefHeight="30.0" prefWidth="180.0" text="Button" />
             <Rectangle arcHeight="8.0" arcWidth="8.0" fill="WHITE" height="27.0" layoutX="283.0" layoutY="658.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="180.0" />
             <Text layoutX="349.0" layoutY="675.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard">
                <font>
@@ -609,14 +609,14 @@
                   <Font name="Arial" size="16.0" />
                </font>
             </Text>
-            <TextArea layoutX="254.0" layoutY="363.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="187.0">
+            <TextArea fx:id="confirmationTextField" layoutX="254.0" layoutY="363.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="187.0">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
             </TextArea>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="25.0" layoutX="254.0" layoutY="396.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="188.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fb1616" height="25.0" layoutX="447.0" layoutY="396.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="188.0" />
-            <Text fill="WHITE" layoutX="519.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete" wrappingWidth="56.99999999999977">
+            <Text fx:id="deleteDriverAccount" fill="WHITE" layoutX="519.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete" wrappingWidth="56.99999999999977">
                <font>
                   <Font name="Arial Bold" size="12.0" />
                </font>
@@ -627,7 +627,14 @@
                </font>
             </Text>
             <Button layoutX="250.0" layoutY="396.0" mnemonicParsing="false" onAction="#hideDeleteDriverPane" opacity="0.23" prefHeight="25.0" prefWidth="195.0" text="Button" />
+            <Text fx:id="deleteText" fill="#000000b2" layoutX="447.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text doesn't match &quot;DELETE&quot;" visible="false" wrappingWidth="156.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Button layoutX="456.0" layoutY="395.0" mnemonicParsing="false" onAction="#deleteDriverAccount" opacity="0.0" prefHeight="25.0" prefWidth="170.0" text="Button" />
          </children>
       </Pane>
+      <Button layoutX="1010.0" layoutY="20.0" mnemonicParsing="false" onAction="#GoToNotif" opacity="0.0" prefHeight="36.0" prefWidth="38.0" text="Button" />
    </children>
 </Pane>

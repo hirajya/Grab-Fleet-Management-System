@@ -177,6 +177,9 @@ public class Car_Accounts implements Initializable {
     @FXML
     private Pane deletePane;
 
+    @FXML
+    private TextField AddStatus2, AddAvailability2;
+
     private static String tableName = "car";
 
     String query = null;
@@ -444,10 +447,13 @@ public class Car_Accounts implements Initializable {
                 String amortizationEDate = addAmortizationEDate.getValue().toString();
                 String amortizationDDate = addAmortizationDDate.getValue().toString();
                 int amortizationPayment = Integer.parseInt(addAmortizationPayment.getText());
+                String status = AddStatus2.getText();
+                String availability = AddAvailability2.getText();
+
     
                 try (Connection connection = DbConnect.getConnect()) {
                     // Insert into car table
-                    String carInsertQuery = "INSERT INTO car (car_Plate, car_CRNum, car_Series, car_Kind, car_YearModel, car_Color, car_ORNum, car_RegExpiry, car_Registration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String carInsertQuery = "INSERT INTO car (car_Plate, car_CRNum, car_Series, car_Kind, car_YearModel, car_Color, car_ORNum, car_RegExpiry, car_Registration, car_RegStatus, car_Availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
                     try (PreparedStatement carStatement = connection.prepareStatement(carInsertQuery)) {
                         carStatement.setString(1, plate);
@@ -459,6 +465,8 @@ public class Car_Accounts implements Initializable {
                         carStatement.setString(7, ORNum);
                         carStatement.setDate(8, java.sql.Date.valueOf(regExpiry));
                         carStatement.setDate(9, java.sql.Date.valueOf(registration));
+                        carStatement.setString(10, status);
+                        carStatement.setString(11, availability);
     
                         carStatement.executeUpdate();
                     }
@@ -479,16 +487,33 @@ public class Car_Accounts implements Initializable {
                     // Insert into amortization table
                     String amortizationInsertQuery = "INSERT INTO amortization (amortization_SDate, amortization_DDate, amortization_EDate, amortization_Payment, car_Plate) " +
                             "VALUES (?, ?, ?, ?, ?)";
-                    try (PreparedStatement amortizationStatement = connection.prepareStatement(amortizationInsertQuery)) {
-                        amortizationStatement.setDate(1, java.sql.Date.valueOf(amortizationSDate));
-                        amortizationStatement.setDate(2, java.sql.Date.valueOf(amortizationDDate));
-                        amortizationStatement.setDate(3, java.sql.Date.valueOf(amortizationEDate));
-                        amortizationStatement.setInt(4, amortizationPayment);
-                        amortizationStatement.setString(5, plate);
-                        amortizationStatement.executeUpdate();
+                            try (PreparedStatement amortizationStatement = connection.prepareStatement(amortizationInsertQuery)) {
+                                if (amortizationSDate != null) {
+                                    amortizationStatement.setObject(1, java.sql.Date.valueOf(amortizationSDate));
+                                } else {
+                                    amortizationStatement.setNull(1, Types.DATE);
+                                }
+                            
+                                if (amortizationDDate != null) {
+                                    amortizationStatement.setObject(2, java.sql.Date.valueOf(amortizationDDate));
+                                } else {
+                                    amortizationStatement.setNull(2, Types.DATE);
+                                }
+                            
+                                if (amortizationEDate != null) {
+                                    amortizationStatement.setObject(3, java.sql.Date.valueOf(amortizationEDate));
+                                } else {
+                                    amortizationStatement.setNull(3, Types.DATE);
+                                }
+                            
+                                amortizationStatement.setInt(4, amortizationPayment);
+                                amortizationStatement.setString(5, plate);
+                                amortizationStatement.executeUpdate();
     
                     }
                     showSuccessAlert("Data inserted successfully");
+                    GoCarAccounts();
+                    refreshTable();
     
                 }
     
@@ -499,8 +524,6 @@ public class Car_Accounts implements Initializable {
             e.printStackTrace();
             showErrorAlert("Error inserting data");
         }
-        GoCarAccounts();
-        refreshTable();
     }
     
     private boolean isValidData() {

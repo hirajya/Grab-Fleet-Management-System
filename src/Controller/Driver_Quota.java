@@ -368,16 +368,34 @@ public class Driver_Quota {
             int rowsAffected = updateStatement.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Row updated successfully.");
-                // Refresh the table to reflect the changes
+                // Refresh the table to reflect the \
+                showSuccessAlert("Driver quota updated successfully.");
                 refreshTable();
             } else {
                 System.out.println("Failed to update row.");
+                showErrorAlert("Update Failed", "Failed to update the selected row.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         refreshTable1();
         switchToView();
+    }
+
+    public void showSuccessAlert(String content) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setContentText(content);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
+
+    public void showErrorAlert(String title, String content) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
     
 
