@@ -139,6 +139,8 @@ public class Car_Maintenance {
         ChangeOilColumn.setCellValueFactory(new PropertyValueFactory<>("changeOil"));
         ChangeBeltColumn.setCellValueFactory(new PropertyValueFactory<>("changeBelt"));
         StatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+
     }
 
     private void printSelectedRowData(maintenance selectedMaintenance){

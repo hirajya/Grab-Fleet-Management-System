@@ -119,7 +119,7 @@ public class Car_Accounts implements Initializable {
     private TextField addAmortizationPayment;
 
     @FXML
-    private TextField updateCarPlate, updateCRNum, updateORNum, updateSeries, updateKind, updateYearModel, updateColor;
+    private TextField updateCarPlate, updateCRNum, updateORNum, updateSeries, updateKind, updateYearModel, updateColor, updateStatus, updateAvailability;
 
     @FXML
     private DatePicker updateCarReg, updateCarRegExpiry;
@@ -262,6 +262,8 @@ public class Car_Accounts implements Initializable {
         updateColor.setText(selectedCar.getCar_Color());
         updateCarReg.setValue(selectedCar.getCar_Registration().toLocalDate());
         updateCarRegExpiry.setValue(selectedCar.getCar_RegExpiry().toLocalDate());
+        updateStatus.setText(selectedCar.getCar_RegStatus());
+        updateAvailability.setText(selectedCar.getCar_Availability());
         
     }
 
@@ -280,10 +282,12 @@ public class Car_Accounts implements Initializable {
         String newColor = updateColor.getText();
         LocalDate newReg = updateCarReg.getValue();
         LocalDate newRegExpiry = updateCarRegExpiry.getValue();
+        String newStatus = updateStatus.getText();
+        String newAvailability = updateAvailability.getText();
     
         String carPlate = carTable.getSelectionModel().getSelectedItem().getCar_Plate();
     
-        String updateCarQuery = "UPDATE car SET car_Plate = ?, car_CRNum = ?, car_ORNum = ?, car_Series = ?, car_Kind = ?, car_YearModel = ?, car_Color = ?, car_Registration = ?, car_RegExpiry = ? WHERE car_Plate = ?";
+        String updateCarQuery = "UPDATE car SET car_Plate = ?, car_CRNum = ?, car_ORNum = ?, car_Series = ?, car_Kind = ?, car_YearModel = ?, car_Color = ?, car_Registration = ?, car_RegExpiry = ?, car_RegStatus = ?, car_Availability = ? WHERE car_Plate = ?";
         try (Connection connection = DbConnect.getConnect()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateCarQuery)) {
                 preparedStatement.setString(1, newPlate);
@@ -295,7 +299,12 @@ public class Car_Accounts implements Initializable {
                 preparedStatement.setString(7, newColor);
                 preparedStatement.setDate(8, java.sql.Date.valueOf(newReg));
                 preparedStatement.setDate(9, java.sql.Date.valueOf(newRegExpiry));
-                preparedStatement.setString(10, carPlate);
+                preparedStatement.setString(10, newStatus);
+                preparedStatement.setString(11, newAvailability);
+
+
+                
+                preparedStatement.setString(12, carPlate);
                 preparedStatement.executeUpdate();
             }
     
@@ -529,7 +538,7 @@ public class Car_Accounts implements Initializable {
     private boolean isValidData() {
         if (addPlate.getText().isEmpty() || addCRNum.getText().isEmpty() || addSeries.getText().isEmpty() ||
                 addKind.getText().isEmpty() || addYearModel.getText().isEmpty() || addColor.getText().isEmpty() ||
-                addCarReg.getValue() == null || addCarRegExpiry.getValue() == null) {
+                addCarReg.getValue() == null || addCarRegExpiry.getValue() == null ) {
             return false;
         }
     

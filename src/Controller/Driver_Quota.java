@@ -105,10 +105,10 @@ public class Driver_Quota {
     private Text deleteText;
 
     @FXML
-    private Text UDQAmount, UDQLicenseNumber, UDQName;
+    private Text UDQLicenseNumber, UDQName;
 
     @FXML
-    private TextField UDQPaidAmount;
+    private TextField UDQPaidAmount, UDQAmount;
 
     @FXML
     private DatePicker UDQStartDate, UDQDueDate;
@@ -346,6 +346,7 @@ public class Driver_Quota {
         LocalDate newStartDate = UDQStartDate.getValue();
         LocalDate newMonthlyDueDate = UDQDueDate.getValue();
         double newPayment = Double.parseDouble(UDQPaidAmount.getText());
+        double newAmount = Double.parseDouble(UDQAmount.getText());
     
         // Perform the update in the database using the selected row's RecordID
         int recordID = quota_table.getSelectionModel().getSelectedItem().getRecordId();
@@ -353,16 +354,17 @@ public class Driver_Quota {
         System.out.println(recordID);
     
         // Replace "your_driver_quota_table" with the actual name of your driver quota table
-        String updateQuery = "UPDATE quota SET quota_SDate = ?, quota_DDate = ?, quota_InputAmount = ?, "
+        String updateQuery = "UPDATE quota SET quota_SDate = ?, quota_Amount = ? ,quota_DDate = ?, quota_InputAmount = ?, "
                 + "quota_Balance = (quota_Amount - quota_InputAmount), quota_Status = CASE WHEN quota_Balance = 0 THEN 'Paid' ELSE 'Unpaid' END "
                 + "WHERE quota_RecordID = ?";
     
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "root", "");
              PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
             updateStatement.setDate(1, Date.valueOf(newStartDate));
-            updateStatement.setDate(2, Date.valueOf(newMonthlyDueDate));
-            updateStatement.setDouble(3, newPayment);
-            updateStatement.setInt(4, recordID);
+            updateStatement.setDouble(2, newAmount);
+            updateStatement.setDate(3, Date.valueOf(newMonthlyDueDate));
+            updateStatement.setDouble(4, newPayment);
+            updateStatement.setInt(5, recordID);
     
             // Execute the update
             int rowsAffected = updateStatement.executeUpdate();
