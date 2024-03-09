@@ -50,6 +50,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import model.amortization;
+import model.car;
 import model.quota_table;
 import model.object_model.Driver_Quota_obj;
 import javafx.scene.Node;
@@ -293,6 +294,44 @@ public class Driver_Quota {
             showErrorAlert("Error in GoQuotaView");
         }
     }
+
+    // public void deleteCarAccs() {
+    //     try {
+    //         car selectedCar = quota_table.getSelectionModel().getSelectedItem();
+    
+    //         if (selectedCar != null) {
+    //             String confirmationText = confirmationTextField.getText().trim();
+    
+    //             if (!"DELETE".equalsIgnoreCase(confirmationText)) {
+    //                 showNoDeleteMsg();
+    //                 System.out.println("Deletion cancelled. Text does not match 'DELETE'.");
+    //                 return;
+    //             }
+    
+    //             String carPlateRecord = selectedCar.getCar_Plate();
+    //             String deleteQuery = "DELETE FROM car WHERE car_Plate = ?";
+    
+    //             try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "root", "");
+    //                  PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+    
+    //                 deleteStatement.setString(1, carPlateRecord);
+    //                 int rowsAffected = deleteStatement.executeUpdate();
+    
+    //                 if (rowsAffected > 0) {
+    //                     System.out.println("Row deleted successfully.");
+    //                     GoCarView();
+    //                     refreshTable();
+    //                 } else {
+    //                     System.out.println("Failed to delete row.");
+    //                 }
+    //             }
+    //         } else {
+    //             showErrorAlert("Please select a row to delete.");
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     
 
