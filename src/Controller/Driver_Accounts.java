@@ -346,12 +346,17 @@ public class Driver_Accounts {
     
                 String LicenseRecord = selectedDriver.getDriver_LicenseNum();
                 String deleteQuery = "DELETE FROM driver WHERE driver_LicenseNum = ?";
+                String deleteQuotaQuery = "DELETE FROM quota WHERE driver_LicenseNum = ?";
     
                 try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grab-fleet-database", "root", "");
-                     PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+                     PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery); 
+                     PreparedStatement deleteQuotaStatement = connection.prepareStatement(deleteQuotaQuery)) {
     
                     deleteStatement.setString(1, LicenseRecord);
                     int rowsAffected = deleteStatement.executeUpdate();
+
+                    deleteQuotaStatement.setString(1, LicenseRecord);
+                    int rowsAffectedQuota = deleteQuotaStatement.executeUpdate();
     
                     if (rowsAffected > 0) {
                         System.out.println("Row deleted successfully.");

@@ -261,6 +261,7 @@ public class Driver_Quota {
     
                         if (rowsAffected > 0) {
                             System.out.println("Row deleted successfully.");
+                            switchFromDelete();
                             refreshTable1();
                         } else {
                             System.out.println("Failed to delete row.");
@@ -289,12 +290,11 @@ public class Driver_Quota {
             }
             applyBlur(quota_view);
             deletePane.setVisible(true);
-            switchToView();
-
         } catch (Exception e) {
             e.printStackTrace();
             showErrorAlert("Error in GoQuotaView");
         }
+
     }
 
     // public void deleteCarAccs() {
@@ -514,6 +514,13 @@ public class Driver_Quota {
         quota_view.setVisible(true);
         updateCarQuotaPane.setVisible(false);
 
+    }
+
+    public void switchFromDelete() {
+        deletePane.setVisible(false);
+        removeBlur(quota_view);
+        quota_view.setVisible(true);
+        
     }
 
     private void filterTableByStatus() {
